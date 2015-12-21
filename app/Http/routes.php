@@ -13,6 +13,8 @@
 
 Route::group(['middleware' => 'auth'], function() {
     Route::get('/', 'DashboardController@index');
+    Route::get('tasks/ordered', 'TasksController@showOrdered');
+    Route::get('tasks/{id}/executors', 'TasksController@executors');
     Route::resource('tasks', 'TasksController');
 });
 

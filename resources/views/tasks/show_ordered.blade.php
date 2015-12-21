@@ -1,7 +1,7 @@
 @extends('layout')
 @section('content')
     <div class="page-header">
-        <h1>Vaše úlohy</h1>
+        <h1>Vami zadané úlohy</h1>
     </div>
 
     <div class="dropdown pull-right">
@@ -21,13 +21,13 @@
     @else
         <table class="table table-hover">
             <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Názov</th>
-                    <th>Deadline</th>
-                    <th>Zadal</th>
-                    <th>Splnená dňa</th>
-                </tr>
+            <tr>
+                <th>#</th>
+                <th>Názov</th>
+                <th>Deadline</th>
+                <th>Vykoná</th>
+                <th>Splnená dňa</th>
+            </tr>
             </thead>
             <tbody>
             <?php $line_number = 0; ?>
@@ -42,7 +42,18 @@
                         {{ $task->deadline }}
                     </td>
                     <td>
-                        {{ $task->orderer->name }}
+                        @if (count($task->executors) == 0)
+                            <i>nešpecifikované</i>
+                        @elseif (count($task->executors) == 1)
+                        {{ $task->executors[0]->name }}
+                        @else
+                            {{ $task->executors[0]->name }}
+                            {{--<a href="{{ url("tasks/$task->id/executors") }}"><span class="glyphicon glyphicon-option-horizontal"></span></a>--}}
+                            <span class="glyphicon glyphicon-option-horizontal more_executors" title="{!! $task->createTooltipster() !!}">
+
+                            </span>
+                        @endif
+
                     </td>
                     <td>
                         @if (! is_null($task->accomplish_date))
@@ -56,4 +67,20 @@
             </tbody>
         </table>
     @endif
+@endsection
+@section('footer')
+    <link rel="stylesheet" type="text/css" href="/css/tooltipster/tooltipster.css" />
+    <link rel="stylesheet" type="text/css" href="/css/tooltipster/tooltipster-shadow.css" />
+
+    <script type="text/javascript" src="/js/jquery.tooltipster.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('.more_executors').tooltipster({
+                contentAsHTML: true,
+                theme: 'tooltipster-shadow',
+                position: 'bottom'
+            });
+        });
+    </script>
 @endsection

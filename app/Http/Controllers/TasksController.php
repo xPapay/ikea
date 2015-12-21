@@ -76,6 +76,13 @@ class TasksController extends Controller
         return view('tasks.show', compact('task'));
     }
 
+    public function showOrdered()
+    {
+        $tasks = Auth::user()->orderedTasks;
+
+        return view('tasks.show_ordered', compact('tasks'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

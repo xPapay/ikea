@@ -17,12 +17,23 @@ elixir(function(mix) {
 
     mix.copy('node_modules/jquery/dist/jquery.js', 'resources/assets/js/jquery.js');
     mix.copy('node_modules/bootstrap-sass/assets/fonts/bootstrap', 'public/fonts/bootstrap');
+    mix.copy('node_modules/bootstrap-sass/assets/javascripts/bootstrap.js', 'resources/assets/js');
+
+    var pathToToolTipster = 'node_modules/tooltipster/';
+    mix.copy(pathToToolTipster + 'css/tooltipster.css', 'public/css/tooltipster');
+    mix.copy(pathToToolTipster + 'css/themes/tooltipster-light.css', 'public/css/tooltipster');
+    mix.copy(pathToToolTipster + 'css/themes/tooltipster-noir.css', 'public/css/tooltipster');
+    mix.copy(pathToToolTipster + 'css/themes/tooltipster-punk.css', 'public/css/tooltipster');
+    mix.copy(pathToToolTipster + 'css/themes/tooltipster-shadow.css', 'public/css/tooltipster');
+
+    mix.copy(pathToToolTipster + 'js/jquery.tooltipster.js', 'public/js');
 
     var pathToSelect2 = 'node_modules/select2/dist/';
     mix.copy(pathToSelect2 + 'js/select2.js', 'public/js');
     mix.copy(pathToSelect2 + 'css/select2.css', 'public/css');
 
     mix.scripts([
-            'jquery.js'
+            'jquery.js',
+            'bootstrap.js'
         ])
 });

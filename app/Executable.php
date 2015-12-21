@@ -88,4 +88,10 @@ abstract class Executable extends Model
         return false;
     }
 
+    public function createToolTipster()
+    {
+        $tooltipster = app('App\Http\Tooltipster');
+        return $tooltipster->create($this->executors);
+    }
+
 }

@@ -6,11 +6,13 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        return view('dashboard.main');
+        list($first_name, $last_name) = explode(' ', Auth::user()->name, 2);
+        return view('dashboard.main', compact('first_name', 'last_name'));
     }
 }

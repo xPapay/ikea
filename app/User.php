@@ -91,6 +91,11 @@ class User extends Model implements AuthenticatableContract,
         return $this->belongsToMany('App\Task')->withTimestamps();
     }
 
+    /**
+     * Get user's unfinished tasks
+     *
+     * @return mixed
+     */
     public function unfinishedTasks()
     {
         return $this->tasks()->with('orderer')->where('accomplish_date', null)->get();

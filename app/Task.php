@@ -21,4 +21,14 @@ class Task extends Executable
     {
         return Carbon::parse($date)->format('d. m. Y H:i');
     }
+
+    public function setAccomplishDateAttribute($date)
+    {
+        $this->attributes['deadline'] = Carbon::createFromFormat('d. m. Y', $date);
+    }
+
+    public function getAccomplishDateAttribute($date)
+    {
+        return Carbon::parse($date)->format('d. m. Y H:i');
+    }
 }

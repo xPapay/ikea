@@ -1,29 +1,51 @@
 @extends('layout')
 
 @section('content')
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Prihlásenie</div>
+                    <div class="panel-body">
+                        @include('auth.partials.errors')
+                        <form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/login') }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <form action="/auth/login" method="POST">
-                {!! csrf_field() !!}
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Heslo:</label>
-                    <input type="password" name="password" id="password" class="form-control" value="{{ old('password') }}" required>
-                </div>
-                <div class="form-group">
-                    <input type="checkbox" name="remember"> Zapamätať prihlásenie
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-default">Prihlásiť</button>
-                </div>
-            </form>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">E-Mail</label>
+                                <div class="col-md-6">
+                                    <input type="email" class="form-control" name="email" value="{{ old('email') }}">
+                                </div>
+                            </div>
 
-            @include('auth.partials.errors')
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Heslo</label>
+                                <div class="col-md-6">
+                                    <input type="password" class="form-control" name="password">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-6 col-md-offset-4">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="remember"> Zapamätať prihlásenie
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-6 col-md-offset-4">
+                                    <button type="submit" class="btn btn-primary">Prihlásiť</button>
+
+                                    <a class="btn btn-link" href="{{ url('/password/email') }}">Zabudnuté heslo</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
 @endsection
