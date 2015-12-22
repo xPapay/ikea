@@ -25,7 +25,7 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <a href="{{ url('tasks/ordered') }}">Vami zadané úlohy</a>
+        <a href="{{ url('tasks/ordered/unfinished') }}">Vami zadané úlohy</a>
     </div>
 </div>
 

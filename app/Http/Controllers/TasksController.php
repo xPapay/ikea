@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AddTaskRequest;
 use App\Http\Requests\ShowTaskRequest;
+use App\Http\Status;
 use App\Task;
 use App\User;
 use Illuminate\Http\Request;
@@ -76,11 +77,16 @@ class TasksController extends Controller
         return view('tasks.show', compact('task'));
     }
 
-    public function showOrdered()
+    public function showOrdered($status = 'unfinished')
     {
-        $tasks = Auth::user()->orderedTasks;
+        $status = new Status($status);
 
-        return view('tasks.show_ordered', compact('tasks'));
+        $tasks = Auth::user()->orderedTasks()->withStatus($status->getSelectedKey());
+
+        $selectedStatus = $status->getSelectedValue();
+        $statusMenu = $status->getStatusMenu();
+
+        return view('tasks.show_ordered', compact('tasks', 'selectedStatus', 'statusMenu'));
     }
 
     /**
@@ -138,4 +144,5 @@ class TasksController extends Controller
 
         return new Response(view('errors.403'), 403);
     }
+
 }
