@@ -122,7 +122,7 @@ class TasksController extends Controller
      */
     public function edit(Request $request)
     {
-        $task = Task::findOrFail($request->tasks);
+        $task = Task::findOrFail($request->tasks->id);
 
         if (Gate::denies('edit', $task))
         {

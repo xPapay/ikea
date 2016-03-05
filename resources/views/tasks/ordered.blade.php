@@ -59,7 +59,10 @@
                         @endif
                     </td>
                     <td>
-                        akcia
+                        @if (($task->accomplish_date != null) && ($task->confirmed != 1))
+                            <a href="{{ url("tasks/accept/{$task->id}") }}"><span class="glyphicon glyphicon-ok"></span></a>
+                            <a href="{{ url("tasks/reject/{$task->id}") }}"><span class="glyphicon glyphicon-remove"></span></a>
+                        @endif
                     </td>
                     <td>
                          <a href="{{ url("tasks/{$task->id}/edit") }}">Upraviť</a>

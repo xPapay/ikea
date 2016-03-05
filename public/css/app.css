@@ -5752,11 +5752,11 @@ button.close {
 .last_name {
   font-size: 2em; }
 
-.glyphicon-ok-sign {
+.glyphicon-ok-sign, .glyphicon-ok {
   color: green;
   font-size: 30px; }
 
-.glyphicon-remove-sign {
+.glyphicon-remove-sign, .glyphicon-remove {
   color: red;
   font-size: 30px; }
 

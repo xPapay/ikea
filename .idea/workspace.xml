@@ -5,46 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2bb89f98-613e-4cf3-b5f1-4ecbb0a6b798" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/issues/edit.blade.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/issues/reported.blade.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/issues/show.blade.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/issues/show_all.blade.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/partials/comments.blade.php" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/views/tasks/partials/comments.blade.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/views/tasks/show_ordered.blade.php" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Executable.php" afterPath="$PROJECT_DIR$/app/Executable.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/DashboardController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/DashboardController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/IssuesController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/IssuesController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/TasksController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/TasksController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Requests/AddTaskRequest.php" afterPath="$PROJECT_DIR$/app/Http/Requests/AddTaskRequest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Status.php" afterPath="$PROJECT_DIR$/app/Http/Status.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Tooltipster.php" afterPath="$PROJECT_DIR$/app/Http/Tooltipster.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Issue.php" afterPath="$PROJECT_DIR$/app/Issue.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Policies/TaskPolicy.php" afterPath="$PROJECT_DIR$/app/Policies/TaskPolicy.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Providers/AuthServiceProvider.php" afterPath="$PROJECT_DIR$/app/Providers/AuthServiceProvider.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Providers/RouteServiceProvider.php" afterPath="$PROJECT_DIR$/app/Providers/RouteServiceProvider.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Task.php" afterPath="$PROJECT_DIR$/app/Task.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/User.php" afterPath="$PROJECT_DIR$/app/User.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/migrations/2015_12_15_222132_create_issues_table.php" afterPath="$PROJECT_DIR$/database/migrations/2015_12_15_222132_create_issues_table.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gulpfile.js" afterPath="$PROJECT_DIR$/gulpfile.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/app.css" afterPath="$PROJECT_DIR$/public/css/app.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/app.css.map" afterPath="$PROJECT_DIR$/public/css/app.css.map" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/sass/app.scss" afterPath="$PROJECT_DIR$/resources/assets/sass/app.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/auth/login.blade.php" afterPath="$PROJECT_DIR$/resources/views/auth/login.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/dashboard/main.blade.php" afterPath="$PROJECT_DIR$/resources/views/dashboard/main.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/dashboard/partials/notifications.blade.php" afterPath="$PROJECT_DIR$/resources/views/dashboard/partials/notifications.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/dashboard/partials/tasks.blade.php" afterPath="$PROJECT_DIR$/resources/views/dashboard/partials/tasks.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/dashboard/partials/user.blade.php" afterPath="$PROJECT_DIR$/resources/views/dashboard/partials/user.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/layout.blade.php" afterPath="$PROJECT_DIR$/resources/views/layout.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/tasks/create.blade.php" afterPath="$PROJECT_DIR$/resources/views/tasks/create.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/tasks/index.blade.php" afterPath="$PROJECT_DIR$/resources/views/tasks/index.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/tasks/show.blade.php" afterPath="$PROJECT_DIR$/resources/views/tasks/show.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/tasks/ordered.blade.php" afterPath="$PROJECT_DIR$/resources/views/tasks/ordered.blade.php" />
     </list>
     <ignored path="ikea.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -66,11 +31,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="TasksController.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/TasksController.php">
+      <file leaf-file-name="ordered.blade.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/resources/views/tasks/ordered.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.67052025">
-              <caret line="73" column="5" selection-start-line="73" selection-start-column="5" selection-end-line="73" selection-end-column="5" />
+            <state vertical-scroll-proportion="0.77890176">
+              <caret line="63" column="115" selection-start-line="63" selection-start-column="115" selection-end-line="63" selection-end-column="115" />
               <folding />
             </state>
           </provider>
@@ -127,14 +92,14 @@
         <option value="$PROJECT_DIR$/resources/views/dashboard/main.blade.php" />
         <option value="$PROJECT_DIR$/database/migrations/2016_02_12_133417_add_confirmed_to_tasks_table.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/DashboardController.php" />
-        <option value="$PROJECT_DIR$/resources/assets/sass/app.scss" />
         <option value="$PROJECT_DIR$/app/Providers/RouteServiceProvider.php" />
         <option value="$PROJECT_DIR$/app/Executable.php" />
         <option value="$PROJECT_DIR$/app/Policies/TaskPolicy.php" />
         <option value="$PROJECT_DIR$/app/Http/routes.php" />
         <option value="$PROJECT_DIR$/resources/views/dashboard/partials/tasks.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/tasks/ordered.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/TasksController.php" />
+        <option value="$PROJECT_DIR$/resources/views/tasks/ordered.blade.php" />
+        <option value="$PROJECT_DIR$/resources/assets/sass/app.scss" />
       </list>
     </option>
   </component>
@@ -707,7 +672,7 @@
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="SearchEverywhereHistoryKey" value="tasks&#9;FILE&#9;file:///var/www/ikea/app/Http/Controllers/TasksController.php&#10;route&#9;FILE&#9;file:///var/www/ikea/app/Http/routes.php&#10;tas&#9;FILE&#9;file:///var/www/ikea/app/Http/Controllers/TasksController.php&#10;task&#9;FILE&#9;file:///var/www/ikea/app/Http/Controllers/TasksController.php&#10;routes&#9;FILE&#9;file:///var/www/ikea/app/Http/routes.php&#10;taskco&#9;FILE&#9;file:///var/www/ikea/app/Http/Controllers/TasksController.php&#10;poli&#9;FILE&#9;file:///var/www/ikea/app/Policies/TaskPolicy.php&#10;exe&#9;FILE&#9;file:///var/www/ikea/app/Executable.php&#10;Taskc&#9;FILE&#9;file:///var/www/ikea/app/Http/Controllers/TasksController.php&#10;polic&#9;FILE&#9;file:///var/www/ikea/app/Policies/TaskPolicy.php&#10;RouteS&#9;null&#9;null&#10;taskcon&#9;FILE&#9;file:///var/www/ikea/app/Http/Controllers/TasksController.php&#10;app&#9;FILE&#9;file:///var/www/ikea/resources/assets/sass/app.scss&#10;ordered&#9;FILE&#9;file:///var/www/ikea/resources/views/tasks/ordered.blade.php&#10;ap&#9;FILE&#9;file:///var/www/ikea/resources/assets/sass/app.scss&#10;orde&#9;FILE&#9;file:///var/www/ikea/resources/views/tasks/ordered.blade.php&#10;ordere&#9;FILE&#9;file:///var/www/ikea/resources/views/tasks/ordered.blade.php&#10;das&#9;FILE&#9;file:///var/www/ikea/app/Http/Controllers/DashboardController.php&#10;e&#9;FILE&#9;file:///var/www/ikea/app/Executable.php&#10;execu&#9;FILE&#9;file:///var/www/ikea/app/Executable.php&#10;dash&#9;FILE&#9;file:///var/www/ikea/app/Http/Controllers/DashboardController.php&#10;tasc&#9;FILE&#9;file:///var/www/ikea/app/Http/Controllers/TasksController.php&#10;add_co&#9;FILE&#9;file:///var/www/ikea/database/migrations/2016_02_12_133417_add_confirmed_to_tasks_table.php&#10;navbar&#9;FILE&#9;file:///var/www/ikea/resources/views/partials/navbar.blade.php&#10;form&#9;FILE&#9;file:///var/www/ikea/resources/views/issues/form.blade.php&#10;executa&#9;FILE&#9;file:///var/www/ikea/app/Executable.php&#10;create&#9;FILE&#9;file:///var/www/ikea/resources/views/tasks/create.blade.php&#10;cr&#9;FILE&#9;file:///var/www/ikea/resources/views/issues/create.blade.php&#10;issue&#9;FILE&#9;file:///var/www/ikea/app/Http/Controllers/IssuesController.php&#10;issu&#9;FILE&#9;file:///var/www/ikea/app/Http/Controllers/IssuesController.php&#10;comme&#9;FILE&#9;file:///var/www/ikea/app/Http/Controllers/CommentController.php&#10;iss&#9;FILE&#9;file:///var/www/ikea/app/Policies/IssuePolicy.php&#10;issuepo&#9;FILE&#9;file:///var/www/ikea/app/Policies/IssuePolicy.php&#10;is&#9;FILE&#9;file:///var/www/ikea/app/Policies/IssuePolicy.php&#10;tasksco&#9;FILE&#9;file:///var/www/ikea/app/Http/Controllers/TasksController.php&#10;issuescon&#9;FILE&#9;file:///var/www/ikea/app/Http/Controllers/IssuesController.php&#10;user&#9;FILE&#9;file:///var/www/ikea/app/User.php&#10;comment&#9;FILE&#9;file:///var/www/ikea/app/Http/Controllers/CommentController.php&#10;issuep&#9;FILE&#9;file:///var/www/ikea/app/Policies/IssuePolicy.php&#10;uth&#9;FILE&#9;file:///var/www/ikea/app/Providers/AuthServiceProvider.php&#10;issuec&#9;FILE&#9;file:///var/www/ikea/app/Http/Controllers/IssuesController.php&#10;issueco&#9;FILE&#9;file:///var/www/ikea/app/Http/Controllers/IssuesController.php&#10;aut&#9;FILE&#9;file:///var/www/ikea/app/Providers/AuthServiceProvider.php&#10;EXEC&#9;FILE&#9;file:///var/www/ikea/app/Executable.php&#10;exec&#9;FILE&#9;file:///var/www/ikea/app/Executable.php&#10;repor&#9;FILE&#9;file:///var/www/ikea/resources/views/issues/reported.blade.php&#10;Status&#9;FILE&#9;file:///var/www/ikea/app/Http/IssueStatus.php&#10;executable&#9;FILE&#9;file:///var/www/ikea/app/Executable.php&#10;issues&#9;FILE&#9;file:///var/www/ikea/app/Http/Controllers/IssuesController.php" />
+    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///var/www/ikea/resources/assets/sass/app.scss&#10;taskcon&#9;FILE&#9;file:///var/www/ikea/app/Http/Controllers/TasksController.php&#10;tasks/order&#9;FILE&#9;file:///var/www/ikea/resources/views/tasks/ordered.blade.php&#10;tasks&#9;FILE&#9;file:///var/www/ikea/app/Http/Controllers/TasksController.php&#10;route&#9;FILE&#9;file:///var/www/ikea/app/Http/routes.php&#10;tas&#9;FILE&#9;file:///var/www/ikea/app/Http/Controllers/TasksController.php&#10;task&#9;FILE&#9;file:///var/www/ikea/app/Http/Controllers/TasksController.php&#10;routes&#9;FILE&#9;file:///var/www/ikea/app/Http/routes.php&#10;taskco&#9;FILE&#9;file:///var/www/ikea/app/Http/Controllers/TasksController.php&#10;poli&#9;FILE&#9;file:///var/www/ikea/app/Policies/TaskPolicy.php&#10;exe&#9;FILE&#9;file:///var/www/ikea/app/Executable.php&#10;Taskc&#9;FILE&#9;file:///var/www/ikea/app/Http/Controllers/TasksController.php&#10;polic&#9;FILE&#9;file:///var/www/ikea/app/Policies/TaskPolicy.php&#10;RouteS&#9;null&#9;null&#10;app&#9;FILE&#9;file:///var/www/ikea/resources/assets/sass/app.scss&#10;ordered&#9;FILE&#9;file:///var/www/ikea/resources/views/tasks/ordered.blade.php&#10;ap&#9;FILE&#9;file:///var/www/ikea/resources/assets/sass/app.scss&#10;orde&#9;FILE&#9;file:///var/www/ikea/resources/views/tasks/ordered.blade.php&#10;ordere&#9;FILE&#9;file:///var/www/ikea/resources/views/tasks/ordered.blade.php&#10;das&#9;FILE&#9;file:///var/www/ikea/app/Http/Controllers/DashboardController.php&#10;e&#9;FILE&#9;file:///var/www/ikea/app/Executable.php&#10;execu&#9;FILE&#9;file:///var/www/ikea/app/Executable.php&#10;dash&#9;FILE&#9;file:///var/www/ikea/app/Http/Controllers/DashboardController.php&#10;tasc&#9;FILE&#9;file:///var/www/ikea/app/Http/Controllers/TasksController.php&#10;add_co&#9;FILE&#9;file:///var/www/ikea/database/migrations/2016_02_12_133417_add_confirmed_to_tasks_table.php&#10;navbar&#9;FILE&#9;file:///var/www/ikea/resources/views/partials/navbar.blade.php&#10;form&#9;FILE&#9;file:///var/www/ikea/resources/views/issues/form.blade.php&#10;executa&#9;FILE&#9;file:///var/www/ikea/app/Executable.php&#10;create&#9;FILE&#9;file:///var/www/ikea/resources/views/tasks/create.blade.php&#10;cr&#9;FILE&#9;file:///var/www/ikea/resources/views/issues/create.blade.php&#10;issue&#9;FILE&#9;file:///var/www/ikea/app/Http/Controllers/IssuesController.php&#10;issu&#9;FILE&#9;file:///var/www/ikea/app/Http/Controllers/IssuesController.php&#10;comme&#9;FILE&#9;file:///var/www/ikea/app/Http/Controllers/CommentController.php&#10;iss&#9;FILE&#9;file:///var/www/ikea/app/Policies/IssuePolicy.php&#10;issuepo&#9;FILE&#9;file:///var/www/ikea/app/Policies/IssuePolicy.php&#10;is&#9;FILE&#9;file:///var/www/ikea/app/Policies/IssuePolicy.php&#10;tasksco&#9;FILE&#9;file:///var/www/ikea/app/Http/Controllers/TasksController.php&#10;issuescon&#9;FILE&#9;file:///var/www/ikea/app/Http/Controllers/IssuesController.php&#10;user&#9;FILE&#9;file:///var/www/ikea/app/User.php&#10;comment&#9;FILE&#9;file:///var/www/ikea/app/Http/Controllers/CommentController.php&#10;issuep&#9;FILE&#9;file:///var/www/ikea/app/Policies/IssuePolicy.php&#10;uth&#9;FILE&#9;file:///var/www/ikea/app/Providers/AuthServiceProvider.php&#10;issuec&#9;FILE&#9;file:///var/www/ikea/app/Http/Controllers/IssuesController.php&#10;issueco&#9;FILE&#9;file:///var/www/ikea/app/Http/Controllers/IssuesController.php&#10;aut&#9;FILE&#9;file:///var/www/ikea/app/Providers/AuthServiceProvider.php&#10;EXEC&#9;FILE&#9;file:///var/www/ikea/app/Executable.php&#10;exec&#9;FILE&#9;file:///var/www/ikea/app/Executable.php&#10;repor&#9;FILE&#9;file:///var/www/ikea/resources/views/issues/reported.blade.php&#10;Status&#9;FILE&#9;file:///var/www/ikea/app/Http/IssueStatus.php&#10;executable&#9;FILE&#9;file:///var/www/ikea/app/Executable.php" />
     <property name="js-jscs-nodeInterpreter" value="/usr/bin/node" />
   </component>
   <component name="RecentsManager">
@@ -811,13 +776,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/Comment.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/partials/validation_errors.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1084,13 +1042,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/assets/sass/app.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.13574661">
-          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/DashboardController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.31213874">
@@ -1147,33 +1098,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/tasks/ordered.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.31936416">
-          <caret line="52" column="24" selection-start-line="52" selection-start-column="24" selection-end-line="52" selection-end-column="24" />
-          <folding>
-            <marker date="1456666531956" expanded="true" signature="39:2572" placeholder="..." />
-            <marker date="1456666531956" expanded="true" signature="69:158" placeholder="..." />
-            <marker date="1456666531956" expanded="true" signature="321:2375" placeholder="..." />
-            <marker date="1456666531956" expanded="true" signature="341:661" placeholder="..." />
-            <marker date="1456666531956" expanded="true" signature="362:640" placeholder="..." />
-            <marker date="1456666531956" expanded="true" signature="682:2358" placeholder="..." />
-            <marker date="1456666531956" expanded="true" signature="844:2313" placeholder="..." />
-            <marker date="1456666531956" expanded="true" signature="899:1093" placeholder="..." />
-            <marker date="1456666531956" expanded="true" signature="992:1067" placeholder="..." />
-            <marker date="1456666531956" expanded="true" signature="1118:1190" placeholder="..." />
-            <marker date="1456666531956" expanded="true" signature="1215:1761" placeholder="..." />
-            <marker date="1456666531956" expanded="true" signature="1582:1704" placeholder="..." />
-            <marker date="1456666531956" expanded="true" signature="1786:2076" placeholder="..." />
-            <marker date="1456666531956" expanded="true" signature="2101:2157" placeholder="..." />
-            <marker date="1456666531956" expanded="true" signature="2182:2291" placeholder="..." />
-            <marker date="1456666531956" expanded="true" signature="2410:2570" placeholder="..." />
-            <marker date="1456666531956" expanded="true" signature="2442:2559" placeholder="..." />
-            <marker date="1456666531956" expanded="true" signature="2603:2643" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.44219652">
@@ -1193,8 +1117,81 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/TasksController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.67052025">
-          <caret line="73" column="5" selection-start-line="73" selection-start-column="5" selection-end-line="73" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.5751445">
+          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+          <folding>
+            <marker date="1457181046467" expanded="false" signature="44:417" placeholder="..." />
+            <marker date="1457181046467" expanded="true" signature="459:5693" placeholder="{...}" />
+            <marker date="1457181046467" expanded="true" signature="470:595" placeholder=" Display a listing of user's tasks. ..." />
+            <marker date="1457181046467" expanded="true" signature="647:995" placeholder="{...}" />
+            <marker date="1457181046467" expanded="true" signature="1004:1108" placeholder=" Show the form for creating a new resource. ..." />
+            <marker date="1457181046467" expanded="true" signature="1139:1250" placeholder="{...}" />
+            <marker date="1457181046467" expanded="true" signature="1259:1407" placeholder=" Store a newly created task in storage. ..." />
+            <marker date="1457181046467" expanded="true" signature="1460:1623" placeholder="{...}" />
+            <marker date="1457181046467" expanded="true" signature="1633:1793" placeholder=" Show task's details ..." />
+            <marker date="1457181046467" expanded="true" signature="1838:2171" placeholder="{...}" />
+            <marker date="1457181046467" expanded="true" signature="1957:2035" placeholder="{...}" />
+            <marker date="1457181046467" expanded="true" signature="2066:2112" placeholder="{...}" />
+            <marker date="1457181046467" expanded="true" signature="2235:2684" placeholder="{...}" />
+            <marker date="1457181046467" expanded="true" signature="2279:2357" placeholder="{...}" />
+            <marker date="1457181046467" expanded="true" signature="2741:3124" placeholder="{...}" />
+            <marker date="1457181046467" expanded="true" signature="3133:3268" placeholder=" Show the form for editing the specified resource. ..." />
+            <marker date="1457181046467" expanded="true" signature="3313:3606" placeholder="{...}" />
+            <marker date="1457181046467" expanded="true" signature="3416:3494" placeholder="{...}" />
+            <marker date="1457181046467" expanded="true" signature="3615:3792" placeholder=" Update the specified resource in storage. ..." />
+            <marker date="1457181046467" expanded="true" signature="3844:4030" placeholder="{...}" />
+            <marker date="1457181046467" expanded="true" signature="4039:4168" placeholder=" Remove the specified resource from storage. ..." />
+            <marker date="1457181046467" expanded="true" signature="4203:4226" placeholder="{...}" />
+            <marker date="1457181046467" expanded="true" signature="4288:4526" placeholder="{...}" />
+            <marker date="1457181046467" expanded="true" signature="4341:4419" placeholder="{...}" />
+            <marker date="1457181046467" expanded="true" signature="4584:4807" placeholder="{...}" />
+            <marker date="1457181046467" expanded="true" signature="4636:4714" placeholder="{...}" />
+            <marker date="1457181046467" expanded="true" signature="4865:5127" placeholder="{...}" />
+            <marker date="1457181046467" expanded="true" signature="4917:4995" placeholder="{...}" />
+            <marker date="1457181046467" expanded="true" signature="5164:5259" placeholder="{...}" />
+            <marker date="1457181046467" expanded="true" signature="5268:5432" placeholder=" Returns appropriate response if user is not authorized ..." />
+            <marker date="1457181046467" expanded="true" signature="5494:5690" placeholder="{...}" />
+            <marker date="1457181046467" expanded="true" signature="5530:5629" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/assets/sass/app.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.07692308">
+          <caret line="11" column="41" selection-start-line="11" selection-start-column="41" selection-end-line="11" selection-end-column="41" />
+          <folding>
+            <marker date="1457181715679" expanded="true" signature="80:101" placeholder="{...}" />
+            <marker date="1457181715679" expanded="true" signature="137:176" placeholder="{...}" />
+            <marker date="1457181715679" expanded="true" signature="220:256" placeholder="{...}" />
+            <marker date="1457181715679" expanded="true" signature="263:290" placeholder="{...}" />
+            <marker date="1457181715679" expanded="true" signature="304:327" placeholder="{...}" />
+            <marker date="1457181715679" expanded="true" signature="358:389" placeholder="{...}" />
+            <marker date="1457181715679" expanded="true" signature="406:441" placeholder="{...}" />
+            <marker date="1457181715679" expanded="true" signature="481:515" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gulpfile.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.30083567">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1453739955675" expanded="true" signature="41:448" placeholder="/*...*/" />
+            <marker date="1453739955675" expanded="true" signature="471:2400" placeholder="{...}" />
+            <marker date="1453739955675" expanded="true" signature="503:633" placeholder="//..." />
+            <marker date="1453739955675" expanded="true" signature="639:1742" placeholder="//..." />
+            <marker date="1453739955675" expanded="true" signature="2225:2283" placeholder="[...]" />
+            <marker date="1453739955675" expanded="true" signature="2314:2398" placeholder="//..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/tasks/ordered.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.77890176">
+          <caret line="63" column="115" selection-start-line="63" selection-start-column="115" selection-end-line="63" selection-end-column="115" />
           <folding />
         </state>
       </provider>
