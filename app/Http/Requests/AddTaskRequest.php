@@ -24,7 +24,11 @@ class AddTaskRequest extends Request
     public function rules()
     {
         return [
-            'name' => 'required'
+            'name' => 'required',
+            'description' => 'required',
+            'deadline' => 'required|date_format:d. m. Y',
+            'executorsList' => 'required'
+
         ];
     }
 }

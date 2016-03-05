@@ -5766,4 +5766,13 @@ button.close {
 #second_row {
   margin-top: 40px; }
 
+table {
+  counter-reset: rowNumber; }
+
+table tbody tr {
+  counter-increment: rowNumber; }
+
+table tbody tr th:first-child::before {
+  content: counter(rowNumber); }
+
 /*# sourceMappingURL=app.css.map */

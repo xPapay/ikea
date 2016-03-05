@@ -2,15 +2,11 @@
 namespace App\Http;
 
 
-class Status
+abstract class Status
 {
     protected $selectedStatus;
 
-    protected $availableStatuses = [
-        'unfinished' => 'nedokončené',
-        'finished' => 'dokončené',
-        'all' => 'všetky'
-    ];
+    protected $availableStatuses = [];
 
     protected $unselectedStatuses;
 
@@ -31,12 +27,16 @@ class Status
         return array_values($this->selectedStatus)[0];
     }
 
-    public function getStatusMenu()
+    public function getStatusMenu($path)
     {
-        return $this->unselectedStatuses;
+        $menu = array();
+        array_walk($this->unselectedStatuses, function($value, $key) use ($path, &$menu) {
+            $menu[$path . $key] = $value;
+        });
+        return $menu;
     }
 
-    private function createListOfUnselected()
+    protected function createListOfUnselected()
     {
         return array_filter($this->availableStatuses, function($status) {
             return !in_array($status, $this->selectedStatus);

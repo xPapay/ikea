@@ -19,25 +19,53 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <a href="{{ url('tasks/create') }}">Zadať úlohu</a>
+        <a href="{{ url('tasks/create') }}" class="btn btn-primary" role="button">Zadať úlohu</a>
     </div>
 </div>
 
 <div class="row">
     <div class="col-lg-12">
-        <a href="{{ url('tasks/ordered/unfinished') }}">Vami zadané úlohy</a>
+        <a href="{{ url('tasks/ordered') }}" class="btn btn-primary" role="button">Vami zadané úlohy</a>
     </div>
 </div>
 
-<div class="row">
-    <div class="col-lg-12">
-        Nahlásiť problém
-    </div>
-</div>
+{{--<div class="row">--}}
+    {{--<div class="col-lg-12">--}}
+        {{--<a href="{{ url('issues/create') }}">Zadať problém</a>--}}
+    {{--</div>--}}
+{{--</div>--}}
 
-<div class="row">
-    <div class="col-lg-12">
-        Vami nahlásené problémy
+{{--<div class="row">--}}
+    {{--<div class="col-lg-12">--}}
+        {{--<button type="button" class="btn btn-default"><a href="{{ url('issues/reported') }}">Vami nahlásené problémy</a></button>--}}
+    {{--</div>--}}
+{{--</div>--}}
+
+@if(\Illuminate\Support\Facades\Auth::user()->isAdmin())
+    <br>
+    <div class="row">
+        <div class="col-lg-12">
+            <a href="{{ url('admin/tasks') }}" class="btn btn-primary" role="button">Všetky úlohy</a>
+        </div>
     </div>
-</div>
+
+    {{--<div class="row">--}}
+        {{--<div class="col-lg-12">--}}
+            {{--<a href="{{ url('admin/issues') }}">Všetky problémy</a>--}}
+        {{--</div>--}}
+    {{--</div>--}}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <a href="{{ url('admin/tags') }}" class="btn btn-warning" role="button">Správa tagov</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <a href="{{ url('admin/users') }}" class="btn btn-danger" role="button">Správa užívateľov</a>
+        </div>
+    </div>
+
+@endif
 

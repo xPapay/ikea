@@ -2,9 +2,37 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 abstract class Executable extends Model
 {
+
+    public function setDeadlineAttribute($date)
+    {
+        $this->attributes['deadline'] = Carbon::createFromFormat('d. m. Y', $date);
+    }
+
+    public function getDeadlineAttribute($date)
+    {
+        return Carbon::parse($date)->format('d. m. Y');
+    }
+
+//    public function setAccomplishDateAttribute($date)
+//    {
+//        $this->attributes['accomplish_date'] = Carbon::createFromFormat('d. m. Y', $date);
+//    }
+
+    public function getAccomplishDateAttribute($date)
+    {
+        if ($date == null)
+            return null;
+        return Carbon::parse($date)->format('d. m. Y');
+    }
+
+    public function getExecutorsListAttribute()
+    {
+        return $this->executors->lists('id')->toArray();
+    }
 
     /**
      * Get all comments belongs to Executable instance
@@ -21,9 +49,9 @@ abstract class Executable extends Model
      *
      * @param \App\Comment $comment
      */
-    public function addComment(Comment $comment)
+    public function addComment($commentId)
     {
-        $this->comments()->sync([$comment->id]);
+        $this->comments()->attach($commentId);
     }
 
     /**
@@ -92,6 +120,11 @@ abstract class Executable extends Model
     {
         $tooltipster = app('App\Http\Tooltipster');
         return $tooltipster->create($this->executors);
+    }
+
+    public function scopeUnfinished($query, $count)
+    {
+        return $query->where('confirmed', 0)->orderBy('deadline', 'asc')->take($count);
     }
 
 }

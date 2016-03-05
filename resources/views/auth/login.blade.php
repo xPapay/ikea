@@ -1,6 +1,15 @@
-@extends('layout')
-
-@section('content')
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IKEA</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/css/login-page.css">
+    <script type="application/javascript" src="/js/all.js"></script>
+</head>
+<body>
+<div class="login-background"></div>
+<div class="container">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
@@ -48,4 +57,6 @@
             </div>
         </div>
     </div>
-@endsection
+</div>
+</body>
+</html>

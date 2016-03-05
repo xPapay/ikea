@@ -13,6 +13,7 @@ class DashboardController extends Controller
     public function index()
     {
         list($first_name, $last_name) = explode(' ', Auth::user()->name, 2);
-        return view('dashboard.main', compact('first_name', 'last_name'));
+        $tasks = Auth::user()->tasks()->unfinished(5)->get();
+        return view('dashboard.main', compact('first_name', 'last_name', 'tasks'));
     }
 }

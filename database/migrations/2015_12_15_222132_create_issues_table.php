@@ -22,6 +22,7 @@ class CreateIssuesTable extends Migration
             $table->integer('followup_by')->unsigned()->nullable();
             $table->decimal('costs', 8, 2);
             $table->integer('ordered_by')->unsigned()->nullable();
+            $table->timestamp('accomplish_date')->nullable()->default(null);
             $table->timestamps();
 
             $table->foreign('ordered_by')->references('id')->on('users')->onDelete('set null');

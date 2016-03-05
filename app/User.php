@@ -67,8 +67,8 @@ class User extends Model implements AuthenticatableContract,
      */
     public function makeComment(Comment $comment, Executable $executable)
     {
-        $this->comments()->save($comment);
-        $executable->addComment($comment);
+        $commentId = $this->comments()->save($comment);
+        $executable->addComment($commentId);
     }
 
     /**
@@ -80,6 +80,7 @@ class User extends Model implements AuthenticatableContract,
     {
         return $this->hasMany('App\Comment');
     }
+
 
     /**
      * Get all tasks assigned to user
@@ -111,6 +112,11 @@ class User extends Model implements AuthenticatableContract,
         return $this->belongsToMany('App\Issue')->withTimestamps();
     }
 
+    public function followups()
+    {
+        return $this->hasMany('App\Issue', 'followup_by');
+    }
+
     /**
      * Order new Task
      *
@@ -130,8 +136,47 @@ class User extends Model implements AuthenticatableContract,
      * @param \App\Issue $issue
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function reportIssue(Issue $issue)
+    public function reportIssue(Issue $issue, array $executors)
     {
-        return $this->reportedIssues()->save($issue);
+        $issue = $this->reportedIssues()->save($issue);
+        return $issue->assignToUsers($executors);
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany('App\Role');
+    }
+
+    public function assignRole($role)
+    {
+        if (is_object($role) && get_class($role) == 'App\Role')
+        {
+            return $this->roles()->save($role);
+        }
+        $this->roles()->save(
+            Role::where('name', $role)->firstOrFail()
+        );
+    }
+
+    public function hasRole($role)
+    {
+        if (is_string($role))
+        {
+            return $this->roles->contains('name', $role);
+        }
+
+        // if is given a collection
+
+        return $this->roles->intersect($role)->count();
+    }
+
+    public function isAdmin()
+    {
+        if ($this->hasRole('admin'))
+        {
+            return true;
+        }
+
+        return false;
     }
 }

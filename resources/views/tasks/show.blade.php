@@ -1,11 +1,8 @@
 @extends('layout')
 @section('content')
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <h1>{{ $task->name }}</h1>
-        </div>
-        <div class="col-md-4">
-            <h3>countdown</h3>
         </div>
         <hr>
     </div>
@@ -65,11 +62,28 @@
             @endif
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            Úloha vytvorená: {{ Carbon\Carbon::parse($task->created_at)->format('d. m. Y H:i') }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            @if ($task->created_at != $task->updated_at)
+                Posledná úprava: {{ Carbon\Carbon::parse($task->updated_at)->format('d. m. Y H:i') }}
+            @endif
+        </div>
+    </div>
+
 
     <hr>
 
     <div id="comments">
-        @include('tasks.partials.comments')
+        @foreach($task->comments as $comment)
+            @include('partials.comments')
+        @endforeach
+
+        @include('partials.create_comment', ['executable_id' => $task->id, 'executable_type' => 'task'])
     </div>
 @endsection
 

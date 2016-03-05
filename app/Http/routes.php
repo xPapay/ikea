@@ -13,10 +13,24 @@
 
 Route::group(['middleware' => 'auth'], function() {
     Route::get('/', 'DashboardController@index');
-    Route::get('tasks/ordered/{status}', 'TasksController@showOrdered');
     Route::get('tasks/ordered', 'TasksController@showOrdered');
-    Route::get('tasks/{id}/executors', 'TasksController@executors');
+    Route::get('issues/reported', 'IssuesController@showReported');
+    Route::group(['prefix' => 'admin'], function () {
+        Route::get('tasks/{status?}', 'TasksController@showAll');
+        Route::get('issues/{status?}', 'IssuesController@showAll');
+    });
+
+    Route::get('tasks/ordered/filter/{status}', 'TasksController@showOrdered');
+    Route::get('issues/reported/filter/{status}', 'IssuesController@showReported');
+    Route::get('tasks/filter/{status}', 'TasksController@index');
+    Route::get('tasks/accomplish/{tasks}', 'TasksController@accomplish');
+    Route::get('tasks/accept/{tasks}', 'TasksController@accept');
+    Route::get('tasks/reject/{tasks}', 'TasksController@reject');
     Route::resource('tasks', 'TasksController');
+    Route::resource('issues', 'IssuesController');
+    Route::resource('comments', 'CommentController', ['only' => [
+        'store'
+    ]]);
 });
 
 // Authentication routes...

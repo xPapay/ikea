@@ -17,13 +17,8 @@
     </div>
 
     <div class="row" id="second_row">
-        <div class="col-sm-6" id="tasks_list">
+        <div class="col-sm-12" id="tasks_list">
             @include('dashboard.partials.tasks')
-        </div>
-
-
-        <div class="col-sm-6">
-            @include('dashboard.partials.details')
         </div>
     </div>
 

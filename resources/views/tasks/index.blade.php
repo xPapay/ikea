@@ -2,19 +2,10 @@
 @section('content')
     <div class="page-header">
         <h1>Vaše úlohy</h1>
+        <i>{{ $selectedStatus }} úlohy</i>
     </div>
 
-    <div class="dropdown pull-right">
-        <button class="btn btn-default dropdown-toggle" type="button" id="tasks_options" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
-            <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="tasks_options">
-            <li><a href="#">Nesplnené úlohy</a></li>
-            <li><a href="#">Splnené úlohy</a></li>
-            <li><a href="#">Všetky</a></li>
-        </ul>
-    </div>
+    @include('partials.dropdown_status')
 
     @if (count($tasks) == 0)
         <i>Nemáte žiadne nesplnené úlohy</i>
@@ -30,13 +21,13 @@
                 </tr>
             </thead>
             <tbody>
-            <?php $line_number = 0; ?>
             @foreach($tasks as $task)
-                <?php $line_number++; ?>
                 <tr>
-                    <th>{{ $line_number }}</th>
+                    <th></th>
                     <td>
-                        {{ $task->name }}
+                        <a href="{{ action('TasksController@show', ['id' => $task->id]) }}">
+                            {{ $task->name }}
+                        </a>
                     </td>
                     <td>
                         {{ $task->deadline }}

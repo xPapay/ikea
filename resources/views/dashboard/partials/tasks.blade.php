@@ -1,61 +1,48 @@
 <div class="row">
     <div class="col-lg-12">
-        <h4>Zoznam úloh</h4>
+        <h4><a href="{{ action('TasksController@index') }}">Moje úlohy</a></h4>
         <hr>
     </div>
 </div>
 
 {{--<div class="row task" id="task_id-{{ $task->id }}">--}}
-<div class="row task" id="task_id-1">
-    <div class="col-sm-1">
-        1.
-    </div>
-    <div class="col-sm-1">
-        icon
-    </div>
-    <div class="col-sm-3">
-        date:deadline
-    </div>
-    <div class="col-sm-6">
-        Zadanie úlohy
-    </div>
-    <div class="col-sm-1">
-        <span class="glyphicon glyphicon-ok-sign"></span>
-    </div>
-</div>
 
-<div class="row">
-    <div class="col-sm-1">
-        1.
-    </div>
-    <div class="col-sm-1">
-        icon
-    </div>
-    <div class="col-sm-3">
-        date:deadline
-    </div>
-    <div class="col-sm-6">
-        Zadanie úlohy
-    </div>
-    <div class="col-sm-1">
-        iconVX
-    </div>
-</div>
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Typ</th>
+        <th>Deadline</th>
+        <th>Čo</th>
+        <th>Status</th>
+    </tr>
+    </thead>
 
-<div class="row">
-    <div class="col-sm-1">
-        1.
-    </div>
-    <div class="col-sm-1">
-        icon
-    </div>
-    <div class="col-sm-3">
-        date:deadline
-    </div>
-    <div class="col-sm-6">
-        Zadanie úlohy
-    </div>
-    <div class="col-sm-1">
-        iconVX
-    </div>
-</div>
+    <tbody>
+    @foreach($tasks as $task)
+        <tr>
+            <th></th>
+            <td>
+                icon
+            </td>
+            <td>
+                {{ $task->deadline }}
+            </td>
+            <td>
+                <a href="{{ action('TasksController@show', ['id' => $task->id]) }}">
+                    {{ $task->name }}
+                </a>
+            </td>
+            <td>
+                @if(!is_null($task->accomplish_date))
+                    <span class="glyphicon glyphicon-time"></span>
+                @else
+                    <a href="{{url('tasks/accomplish', $task->id)}}"><span class="glyphicon glyphicon-remove-sign"></span></a>
+                @endif
+            </td>
+        </tr>
+    @endforeach
+    </tbody>
+</table>
+
+
