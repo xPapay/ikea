@@ -15,9 +15,10 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/', 'DashboardController@index');
     Route::get('tasks/ordered', 'TasksController@showOrdered');
     Route::get('issues/reported', 'IssuesController@showReported');
-    Route::group(['prefix' => 'admin'], function () {
+    Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
         Route::get('tasks/{status?}', 'TasksController@showAll');
         Route::get('issues/{status?}', 'IssuesController@showAll');
+        Route::resource('tags', 'TagsController', ['except'=>['create', 'show']]);
     });
 
     Route::get('tasks/ordered/filter/{status}', 'TasksController@showOrdered');
