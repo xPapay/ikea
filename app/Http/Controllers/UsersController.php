@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Tag;
+use App\Role;
+use App\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class TagsController extends Controller
+class UsersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,11 +18,20 @@ class TagsController extends Controller
      */
     public function index()
     {
-        $tags = Tag::orderBy('name')->get();
-        return view('tags.tags', compact('tags'));
+        $users = User::orderBy('name')->with('roles')->get();
+        return view('users.index', compact('users'));
     }
 
-
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $roles = Role::lists('name', 'id');
+        return view('users.create', compact('roles'));
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -32,12 +42,13 @@ class TagsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|unique:tags',
+            'name' => 'required',
+            'email' => 'email|unique:users'
         ]);
-        Tag::create($request->all());
-        return redirect('admin/tags');
+        $user = User::create($request->all());
+        $user->addRole($request->rolesList);
+        return redirect('admin/users');
     }
-
 
     /**
      * Show the form for editing the specified resource.
@@ -47,8 +58,9 @@ class TagsController extends Controller
      */
     public function edit($id)
     {
-        $tag = Tag::where('id', $id)->first();
-        return view('tags.edit', compact('tag'));
+        $user = User::findOrFail($id);
+        $roles = Role::lists('name', 'id');
+        return view('users.edit', compact('user', 'roles'));
     }
 
     /**
@@ -61,11 +73,13 @@ class TagsController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => 'required|unique:tags',
+            'name' => 'required',
+            'email' => 'email|required'
         ]);
-        $tag = Tag::where('id', $id)->first();
-        $tag->update($request->all());
-        return redirect('admin/tags');
+        $user = User::where('id', $id)->first();
+        $user->update($request->all());
+        $user->assignRole($request->rolesList);
+        return redirect('admin/users');
     }
 
     /**
@@ -76,8 +90,8 @@ class TagsController extends Controller
      */
     public function destroy($id)
     {
-        $tag = Tag::where('id', $id)->first();
-        $tag->delete();
-        return redirect('admin/tags');
+        $user = User::where('id', $id)->first();
+        $user->delete();
+        return redirect('admin/users');
     }
 }

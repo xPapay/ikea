@@ -147,15 +147,23 @@ class User extends Model implements AuthenticatableContract,
         return $this->belongsToMany('App\Role');
     }
 
+    public function getRolesListAttribute()
+    {
+        return $this->roles->lists('id')->toArray();
+    }
+
     public function assignRole($role)
+    {
+        return $this->roles()->sync($role);
+    }
+
+    public function addRole($role)
     {
         if (is_object($role) && get_class($role) == 'App\Role')
         {
             return $this->roles()->save($role);
         }
-        $this->roles()->save(
-            Role::where('name', $role)->firstOrFail()
-        );
+        return $this->roles()->attach($role);
     }
 
     public function hasRole($role)
