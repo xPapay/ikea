@@ -84,6 +84,16 @@ abstract class Executable extends Model
         return $this->belongsToMany('App\User')->withTimestamps();
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany('App\Tag');
+    }
+
+    public function assignTag(array $tags)
+    {
+        return $this->tags()->sync($tags);
+    }
+
     /**
      * Assign Executable instance to given users
      *

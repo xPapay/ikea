@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AddTaskRequest;
 use App\Http\Requests\ShowTaskRequest;
 use App\Http\TaskStatus;
+use App\Tag;
 use App\Task;
 use App\User;
 use Carbon\Carbon;
@@ -46,7 +47,8 @@ class TasksController extends Controller
     public function create()
     {
         $users = User::lists('name', 'id');
-        return view('tasks.create', compact('users'));
+        $tags = Tag::lists('name', 'id');
+        return view('tasks.create', compact('users', 'tags'));
     }
 
     /**
@@ -57,7 +59,7 @@ class TasksController extends Controller
      */
     public function store(AddTaskRequest $request)
     {
-        Auth::user()->orderTask(new Task($request->all()), $request->executorsList);
+        Auth::user()->orderTask(new Task($request->all()), $request->executorsList, $request->tagsList);
 
         // TODO: flashing messages
         return redirect('/tasks/ordered');

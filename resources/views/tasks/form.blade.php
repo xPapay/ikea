@@ -27,6 +27,11 @@
 </div>
 
 <div class="form-group">
+    {!! Form::label('tags', 'Tagy') !!}
+    {!! Form::select('tagsList[]', $tags, null, ['class' => 'form-control', 'id' => 'tagsList', 'multiple']) !!}
+</div>
+
+<div class="form-group">
     {!! Form::submit($submitButton, ['class' => 'btn btn-primary form-control']) !!}
 </div>
 
@@ -36,6 +41,10 @@
     <script>
         $('#executorsList').select2({
             placeholder: "Vyber pracovníkov"
+        });
+
+        $('#tagsList').select2({
+            placeholder: "Vyber tagy"
         });
     </script>
 

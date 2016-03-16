@@ -124,9 +124,10 @@ class User extends Model implements AuthenticatableContract,
      * @param array $executors
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function orderTask(Task $task, array $executors)
+    public function orderTask(Task $task, array $executors, array $tags)
     {
         $task = $this->orderedTasks()->save($task);
+        $task->assignTag($tags);
         return $task->assignToUsers($executors);
     }
 
