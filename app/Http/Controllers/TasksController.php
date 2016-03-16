@@ -60,7 +60,7 @@ class TasksController extends Controller
         Auth::user()->orderTask(new Task($request->all()), $request->executorsList);
 
         // TODO: flashing messages
-        return redirect('/');
+        return redirect('/tasks/ordered');
     }
 
 
@@ -179,7 +179,7 @@ class TasksController extends Controller
         }
         $task->confirmed = 1;
         $task->save();
-        return redirect('tasks');
+        return redirect('tasks/ordered/filter/to_confirmation');
     }
 
     public function reject(Task $task, Request $request)
@@ -191,7 +191,7 @@ class TasksController extends Controller
         $task->confirmed = 0;
         $task->accomplish_date = null;
         $task->save();
-        return redirect('tasks');
+        return redirect('tasks/ordered/filter/to_confirmation');
     }
 
     private function getId($string)

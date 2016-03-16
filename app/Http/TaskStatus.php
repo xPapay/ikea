@@ -7,6 +7,7 @@ class TaskStatus extends Status
     protected $availableStatuses = [
         'unfinished' => 'nedokončené',
         'finished' => 'dokončené',
+        'to_confirmation' => 'na schválenie',
         'all' => 'všetky'
     ];
 

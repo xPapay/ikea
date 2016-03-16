@@ -21,6 +21,8 @@ class Task extends Executable
             return $query->whereNull('accomplish_date');
         if ($status == 'finished')
             return $query->whereNotNull('accomplish_date');
+        if ($status == 'to_confirmation')
+            return $query->whereNotNull('accomplish_date')->where('confirmed', 0);
         if ($status == 'all')
             return $query;
         throw new Exception('Undefined Status');
