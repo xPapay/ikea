@@ -36,10 +36,12 @@
                         {{ $task->orderer->name }}
                     </td>
                     <td>
-                        @if (! is_null($task->accomplish_date))
+                        @if($task->confirmed == 1)
                             {{ $task->accomplish_date }}
+                        @elseif(($task->confirmed == 0) && ($task->accomplish_date != null))
+                            <span class="glyphicon glyphicon-time"></span>
                         @else
-                            <span class="glyphicon glyphicon-remove-sign"></span>
+                            <a href="{{url('tasks/accomplish', $task->id)}}"><span class="glyphicon glyphicon-remove-sign"></span></a>
                         @endif
                     </td>
                 </tr>

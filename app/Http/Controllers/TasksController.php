@@ -170,7 +170,7 @@ class TasksController extends Controller
         }
         $task->accomplish_date = Carbon::now();
         $task->save();
-        return redirect('/');
+        return redirect()->back();
     }
 
     public function accept(Task $task, Request $request)
@@ -181,7 +181,7 @@ class TasksController extends Controller
         }
         $task->confirmed = 1;
         $task->save();
-        return redirect('tasks/ordered/filter/to_confirmation');
+        return redirect()->back();
     }
 
     public function reject(Task $task, Request $request)
@@ -193,7 +193,7 @@ class TasksController extends Controller
         $task->confirmed = 0;
         $task->accomplish_date = null;
         $task->save();
-        return redirect('tasks/ordered/filter/to_confirmation');
+        return redirect()->back();
     }
 
     private function getId($string)

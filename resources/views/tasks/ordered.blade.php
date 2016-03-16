@@ -20,7 +20,9 @@
                     <th>Deadline</th>
                     <th>Vykoná</th>
                     <th>Splnená dňa</th>
-                    <th>Akcia</th>
+                    @if ($selectedStatus != "dokončené")
+                        <th>Akcia</th>
+                    @endif
                     <th>Editovanie</th>
                 </tr>
             </thead>
@@ -58,12 +60,14 @@
                             <span class="glyphicon glyphicon-remove-sign"></span>
                         @endif
                     </td>
-                    <td>
-                        @if (($task->accomplish_date != null) && ($task->confirmed != 1))
-                            <a href="{{ url("tasks/accept/{$task->id}") }}"><span class="glyphicon glyphicon-ok"></span></a>
-                            <a href="{{ url("tasks/reject/{$task->id}") }}"><span class="glyphicon glyphicon-remove"></span></a>
-                        @endif
-                    </td>
+                    @if ($selectedStatus != "dokončené")
+                        <td>
+                            @if (($task->accomplish_date != null) && ($task->confirmed != 1))
+                                <a href="{{ url("tasks/accept/{$task->id}") }}"><span class="glyphicon glyphicon-ok"></span></a>
+                                <a href="{{ url("tasks/reject/{$task->id}") }}"><span class="glyphicon glyphicon-remove"></span></a>
+                            @endif
+                        </td>
+                    @endif
                     <td>
                          <a href="{{ url("tasks/{$task->id}/edit") }}">Upraviť</a>
                     </td>
