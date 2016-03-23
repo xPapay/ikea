@@ -48,5 +48,11 @@
             @endforeach
             </tbody>
         </table>
+
+        <div class="row">
+            <div class="col-lg-12">
+                {!! $tasks->render() !!}
+            </div>
+        </div>
     @endif
 @endsection

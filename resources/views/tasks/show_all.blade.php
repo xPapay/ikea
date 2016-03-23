@@ -37,4 +37,10 @@
     @endforeach
     </tbody>
 </table>
+
+    <div class="row">
+        <div clas="col-lg-12">
+            {!! $tasks->render() !!}
+        </div>
+    </div>
 @endsection

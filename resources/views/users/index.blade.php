@@ -39,6 +39,15 @@
                 </table>
             </div>
         </div>
-
+        <div class="row">
+            <div class="col-lg-12">
+                {!! $users->render() !!}
+            </div>
+        </div>
     @endif
+    <div class="row">
+        <div class="col-lg-12">
+            <a href="{{ route('admin.users.create') }}" class="btn btn-primary" role="button">Pridaj užívateľa</a>
+        </div>
+    </div>
 @endsection

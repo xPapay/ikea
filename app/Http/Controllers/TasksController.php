@@ -31,7 +31,7 @@ class TasksController extends Controller
     {
         $status = new TaskStatus($status);
 
-        $tasks = Auth::user()->tasks()->withStatus($status->getSelectedKey())->get();
+        $tasks = Auth::user()->tasks()->withStatus($status->getSelectedKey())->paginate(20);
 
         $selectedStatus = $status->getSelectedValue();
         $statusMenu = $status->getStatusMenu('tasks/filter/');
@@ -97,7 +97,7 @@ class TasksController extends Controller
         }
         $status = new TaskStatus($status);
 
-        $tasks = Task::withStatus($status->getSelectedKey())->get();
+        $tasks = Task::withStatus($status->getSelectedKey())->paginate(20);
 
         $selectedStatus = $status->getSelectedValue();
         $statusMenu = $status->getStatusMenu('admin/tasks/');
@@ -109,7 +109,7 @@ class TasksController extends Controller
     {
         $status = new TaskStatus($status);
 
-        $tasks = Auth::user()->orderedTasks()->withStatus($status->getSelectedKey())->with('executors')->get();
+        $tasks = Auth::user()->orderedTasks()->withStatus($status->getSelectedKey())->with('executors')->orderBy('deadline')->paginate(20);
 
         $selectedStatus = $status->getSelectedValue();
         $statusMenu = $status->getStatusMenu('tasks/ordered/filter/');

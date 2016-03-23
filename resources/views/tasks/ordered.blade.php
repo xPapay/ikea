@@ -80,6 +80,12 @@
 
     <div class="row">
         <div class="col-lg-12">
+            {!! $tasks->render() !!}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
             <a href="{{ url('tasks/create') }}" class="btn btn-primary" role="button">Zadať úlohu</a>
         </div>
     </div>

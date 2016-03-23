@@ -31,7 +31,11 @@
                 </table>
             </div>
         </div>
-
+        <div class="row">
+            <div class="col-lg-12">
+                {!! $tags->render() !!}
+            </div>
+        </div>
     @endif
 
     <h2>Pridať tag</h2>

@@ -14,22 +14,22 @@
 Route::group(['middleware' => 'auth'], function() {
     Route::get('/', 'DashboardController@index');
     Route::get('tasks/ordered', 'TasksController@showOrdered');
-    Route::get('issues/reported', 'IssuesController@showReported');
+    //Route::get('issues/reported', 'IssuesController@showReported');
     Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
         Route::get('tasks/{status?}', 'TasksController@showAll');
-        Route::get('issues/{status?}', 'IssuesController@showAll');
+        //Route::get('issues/{status?}', 'IssuesController@showAll');
         Route::resource('tags', 'TagsController', ['except'=>['create', 'show']]);
         Route::resource('users', 'UsersController', ['except' => ['show']]);
     });
 
     Route::get('tasks/ordered/filter/{status}', 'TasksController@showOrdered');
-    Route::get('issues/reported/filter/{status}', 'IssuesController@showReported');
+    //Route::get('issues/reported/filter/{status}', 'IssuesController@showReported');
     Route::get('tasks/filter/{status}', 'TasksController@index');
     Route::get('tasks/accomplish/{tasks}', 'TasksController@accomplish');
     Route::get('tasks/accept/{tasks}', 'TasksController@accept');
     Route::get('tasks/reject/{tasks}', 'TasksController@reject');
     Route::resource('tasks', 'TasksController');
-    Route::resource('issues', 'IssuesController');
+    //Route::resource('issues', 'IssuesController');
     Route::resource('comments', 'CommentController', ['only' => [
         'store'
     ]]);
