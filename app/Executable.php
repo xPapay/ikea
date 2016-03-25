@@ -118,7 +118,7 @@ abstract class Executable extends Model
             return $this->orderer->id == $user;
         }
 
-        if ($this->orderer == $user)
+        if ($this->orderer->id == $user->id)
         {
             return true;
         }

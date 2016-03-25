@@ -1,6 +1,9 @@
 @extends('layout')
 @section('content')
-    @include('partials.dropdown_status')
+    <h1>Všetky úlohy</h1>
+    {!! Form::open(array('route' => 'admin.tasks.filter')) !!}
+        @include('partials.filterbox')
+    {!! Form::close() !!}
 <table class="table table-hover">
     <thead>
     <tr>
@@ -43,4 +46,47 @@
             {!! $tasks->render() !!}
         </div>
     </div>
+@endsection
+
+@section('footer')
+    <link href="/css/select2.css" rel="stylesheet" />
+    <script src="/js/select2.js"></script>
+    <script>
+        $('#orderers').select2({
+            placeholder: "Vyber zadávateľa"
+        });
+
+        $('#tags').select2({
+            placeholder: "Vyber tagy"
+        });
+    </script>
+
+    <link href="/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
+    <script src="/js/moment.js"></script>
+    <script src="/js/bootstrap-datetimepicker.min.js"></script>
+
+    <script>
+        $(function () {
+            $('#deadlineFrom').datetimepicker({
+                locale: "sk",
+                format: "DD. MM. YYYY",
+                allowInputToggle: true,
+                widgetPositioning: {
+                    horizontal: 'left',
+                    vertical: 'bottom'
+                }
+            }).on('dp.change', function (e) {
+                $('#deadlineTo').data("DateTimePicker").minDate(e.date);
+            })
+            $('#deadlineTo').datetimepicker({
+                locale: "sk",
+                format: "DD. MM. YYYY",
+                allowInputToggle: true,
+                widgetPositioning: {
+                    horizontal: 'left',
+                    vertical: 'bottom'
+                }
+            })
+        });
+    </script>
 @endsection

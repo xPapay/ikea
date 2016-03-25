@@ -63,7 +63,7 @@ class TaskPolicy
         {
             return true;
         }
-
+        
         if ($executable->isOwnedBy($user))
         {
             return true;

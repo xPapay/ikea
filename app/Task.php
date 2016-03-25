@@ -28,5 +28,40 @@ class Task extends Executable
         throw new Exception('Undefined Status');
     }
 
+    public function scopeWithKeyword($query, $keyword)
+    {
+        return $query->where('name', 'like', '%' . $keyword . '%');
+    }
+
+    public function scopeDeadlineFrom($query, $deadlineFrom)
+    {
+        return $query->where('deadline', '>=', $deadlineFrom);
+    }
+
+    public function scopeDeadlineTo($query, $deadlineTo)
+    {
+        return $query->where('deadline', '<=', $deadlineTo);
+    }
+
+    public function scopeFilter($query, $filters)
+    {
+        if ($filters['keyword'] != '')
+        {
+            $query = $query->withKeyword($filters['keyword']);
+        }
+
+        if ($filters['deadline_from'] != '')
+        {
+            $query = $query->deadlineFrom(Carbon::createFromFormat('d. m. Y', $filters['deadline_from']));
+        }
+
+        if ($filters['deadline_to'] != '')
+        {
+            $query = $query->deadlineTo(Carbon::createFromFormat('d. m. Y', $filters['deadline_to']));
+        }
+
+        return $query;
+    }
+
 
 }

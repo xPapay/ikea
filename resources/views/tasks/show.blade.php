@@ -62,6 +62,18 @@
             @endif
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Tagy:</h4>
+            <ul>
+                @foreach ($task->tags as $tag)
+                    <li>{{ $tag->name }}</li>
+                @endforeach
+            </ul>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-md-12">
             Úloha vytvorená: {{ Carbon\Carbon::parse($task->created_at)->format('d. m. Y H:i') }}

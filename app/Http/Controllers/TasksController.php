@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AddTaskRequest;
 use App\Http\Requests\ShowTaskRequest;
+use App\Http\TaskFilter;
 use App\Http\TaskStatus;
 use App\Tag;
 use App\Task;
@@ -89,20 +90,32 @@ class TasksController extends Controller
         return view('tasks.show', compact('task'));
     }
 
-    public function showAll(Request $request, $status = 'all')
+//    public function showAll(Request $request)
+//    {
+//        if (!Auth::user()->isAdmin())
+//        {
+//            return $this->unauthorizedResponse($request);
+//        }
+//
+//        $status = 'all';
+//        $tasks = Task::withStatus($status)->orderBy('updated_at')->paginate(20);
+//
+//        $users = User::lists('name', 'id');
+//        $tags = Tag::lists('name', 'id');
+//
+//        return view('tasks.show_all', compact('tasks', 'users', 'tags', 'status'));
+//    }
+
+    public function filter(Request $request)
     {
-        if (!Auth::user()->isAdmin())
-        {
-            return $this->unauthorizedResponse($request);
-        }
-        $status = new TaskStatus($status);
+        $filter = new TaskFilter($request);
+        $tasks_query = $filter->getQuery();
+        $tasks = $tasks_query->orderBy('name')->paginate(20);
 
-        $tasks = Task::withStatus($status->getSelectedKey())->paginate(20);
+        $selectableOptions = $filter->getSelectableOptions();
+        $filters = $filter->getFilters();
 
-        $selectedStatus = $status->getSelectedValue();
-        $statusMenu = $status->getStatusMenu('admin/tasks/');
-
-        return view('tasks.show_all', compact('tasks', 'selectedStatus', 'statusMenu'));
+        return view('tasks.show_all', compact('tasks', 'selectableOptions', 'filters'));
     }
 
     public function showOrdered($status = 'unfinished')
@@ -113,7 +126,12 @@ class TasksController extends Controller
 
         $selectedStatus = $status->getSelectedValue();
         $statusMenu = $status->getStatusMenu('tasks/ordered/filter/');
-        return view('tasks.ordered', compact('tasks', 'selectedStatus', 'statusMenu'));
+        return view('tasks.ordered', compact(
+            'tasks',
+            'selectedStatus',
+            'statusMenu'
+            )
+        );
     }
 
     /**
