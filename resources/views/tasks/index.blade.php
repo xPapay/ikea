@@ -2,14 +2,12 @@
 @section('content')
     <div class="page-header">
         <h1>Vaše úlohy</h1>
-        <i>{{ $selectedStatus }} úlohy</i>
     </div>
+    {!! Form::open(array('route' => 'my_tasks.filter')) !!}
+        @include('partials.filterbox')
+    {!! Form::close() !!}
 
-    @include('partials.dropdown_status')
-
-    @if (count($tasks) == 0)
-        <i>Nemáte žiadne nesplnené úlohy</i>
-    @else
+    @if (count($tasks) >= 1)
         <table class="table table-hover">
             <thead>
                 <tr>

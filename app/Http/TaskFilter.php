@@ -12,17 +12,19 @@ class TaskFilter
     private $selectableOptions = [];
     private $isSubmitted = false;
 
-    public function __construct(Request $request)
+    public function __construct(Request $request, $initial_query)
     {
         $this->isSubmitted = $request->has('filter');
+
+        $this->query = $initial_query;
+
         $this->filters['keyword'] = $request->get('keyword', '');
         $this->filters['deadline_from'] = $request->get('deadline_from', '');
         $this->filters['deadline_to'] = $request->get('deadline_to', '');
         $this->filters['status'] = $request->get('status', 'unfinished');
         $this->filters['orderersList'] = $request->get('orderersList', null);
         $this->filters['tagsList'] = $request->get('tagsList', null);
-//        if ($this->isSubmitted)
-//            dd($this->filters);
+
         $this->selectableOptions = [
             'users' => User::lists('name', 'id'),
             'tags' => Tag::lists('name', 'id'),
@@ -35,10 +37,9 @@ class TaskFilter
         ];
     }
 
-    public function getQuery()
+    public function addFilterQuery()
     {
-        $this->query = Task::withStatus($this->filters['status']);
-
+        $this->query = $this->query->withStatus($this->filters['status']);
         if ($this->isSubmitted)
         {
             $this->query = $this->query->filter($this->filters);
@@ -61,5 +62,4 @@ class TaskFilter
     {
         return $this->filters;
     }
-
 }

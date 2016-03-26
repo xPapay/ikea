@@ -28,16 +28,17 @@ class TasksController extends Controller
      * @param string $status
      * @return \Illuminate\Http\Response
      */
-    public function index($status = 'unfinished')
+    public function index(Request $request)
     {
-        $status = new TaskStatus($status);
+        $initial_query = Auth::user()->tasks();
+        $filter = new TaskFilter($request, $initial_query);
+        $tasks_query = $filter->addFilterQuery();
+        $tasks = $tasks_query->paginate(20);
 
-        $tasks = Auth::user()->tasks()->withStatus($status->getSelectedKey())->paginate(20);
+        $selectableOptions = $filter->getSelectableOptions();
+        $filters = $filter->getFilters();
 
-        $selectedStatus = $status->getSelectedValue();
-        $statusMenu = $status->getStatusMenu('tasks/filter/');
-
-        return view('tasks.index', compact('tasks', 'selectedStatus', 'statusMenu'));
+        return view('tasks.index', compact('tasks', 'selectableOptions', 'filters'));
     }
 
     /**
@@ -90,47 +91,32 @@ class TasksController extends Controller
         return view('tasks.show', compact('task'));
     }
 
-//    public function showAll(Request $request)
-//    {
-//        if (!Auth::user()->isAdmin())
-//        {
-//            return $this->unauthorizedResponse($request);
-//        }
-//
-//        $status = 'all';
-//        $tasks = Task::withStatus($status)->orderBy('updated_at')->paginate(20);
-//
-//        $users = User::lists('name', 'id');
-//        $tags = Tag::lists('name', 'id');
-//
-//        return view('tasks.show_all', compact('tasks', 'users', 'tags', 'status'));
-//    }
-
     public function filter(Request $request)
     {
-        $filter = new TaskFilter($request);
-        $tasks_query = $filter->getQuery();
+        $initial_query = Task::select();
+        $filter = new TaskFilter($request, $initial_query);
+        $tasks_query = $filter->addFilterQuery();
         $tasks = $tasks_query->paginate(20);
+        $tasks->setPath($request->getRequestUri());
 
         $selectableOptions = $filter->getSelectableOptions();
         $filters = $filter->getFilters();
         return view('tasks.show_all', compact('tasks', 'selectableOptions', 'filters'));
     }
 
-    public function showOrdered($status = 'unfinished')
+    public function showOrdered(Request $request)
     {
-        $status = new TaskStatus($status);
+        $initial_query = Auth::user()->orderedTasks()->with('executors');
 
-        $tasks = Auth::user()->orderedTasks()->withStatus($status->getSelectedKey())->with('executors')->orderBy('deadline')->paginate(20);
+        $filter = new TaskFilter($request, $initial_query);
+        $tasks_query = $filter->addFilterQuery();
 
-        $selectedStatus = $status->getSelectedValue();
-        $statusMenu = $status->getStatusMenu('tasks/ordered/filter/');
-        return view('tasks.ordered', compact(
-            'tasks',
-            'selectedStatus',
-            'statusMenu'
-            )
-        );
+        $tasks = $tasks_query->orderBy('deadline')->paginate(20);
+
+        $selectableOptions = $filter->getSelectableOptions();
+        $filters = $filter->getFilters();
+
+        return view('tasks.ordered', compact('tasks', 'selectableOptions', 'filters'));
     }
 
     /**

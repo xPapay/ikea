@@ -44,3 +44,44 @@
         {!! Form::input('submit', 'filter', 'Filtruj', ['class' => 'btn btn-primary form-control']) !!}
     </div>
 </div>
+
+<link href="/css/select2.css" rel="stylesheet" />
+<script src="/js/select2.js"></script>
+<script>
+    $('#orderers').select2({
+        placeholder: "Vyber zadávateľa"
+    });
+
+    $('#tags').select2({
+        placeholder: "Vyber tagy"
+    });
+</script>
+
+<link href="/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
+<script src="/js/moment.js"></script>
+<script src="/js/bootstrap-datetimepicker.min.js"></script>
+
+<script>
+    $(function () {
+        $('#deadlineFrom').datetimepicker({
+            locale: "sk",
+            format: "DD. MM. YYYY",
+            allowInputToggle: true,
+            widgetPositioning: {
+                horizontal: 'left',
+                vertical: 'bottom'
+            }
+        }).on('dp.change', function (e) {
+            $('#deadlineTo').data("DateTimePicker").minDate(e.date);
+        })
+        $('#deadlineTo').datetimepicker({
+            locale: "sk",
+            format: "DD. MM. YYYY",
+            allowInputToggle: true,
+            widgetPositioning: {
+                horizontal: 'left',
+                vertical: 'bottom'
+            }
+        })
+    });
+</script>

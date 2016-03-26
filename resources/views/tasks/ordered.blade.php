@@ -4,11 +4,10 @@
 
     <div class="page-header">
         <h1>Vami zadané úlohy</h1>
-        <i>{{ $selectedStatus }} úlohy</i>
     </div>
-
-    @include('partials.dropdown_status')
-
+    {!! Form::open(array('route' => 'ordered_tasks.filter')) !!}
+        @include('partials.filterbox')
+    {!! Form::close() !!}
     @if (count($tasks) == 0)
         <i>Nenašli sa žiadne úlohy</i>
     @else
@@ -20,7 +19,7 @@
                     <th>Deadline</th>
                     <th>Vykoná</th>
                     <th>Splnená dňa</th>
-                    @if ($selectedStatus != "dokončené")
+                    @if ($filters['status'] != "finished")
                         <th>Akcia</th>
                     @endif
                     <th>Editovanie</th>
@@ -60,7 +59,7 @@
                             <span class="glyphicon glyphicon-remove-sign"></span>
                         @endif
                     </td>
-                    @if ($selectedStatus != "dokončené")
+                    @if ($filters['status'] != "finished")
                         <td>
                             @if (($task->accomplish_date != null) && ($task->confirmed != 1))
                                 <a href="{{ url("tasks/accept/{$task->id}") }}"><span class="glyphicon glyphicon-ok"></span></a>
