@@ -5,11 +5,11 @@
     </div>
     <div class="col-lg-4">
         {!! Form::label('orderer', 'Zadávatelia') !!}
-        {!! Form::select('orderersList[]', $selectableOptions['users'], null, ['class' => 'form-control', 'id' => 'orderers', 'multiple']) !!}
+        {!! Form::select('orderersList[]', $selectableOptions['users'], $filters['orderersList'], ['class' => 'form-control', 'id' => 'orderers', 'multiple']) !!}
     </div>
     <div class="col-lg-4">
         {!! Form::label('tags', 'Tagy') !!}
-        {!! Form::select('tagList[]', $selectableOptions['tags'], null, ['class' => 'form-control', 'id' => 'tags', 'multiple']) !!}
+        {!! Form::select('tagsList[]', $selectableOptions['tags'], $filters['tagsList'], ['class' => 'form-control', 'id' => 'tags', 'multiple']) !!}
     </div>
 </div><!-- /.row -->
 <div class="row">
@@ -35,12 +35,7 @@
 <div class="row">
     <div class="col-lg-2">
         {!! Form::label('status', 'Status') !!}
-        {!! Form::select('status', [
-            'unfinished' => 'nedokončené',
-            'finished' => 'dokončené',
-            'to_confirmation' => 'na schválenie',
-            'all' => 'všetky'
-        ], $filters['status'], ['class' => 'form-control', 'id' => 'status']) !!}
+        {!! Form::select('status', $selectableOptions['status'], $filters['status'], ['class' => 'form-control', 'id' => 'status']) !!}
     </div>
 </div>
 

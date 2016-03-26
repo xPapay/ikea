@@ -43,21 +43,40 @@ class Task extends Executable
         return $query->where('deadline', '<=', $deadlineTo);
     }
 
+    public function scopeWithTags($query, $tags)
+    {
+        return $query->whereHas('tags', function ($query) use ($tags) {
+            $query->whereIn('id', $tags);
+        });
+    }
+
+    public function scopeWithOrderers($query, $orderers)
+    {
+        return $query->whereHas('orderer', function ($query) use ($orderers) {
+            $query->whereIn('id', $orderers);
+        });
+    }
+
     public function scopeFilter($query, $filters)
     {
-        if ($filters['keyword'] != '')
-        {
+        if ($filters['keyword'] != '') {
             $query = $query->withKeyword($filters['keyword']);
         }
 
-        if ($filters['deadline_from'] != '')
-        {
+        if ($filters['deadline_from'] != '') {
             $query = $query->deadlineFrom(Carbon::createFromFormat('d. m. Y', $filters['deadline_from']));
         }
 
-        if ($filters['deadline_to'] != '')
-        {
+        if ($filters['deadline_to'] != '') {
             $query = $query->deadlineTo(Carbon::createFromFormat('d. m. Y', $filters['deadline_to']));
+        }
+
+        if ($filters['tagsList'] != null) {
+            $query = $query->withTags($filters['tagsList']);
+        }
+
+        if ($filters['orderersList'] != null) {
+            $query = $query->withOrderers($filters['orderersList']);
         }
 
         return $query;

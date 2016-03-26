@@ -19,10 +19,19 @@ class TaskFilter
         $this->filters['deadline_from'] = $request->get('deadline_from', '');
         $this->filters['deadline_to'] = $request->get('deadline_to', '');
         $this->filters['status'] = $request->get('status', 'unfinished');
-
+        $this->filters['orderersList'] = $request->get('orderersList', null);
+        $this->filters['tagsList'] = $request->get('tagsList', null);
+//        if ($this->isSubmitted)
+//            dd($this->filters);
         $this->selectableOptions = [
             'users' => User::lists('name', 'id'),
             'tags' => Tag::lists('name', 'id'),
+            'status' => [
+                'unfinished' => 'nedokončené',
+                'finished' => 'dokončené',
+                'to_confirmation' => 'na schválenie',
+                'all' => 'všetky'
+            ]
         ];
     }
 

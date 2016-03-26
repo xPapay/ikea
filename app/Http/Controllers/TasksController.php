@@ -110,11 +110,10 @@ class TasksController extends Controller
     {
         $filter = new TaskFilter($request);
         $tasks_query = $filter->getQuery();
-        $tasks = $tasks_query->orderBy('name')->paginate(20);
+        $tasks = $tasks_query->paginate(20);
 
         $selectableOptions = $filter->getSelectableOptions();
         $filters = $filter->getFilters();
-
         return view('tasks.show_all', compact('tasks', 'selectableOptions', 'filters'));
     }
 
@@ -150,23 +149,24 @@ class TasksController extends Controller
         }
 
         $users = User::lists('name', 'id');
-        return view('tasks.edit', compact('task', 'users'));
+        $tags = Tag::lists('name', 'id');
+        return view('tasks.edit', compact('task', 'users', 'tags'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Task $task)
     {
-        $task = Task::findOrFail($id);
         $task->update($request->all());
         $task->assignToUsers($request->input('executorsList'));
+        $task->assignTag($request->input('tagsList'));
 
-        return redirect('/');
+        return redirect('tasks/' . $task->id);
     }
 
     /**
