@@ -1,5 +1,6 @@
 <?php
 namespace App\Http;
+
 use App\Tag;
 use App\Task;
 use App\User;
@@ -11,10 +12,12 @@ class TaskFilter
     private $query;
     private $selectableOptions = [];
     private $isSubmitted = false;
+    private $isNextPage = false;
 
     public function __construct(Request $request, $initial_query)
     {
         $this->isSubmitted = $request->has('filter');
+        $this->isNextPage = $request->has('page');
 
         $this->query = $initial_query;
 
@@ -40,10 +43,11 @@ class TaskFilter
     public function addFilterQuery()
     {
         $this->query = $this->query->withStatus($this->filters['status']);
-        if ($this->isSubmitted)
-        {
+
+        if ($this->isSubmitted) {
             $this->query = $this->query->filter($this->filters);
         }
+
 
         return $this->query;
     }
@@ -61,5 +65,10 @@ class TaskFilter
     public function getFilters()
     {
         return $this->filters;
+    }
+
+    public function getPaginator()
+    {
+
     }
 }

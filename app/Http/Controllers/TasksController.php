@@ -15,9 +15,12 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Input;
 
 class TasksController extends Controller
 {
@@ -33,7 +36,7 @@ class TasksController extends Controller
         $initial_query = Auth::user()->tasks();
         $filter = new TaskFilter($request, $initial_query);
         $tasks_query = $filter->addFilterQuery();
-        $tasks = $tasks_query->paginate(20);
+        $tasks = $tasks_query->paginate(20)->append(Input::except('page'));
 
         $selectableOptions = $filter->getSelectableOptions();
         $filters = $filter->getFilters();
@@ -78,13 +81,11 @@ class TasksController extends Controller
     {
         $task = Task::where('id', $request->tasks->id)->firstOrFail();
 
-        if (Gate::denies('show', $task))
-        {
+        if (Gate::denies('show', $task)) {
             return $this->unauthorizedResponse($request);
         }
 
-        if ($request->ajax())
-        {
+        if ($request->ajax()) {
             return $task;
         }
 
@@ -96,9 +97,8 @@ class TasksController extends Controller
         $initial_query = Task::select();
         $filter = new TaskFilter($request, $initial_query);
         $tasks_query = $filter->addFilterQuery();
-        $tasks = $tasks_query->paginate(20);
-        $tasks->setPath($request->getRequestUri());
 
+        $tasks = $tasks_query->paginate(10)->appends(Input::except('page'));
         $selectableOptions = $filter->getSelectableOptions();
         $filters = $filter->getFilters();
         return view('tasks.show_all', compact('tasks', 'selectableOptions', 'filters'));
@@ -111,7 +111,7 @@ class TasksController extends Controller
         $filter = new TaskFilter($request, $initial_query);
         $tasks_query = $filter->addFilterQuery();
 
-        $tasks = $tasks_query->orderBy('deadline')->paginate(20);
+        $tasks = $tasks_query->orderBy('deadline')->paginate(20)->appends(Input::except('page'));
 
         $selectableOptions = $filter->getSelectableOptions();
         $filters = $filter->getFilters();
@@ -122,15 +122,14 @@ class TasksController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit(Request $request)
     {
         $task = Task::findOrFail($request->tasks->id);
 
-        if (Gate::denies('edit', $task))
-        {
+        if (Gate::denies('edit', $task)) {
             return $this->unauthorizedResponse($request);
         }
 
@@ -142,8 +141,8 @@ class TasksController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  Task  $task
+     * @param  \Illuminate\Http\Request $request
+     * @param  Task $task
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Task $task)
@@ -158,7 +157,7 @@ class TasksController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -168,8 +167,7 @@ class TasksController extends Controller
 
     public function accomplish(Task $task, Request $request)
     {
-        if (Gate::denies('accomplish', $task))
-        {
+        if (Gate::denies('accomplish', $task)) {
             return $this->unauthorizedResponse($request);
         }
         $task->accomplish_date = Carbon::now();
@@ -179,8 +177,7 @@ class TasksController extends Controller
 
     public function accept(Task $task, Request $request)
     {
-        if (Gate::denies('determine', $task))
-        {
+        if (Gate::denies('determine', $task)) {
             return $this->unauthorizedResponse($request);
         }
         $task->confirmed = 1;
@@ -190,8 +187,7 @@ class TasksController extends Controller
 
     public function reject(Task $task, Request $request)
     {
-        if (Gate::denies('determine', $task))
-        {
+        if (Gate::denies('determine', $task)) {
             return $this->unauthorizedResponse($request);
         }
         $task->confirmed = 0;
@@ -214,8 +210,7 @@ class TasksController extends Controller
      */
     private function unauthorizedResponse(Request $request)
     {
-        if ($request->ajax())
-        {
+        if ($request->ajax()) {
             return new Response('Nemáte oprávnenia prezerať túto úlohu', 403);
         }
 
