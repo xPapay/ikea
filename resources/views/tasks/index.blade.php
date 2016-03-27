@@ -3,7 +3,7 @@
     <div class="page-header">
         <h1>Vaše úlohy</h1>
     </div>
-    {!! Form::open(array('route' => 'my_tasks.filter')) !!}
+    {!! Form::open(array('route' => 'my_tasks.filter', 'method' => 'GET')) !!}
         @include('partials.filterbox')
     {!! Form::close() !!}
 

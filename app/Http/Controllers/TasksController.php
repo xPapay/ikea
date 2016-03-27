@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AddTaskRequest;
 use App\Http\Requests\ShowTaskRequest;
+use App\Http\SimpleImage;
 use App\Http\TaskFilter;
 use App\Http\TaskStatus;
 use App\Tag;
@@ -36,7 +37,7 @@ class TasksController extends Controller
         $initial_query = Auth::user()->tasks();
         $filter = new TaskFilter($request, $initial_query);
         $tasks_query = $filter->addFilterQuery();
-        $tasks = $tasks_query->paginate(20)->append(Input::except('page'));
+        $tasks = $tasks_query->paginate(20)->appends(Input::except('page'));
 
         $selectableOptions = $filter->getSelectableOptions();
         $filters = $filter->getFilters();
@@ -59,13 +60,43 @@ class TasksController extends Controller
     /**
      * Store a newly created task in storage.
      *
-     * @param \App\Http\Requests\AddTaskRequest
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AddTaskRequest $request)
+    public function store(Request $request)
     {
-        Auth::user()->orderTask(new Task($request->all()), $request->executorsList, $request->tagsList);
+        $rules = [
+            'name' => 'required',
+            'description' => 'required',
+            'deadline' => 'required|date_format:d. m. Y',
+            'executorsList' => 'required',
+        ];
 
+        $files = $request->file( 'files' );
+
+        if ( !empty( $files ) ) {
+            foreach ($files as $key => $file) // add individual rules to each image
+            {
+                $rules[sprintf('files.%d', $key)] = 'max:2000';
+            }
+        }
+
+        $this->validate($request, $rules);
+
+        $task = Auth::user()->orderTask(new Task($request->all()), $request->executorsList, $request->tagsList);
+
+        foreach ($files as $file)
+        {
+            if (substr($file->getMimeType(), 0, 5) == 'image')
+            {
+                $image = new SimpleImage($file->getPathName());
+                $image->resizeDownToWidth(800);
+                $name = time() . $file->getClientOriginalName();
+                $path = '/upload/' . $name;
+                $image->save($path, $image->image_type, 90, 0755);
+                $task->photos()->create(['path' => $path]);
+            }
+        }
         // TODO: flashing messages
         return redirect('/tasks/ordered');
     }

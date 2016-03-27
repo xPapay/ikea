@@ -22,13 +22,18 @@
 </div>
 
 <div class="form-group">
-    {!! Form::label('executors', 'Priradený pracovníci') !!}
+    {!! Form::label('executorsList', 'Priradený pracovníci') !!}
     {!! Form::select('executorsList[]', $users, null, ['class' => 'form-control', 'id' => 'executorsList', 'multiple']) !!}
 </div>
 
 <div class="form-group">
-    {!! Form::label('tags', 'Tagy') !!}
+    {!! Form::label('tagsList', 'Tagy') !!}
     {!! Form::select('tagsList[]', $tags, null, ['class' => 'form-control', 'id' => 'tagsList', 'multiple']) !!}
+</div>
+
+<div class="form-group">
+    {!! Form::label('files', 'Súbory') !!}
+    {!! Form::file('files[]', ['id' => 'files', 'multiple']) !!}
 </div>
 
 <div class="form-group">

@@ -82,5 +82,10 @@ class Task extends Executable
         return $query;
     }
 
+    public function photos()
+    {
+        return $this->hasMany('App\Photo');
+    }
+
 
 }

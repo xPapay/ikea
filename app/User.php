@@ -128,7 +128,8 @@ class User extends Model implements AuthenticatableContract,
     {
         $task = $this->orderedTasks()->save($task);
         $task->assignTag($tags);
-        return $task->assignToUsers($executors);
+        $task->assignToUsers($executors);
+        return $task;
     }
 
     /**

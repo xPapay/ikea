@@ -1,11 +1,9 @@
 @extends('layout')
-
 @section('content')
-
     <div class="page-header">
         <h1>Vami zadané úlohy</h1>
     </div>
-    {!! Form::open(array('route' => 'ordered_tasks.filter')) !!}
+    {!! Form::open(array('route' => 'ordered_tasks.filter', 'method' => 'GET')) !!}
         @include('partials.filterbox')
     {!! Form::close() !!}
     @if (count($tasks) == 0)

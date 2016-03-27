@@ -5,7 +5,7 @@
 
     <h1>Zadať úlohu</h1>
 
-    {!! Form::model(new \App\Task(), ['action' => 'TasksController@store']) !!}
+    {!! Form::model(new \App\Task(), ['action' => 'TasksController@store', 'files' => true]) !!}
 
         @include('tasks.form', ['submitButton' => 'Zadať úlohu'])
 
