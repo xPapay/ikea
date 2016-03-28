@@ -4,11 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Photo extends Model
+class File extends Model
 {
     protected $fillable = [
         'path',
-        'thumbnail_path',
+        'type',
     ];
 
     public function documentable()

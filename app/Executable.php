@@ -4,7 +4,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 
-abstract class Executable extends Model
+abstract class Executable extends Documentable
 {
 
     public function setDeadlineAttribute($date)
@@ -27,6 +27,11 @@ abstract class Executable extends Model
         if ($date == null)
             return null;
         return Carbon::parse($date)->format('d. m. Y');
+    }
+
+    public function getTagsListAttribute()
+    {
+        return $this->tags->lists('id')->toArray();
     }
 
     public function getExecutorsListAttribute()

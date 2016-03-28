@@ -5,7 +5,7 @@
             </div><!-- /thumbnail -->
         </div><!-- /col-sm-1 -->
 
-        <div class="col-sm-5">
+        <div class="col-sm-7">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <strong>{{ $comment->owner->name }}</strong>
@@ -14,6 +14,19 @@
                 </div>
                 <div class="panel-body">
                     {{ $comment->content }}
+                    @if (count($comment->photos) > 0)
+                        @foreach($comment->photos->chunk(3) as $row)
+                            <div class="row>">
+                                @foreach($row as $photo)
+                                    <div class="col-lg-4">
+                                        <a href="/{{ $photo->path }}" data-lity>
+                                            <img src="/{{ $photo->thumbnail_path }}">
+                                        </a>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endforeach
+                    @endif
                 </div><!-- /panel-body -->
             </div><!-- /panel panel-default -->
         </div><!-- /col-sm-5 -->

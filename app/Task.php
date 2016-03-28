@@ -13,8 +13,6 @@ class Task extends Executable
         'deadline'
     ];
 
-
-
     public function scopeWithStatus($query, $status)
     {
         if ($status == 'unfinished')
@@ -81,11 +79,5 @@ class Task extends Executable
 
         return $query;
     }
-
-    public function photos()
-    {
-        return $this->hasMany('App\Photo');
-    }
-
 
 }

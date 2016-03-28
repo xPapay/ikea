@@ -23,12 +23,21 @@ class AddTaskRequest extends Request
      */
     public function rules()
     {
-        return [
+        $rules = [
             'name' => 'required',
             'description' => 'required',
             'deadline' => 'required|date_format:d. m. Y',
-            'executorsList' => 'required'
-
+            'executorsList' => 'required',
         ];
+
+        $files = $this->file( 'files' );
+
+        if ( !empty( $files ) ) {
+            foreach ($files as $key => $file) // add individual rules to each image
+            {
+                $rules[sprintf('files.%d', $key)] = 'max:2000';
+            }
+        }
+        return $rules;
     }
 }
