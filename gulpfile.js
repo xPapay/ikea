@@ -34,21 +34,26 @@ elixir(function(mix) {
     //mix.copy(pathToSelect2 + 'js/select2.js', 'public/js');
     //mix.copy(pathToSelect2 + 'css/select2.css', 'public/css');
 
-    var pathToDateTimepicker = 'node_modules/eonasdan-bootstrap-datetimepicker/';
-    mix.copy(pathToDateTimepicker + 'build/js/bootstrap-datetimepicker.min.js', 'public/js');
-    mix.copy(pathToDateTimepicker + 'build/css/bootstrap-datetimepicker.css', 'public/css');
-
-    var pathToMoment = 'node_modules/moment/';
-    mix.copy(pathToMoment + 'moment.js', 'resources/assets/js/moment');
-    mix.copy(pathToMoment + 'locale/sk.js', 'resources/assets/js/moment');
-
-    mix.scripts([
-        'moment/moment.js',
-        'moment/sk.js'
-    ], 'public/js/moment.js');
+    //var pathToDateTimepicker = 'node_modules/eonasdan-bootstrap-datetimepicker/';
+    //mix.copy(pathToDateTimepicker + 'build/js/bootstrap-datetimepicker.min.js', 'public/js');
+    //mix.copy(pathToDateTimepicker + 'build/css/bootstrap-datetimepicker.css', 'public/css');
+    //
+    //var pathToMoment = 'node_modules/moment/';
+    //mix.copy(pathToMoment + 'moment.js', 'resources/assets/js/moment');
+    //mix.copy(pathToMoment + 'locale/sk.js', 'resources/assets/js/moment');
 
     //mix.scripts([
-    //        'jquery.js',
-    //        'bootstrap.js'
-    //    ])
+    //    'moment/moment.js',
+    //    'moment/sk.js'
+    //], 'public/js/moment.js');
+
+    mix.scripts([
+        'jquery.js',
+        'bootstrap.js',
+        'lity.js',
+        ], './public/js/libs.js');
+
+    mix.styles([
+        'lity.css'
+    ], './public/css/libs.css');
 });

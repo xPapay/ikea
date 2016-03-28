@@ -4,7 +4,8 @@
     <title>IKEA</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="/css/app.css">
-    <script type="application/javascript" src="/js/all.js"></script>
+    <link rel="stylesheet" href="/css/libs.css">
+    <script type="application/javascript" src="/js/libs.js"></script>
 </head>
 <body>
 <div class="container">

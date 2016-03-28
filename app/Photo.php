@@ -8,6 +8,7 @@ class Photo extends Model
 {
     protected $fillable = [
         'path',
+        'thumbnail_path',
     ];
 
     public function task()

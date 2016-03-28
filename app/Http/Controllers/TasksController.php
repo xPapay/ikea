@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Input;
+use Intervention\Image\Facades\Image;
 
 class TasksController extends Controller
 {
@@ -89,12 +90,25 @@ class TasksController extends Controller
         {
             if (substr($file->getMimeType(), 0, 5) == 'image')
             {
-                $image = new SimpleImage($file->getPathName());
-                $image->resizeDownToWidth(800);
                 $name = time() . $file->getClientOriginalName();
-                $path = '/upload/' . $name;
-                $image->save($path, $image->image_type, 90, 0755);
-                $task->photos()->create(['path' => $path]);
+                $path = 'upload/' . $name;
+                $thumbnail_path = 'upload/_tn' . $name;
+
+//                $image = new SimpleImage($file->getPathName());
+//                $image->resizeDownToWidth(800);
+//                $image->save($path, $image->image_type, 90, 0755);
+
+                $image = Image::make($file->getPathName());
+                $image->resize(1024, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
+                $image->save($path);
+
+                $thumbnail = Image::make($file->getPathName());
+                $thumbnail->fit(200)->save($thumbnail_path);
+
+                $task->photos()->create(['path' => $path, 'thumbnail_path' => $thumbnail_path]);
             }
         }
         // TODO: flashing messages

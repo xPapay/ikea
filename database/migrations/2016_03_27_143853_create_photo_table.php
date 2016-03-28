@@ -15,6 +15,7 @@ class CreatePhotoTable extends Migration
         Schema::create('photos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('path');
+            $table->string('thumbnail_path');
             $table->timestamps();
             $table->integer('task_id')->unsigned();
             $table->foreign('task_id')->references('id')->on('tasks')->onDelete('cascade');

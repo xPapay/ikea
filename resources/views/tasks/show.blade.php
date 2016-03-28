@@ -95,8 +95,10 @@
                 @foreach($task->photos->chunk(3) as $row)
                     <div class="row>">
                         @foreach($row as $photo)
-                            <div class="col-lg-12">
-                                <img src="{{ $photo->path }}">
+                            <div class="col-lg-4">
+                                <a href="/{{ $photo->path }}" data-lity>
+                                    <img src="/{{ $photo->thumbnail_path }}">
+                                </a>
                             </div>
                         @endforeach
                     </div>
