@@ -106,6 +106,24 @@
             @endif
         </div>
     </div>
+    <div class="row">
+        <div class="col-lg-12">
+            @if (count($task->files) > 0)
+                <h4>Subory:</h4>
+                @foreach($task->files->chunk(3) as $row)
+                    <div class="row>">
+                        @foreach($row as $file)
+                            <div class="col-lg-4">
+                                <a href="{{ asset($file->path) }}">
+                                    {{ substr($file->name, 11) }}
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+                @endforeach
+            @endif
+        </div>
+    </div>
 
     <hr>
 

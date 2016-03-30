@@ -104,7 +104,7 @@ class TasksController extends Controller
         $filter = new TaskFilter($request, $initial_query);
         $tasks_query = $filter->addFilterQuery();
 
-        $tasks = $tasks_query->paginate(10)->appends(Input::except('page'));
+        $tasks = $tasks_query->paginate(20)->appends(Input::except('page'));
         $selectableOptions = $filter->getSelectableOptions();
         $filters = $filter->getFilters();
         return view('tasks.show_all', compact('tasks', 'selectableOptions', 'filters'));

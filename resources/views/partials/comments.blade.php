@@ -27,6 +27,19 @@
                             </div>
                         @endforeach
                     @endif
+                    @if (count($comment->files) > 0)
+                        @foreach($comment->files->chunk(3) as $row)
+                            <div class="row>">
+                                @foreach($row as $file)
+                                    <div class="col-lg-4">
+                                        <a href="{{ asset($file->path) }}">
+                                            {{ substr($file->name, 11) }}
+                                        </a>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endforeach
+                    @endif
                 </div><!-- /panel-body -->
             </div><!-- /panel panel-default -->
         </div><!-- /col-sm-5 -->

@@ -36,6 +36,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::resource('comments', 'CommentController', ['only' => [
         'store'
     ]]);
+    Route::get('download/{$file}', 'FileController@download');
 });
 
 // Authentication routes...

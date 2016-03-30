@@ -23,19 +23,20 @@ class FileUpload
             return;
         foreach ($this->files as $file)
         {
-            $path = $this->getPath($file);
+            $name = $this->getName($file);
+            $path = $this->getPath($name);
 
             if ($this->isImage($file))
             {
-                $thumbnail_path = $this->getThumbnailPath($file);
+                $thumbnail_path = $this->getThumbnailPath($name);
                 $this->saveImage($file, $path);
                 $this->saveThumbnail($file, $thumbnail_path);
-                $this->documentable->photos()->create(['path' => $path, 'thumbnail_path' => $thumbnail_path]);
+                $this->documentable->photos()->create(['path' => $path, 'thumbnail_path' => $thumbnail_path, 'name' => $name]);
             }
             else
             {
+                $this->documentable->files()->create(['path' => $path, 'name' => $name]);
                 $file->move($this->baseDir, $this->getName($file));
-                $this->documentable->files()->create(['path' => $path, 'type' => $file->getExtension()]);
             }
         }
     }
@@ -66,13 +67,13 @@ class FileUpload
         return sprintf("%s-%s", time(), $file->getClientOriginalName());
     }
 
-    private function getPath($file)
+    private function getPath($name)
     {
-        return sprintf("%s/%s", $this->baseDir, $this->getName($file));
+        return sprintf("%s/%s", $this->baseDir, $name);
     }
 
-    private function getThumbnailPath($file)
+    private function getThumbnailPath($name)
     {
-        return sprintf("%s/tn-%s", $this->baseDir, $this->getName($file));
+        return sprintf("%s/tn-%s", $this->baseDir, $name);
     }
 }

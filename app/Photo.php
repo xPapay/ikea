@@ -9,6 +9,7 @@ class Photo extends Model
     protected $fillable = [
         'path',
         'thumbnail_path',
+        'name',
     ];
 
     public function documentable()

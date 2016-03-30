@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-8">
         {!! Form::open(['action' => 'CommentController@store', 'files' => true]) !!}
         {!! Form::hidden('executable_id', $executable_id) !!}
         {!! Form::hidden('executable_type', $executable_type) !!}
