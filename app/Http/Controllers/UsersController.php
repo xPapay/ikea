@@ -47,6 +47,7 @@ class UsersController extends Controller
         ]);
         $user = User::create($request->all());
         $user->addRole($request->rolesList);
+        session()->flash('flash_success', 'Užívateľ bol úspešne pridaný');
         return redirect('admin/users');
     }
 

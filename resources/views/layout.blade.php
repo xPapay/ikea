@@ -12,7 +12,7 @@
     @include('partials.navbar')
     @if (session()->has('flash_success'))
         <div class="alert alert-success" roler="alert">
-            {{ session()->get('flash_message') }}
+            {{ session()->get('flash_success') }}
         </div>
     @endif
     @if (session()->has('flash_info'))
