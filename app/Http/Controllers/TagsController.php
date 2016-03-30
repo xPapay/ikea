@@ -35,6 +35,7 @@ class TagsController extends Controller
             'name' => 'required|unique:tags',
         ]);
         Tag::create($request->all());
+        session()->flash('flash_success', 'Tag bol úspešne pridaný');
         return redirect('admin/tags');
     }
 
@@ -65,6 +66,7 @@ class TagsController extends Controller
         ]);
         $tag = Tag::where('id', $id)->first();
         $tag->update($request->all());
+        session()->flash('flash_success', 'Tag bol úspešne editovaný');
         return redirect('admin/tags');
     }
 
@@ -78,6 +80,7 @@ class TagsController extends Controller
     {
         $tag = Tag::where('id', $id)->first();
         $tag->delete();
+        session()->flash('flash_success', 'Tag bol úspešne zmazaný');
         return redirect('admin/tags');
     }
 }

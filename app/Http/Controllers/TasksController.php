@@ -73,7 +73,7 @@ class TasksController extends Controller
         $fileUploader->handleFilesUpload();
 
 
-        // TODO: flashing messages
+        session()->flash('flash_success', 'Úloha bola úspešne vytvorená');
         return redirect('/tasks/ordered');
     }
 
@@ -157,6 +157,8 @@ class TasksController extends Controller
         $task->assignToUsers($request->input('executorsList'));
         $task->assignTag($request->input('tagsList'));
 
+        session()->flash('flash_success', 'Úloha bola úspešne editovaná');
+
         return redirect('tasks/' . $task->id);
     }
 
@@ -178,6 +180,7 @@ class TasksController extends Controller
         }
         $task->accomplish_date = Carbon::now();
         $task->save();
+        session()->flash('flash_info', 'Úloha čaká na schválenie zadávateľom');
         return redirect()->back();
     }
 
@@ -188,6 +191,7 @@ class TasksController extends Controller
         }
         $task->confirmed = 1;
         $task->save();
+        session()->flash('flash_success', 'Úloha bola označená ako schválená');
         return redirect()->back();
     }
 
@@ -199,6 +203,7 @@ class TasksController extends Controller
         $task->confirmed = 0;
         $task->accomplish_date = null;
         $task->save();
+        session()->flash('flash_success', 'Úloha bola navrátená');
         return redirect()->back();
     }
 

@@ -10,6 +10,16 @@
 <body>
 <div class="container">
     @include('partials.navbar')
+    @if (session()->has('flash_success'))
+        <div class="alert alert-success" roler="alert">
+            {{ session()->get('flash_message') }}
+        </div>
+    @endif
+    @if (session()->has('flash_info'))
+        <div class="alert alert-info" roler="alert">
+            {{ session()->get('flash_info') }}
+        </div>
+    @endif
     @yield('content')
 </div>
 
