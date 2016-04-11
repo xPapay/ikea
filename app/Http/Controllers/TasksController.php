@@ -4,27 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Http\FileUpload;
 use App\Http\Requests\AddTaskRequest;
-use App\Http\Requests\ShowTaskRequest;
-use App\Http\SimpleImage;
 use App\Http\TaskFilter;
-use App\Http\TaskStatus;
 use App\Notification;
 use App\Tag;
 use App\Task;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Mail;
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Input;
-use Intervention\Image\Facades\Image;
 
 class TasksController extends Controller
 {
@@ -80,6 +72,20 @@ class TasksController extends Controller
         $executorsAndOrderer = array_unique($executorsAndOrderer);
         $notification->involved_users()->attach($executorsAndOrderer);
         session()->flash('flash_success', 'Úloha bola úspešne vytvorená');
+        $users = User::select('email')->whereIn('id', $request->executorsList)->get();
+        $emails = [];
+        foreach ($users->toArray() as $user)
+        {
+            $emails [] = $user['email'];
+        }
+        //dd($emails);
+        foreach ($emails as $email)
+        {
+            Mail::send('email.notification', ['notification' => $notification], function ($m) use ($email) {
+                $m->to($email)->subject('Pridelenie ulohy');
+            });
+        }
+
         return redirect('/tasks/ordered');
     }
 
