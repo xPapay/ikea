@@ -10,8 +10,13 @@
                 <p>{{ $first_name }}</p>
             </div>
         </div>
+        <div class="col-lg-12">
+            <div class="col-md-6">
+                <a href="{{ url('users/edit/password') }}"><span class="glyphicon glyphicon-cog"></span></a>
+            </div>
+        </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-xs-1">
         <img src="profile_photos/photo.jpg">
     </div>
 </div>

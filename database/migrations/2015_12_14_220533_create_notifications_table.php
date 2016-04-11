@@ -14,18 +14,22 @@ class CreateNotificationsTable extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->increments('id');
-            $table->enum('type', [
-                'nová úloha',
-                'úloha dokončená',
-                'úloha editovaná',
-                'nový problém',
-                'problém vyriešený',
-                'problém editovaný',
-                'pridelenie na followup',
-                'followup vykonaný',
-                'nový komentár',
-            ]);
+            $table->integer('user_id')->unsigned()->nullable(); // actor who causes notification
+            $table->integer('task_id')->unsigned()->nullable();
+            $table->string('type');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('task_id')->references('id')->on('tasks')->onDelete('set null');
+        });
+
+        Schema::create('notification_user', function (Blueprint $table) {
+            $table->integer('notification_id')->unsigned();
+            $table->integer('user_id')->unsigned(); // involved persons (executors, orderers)
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('notification_id')->references('id')->on('notifications')->onDelete('cascade');
+            $table->primary(['notification_id', 'user_id']);
         });
     }
 
@@ -37,5 +41,6 @@ class CreateNotificationsTable extends Migration
     public function down()
     {
         Schema::drop('notifications');
+        Schema::drop('notification_user');
     }
 }

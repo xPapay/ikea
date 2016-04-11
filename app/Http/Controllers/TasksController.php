@@ -8,6 +8,7 @@ use App\Http\Requests\ShowTaskRequest;
 use App\Http\SimpleImage;
 use App\Http\TaskFilter;
 use App\Http\TaskStatus;
+use App\Notification;
 use App\Tag;
 use App\Task;
 use App\User;
@@ -68,11 +69,14 @@ class TasksController extends Controller
     public function store(AddTaskRequest $request)
     {
         $task = Auth::user()->orderTask(new Task($request->all()), $request->executorsList, $request->tagsList);
-
+        $user_id = Auth::user()->id;
         $fileUploader = new FileUpload($request->file('files'), $task);
         $fileUploader->handleFilesUpload();
 
-
+        $notification = Notification::create(['type' => 'Úloha vytvorená', 'user_id' => $user_id, 'task_id' => $task->id]);
+        $executorsAndOrderer = $request->executorsList;
+        array_push($executorsAndOrderer, $user_id);
+        $notification->involved_users()->attach($executorsAndOrderer);
         session()->flash('flash_success', 'Úloha bola úspešne vytvorená');
         return redirect('/tasks/ordered');
     }
@@ -157,6 +161,12 @@ class TasksController extends Controller
         $task->assignToUsers($request->input('executorsList'));
         $task->assignTag($request->input('tagsList'));
 
+        $user_id = Auth::user()->id;
+        $executorsAndOrderer = $request->executorsList;
+        array_push($executorsAndOrderer, $user_id);
+        $notification = Notification::create(['type' => 'Úloha editovaná', 'user_id' => $user_id, 'task_id' => $task->id]);
+        $notification->involved_users()->sync($executorsAndOrderer);
+
         session()->flash('flash_success', 'Úloha bola úspešne editovaná');
 
         return redirect('tasks/' . $task->id);
@@ -180,6 +190,13 @@ class TasksController extends Controller
         }
         $task->accomplish_date = Carbon::now();
         $task->save();
+
+        $user_id = Auth::user()->id;
+        $notification = Notification::create(['type' => 'Úloha dokončená', 'user_id' => $user_id, 'task_id' => $task->id]);
+        $executorsAndOrderer = $task->executors->lists('id')->toArray();
+        array_push($executorsAndOrderer, $task->orderer->id);
+        $notification->involved_users()->sync($executorsAndOrderer);
+
         session()->flash('flash_info', 'Úloha čaká na schválenie zadávateľom');
         return redirect()->back();
     }

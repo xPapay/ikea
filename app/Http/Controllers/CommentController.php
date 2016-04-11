@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Comment;
 use App\Http\FileUpload;
 use App\Issue;
+use App\Notification;
 use App\Task;
 use Illuminate\Http\Request;
 use App\Http\Requests\CommentRequest;
@@ -24,6 +25,16 @@ class CommentController extends Controller
             Auth::user()->makeComment($comment, $task);
             $fileUploader = new FileUpload($request->file('files'), $comment);
             $fileUploader->handleFilesUpload();
+
+            $user_id = Auth::user()->id;
+            $executorsAndOrderer = $task->executors()->lists('id')->toArray();
+            array_push($executorsAndOrderer, $task->orderer->id);
+            array_push($executorsAndOrderer, $user_id);
+            $notification = Notification::create(['type' => 'Pridaný komentár', 'user_id' => $user_id, 'task_id' => $task->id]);
+            $notification->involved_users()->sync($executorsAndOrderer);
+
+            session()->flash('flash_success', 'Komentár bol pridaný');
+
             return redirect('tasks/' . $request->input('executable_id'));
         }
 

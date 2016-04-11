@@ -124,10 +124,13 @@ class User extends Model implements AuthenticatableContract,
      * @param array $executors
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function orderTask(Task $task, array $executors, array $tags)
+    public function orderTask(Task $task, array $executors, $tags)
     {
         $task = $this->orderedTasks()->save($task);
-        $task->assignTag($tags);
+        if ($tags != null)
+        {
+            $task->assignTag($tags);
+        }
         $task->assignToUsers($executors);
         return $task;
     }
@@ -188,5 +191,15 @@ class User extends Model implements AuthenticatableContract,
         }
 
         return false;
+    }
+
+    public function notifications()
+    {
+        return $this->belongsToMany('App\Notification', 'notification_user', 'user_id', 'notification_id');
+    }
+
+    public function triggeredNotifications()
+    {
+        return $this->hasMany('App\Notification');
     }
 }

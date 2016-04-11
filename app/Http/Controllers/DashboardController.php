@@ -14,6 +14,7 @@ class DashboardController extends Controller
     {
         list($first_name, $last_name) = explode(' ', Auth::user()->name, 2);
         $tasks = Auth::user()->tasks()->unfinished(5)->get();
-        return view('dashboard.main', compact('first_name', 'last_name', 'tasks'));
+        $notifications = Auth::user()->notifications;
+        return view('dashboard.main', compact('first_name', 'last_name', 'tasks', 'notifications'));
     }
 }

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
@@ -80,6 +81,7 @@ class UsersController extends Controller
         $user = User::where('id', $id)->first();
         $user->update($request->all());
         $user->assignRole($request->rolesList);
+        session()->flash('flash_success', 'Užívateľ bol úspešne editovaný');
         return redirect('admin/users');
     }
 
@@ -94,5 +96,22 @@ class UsersController extends Controller
         $user = User::where('id', $id)->first();
         $user->delete();
         return redirect('admin/users');
+    }
+
+    public function editPassword()
+    {
+        return view('users.edit_password');
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $this->validate($request, [
+            'password' => 'required|min:6',
+            'password_confirm' => 'required|same:password',
+        ]);
+        $user = Auth::user();
+        $user->update(['password' => bcrypt($request->get('password'))]);
+        session()->flash('flash_success', 'Heslo bolo úspešne zmenené');
+        return redirect('/');
     }
 }
