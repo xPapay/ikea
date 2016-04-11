@@ -33,4 +33,9 @@ class Notification extends Model
         return Carbon::parse($date)->format('d. m. Y H:m:i');
     }
 
+    public function scopeLatestTen($query)
+    {
+        return $query->orderBy('created_at', 'desc')->take(10);
+    }
+
 }

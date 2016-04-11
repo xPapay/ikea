@@ -24,7 +24,6 @@
         <h4>Info</h4>
     </div>
 </div>
-
 @foreach ($notifications as $notification)
     <div class="row">
         {{--WHO--}}
@@ -54,14 +53,3 @@
         color: #00d;
     }
 </style>
-
-<script>
-    $(document).ready(function(){
-//        setInterval(function(){
-            $.ajax({url: "/tasks/8", success: function(result){
-                $("#result").html(result.name);
-            }});
-
-//        }, 3000)
-    });
-</script>

@@ -19,8 +19,8 @@ class CreateNotificationsTable extends Migration
             $table->string('type');
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
-            $table->foreign('task_id')->references('id')->on('tasks')->onDelete('set null');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('task_id')->references('id')->on('tasks')->onDelete('cascade');
         });
 
         Schema::create('notification_user', function (Blueprint $table) {
@@ -40,7 +40,7 @@ class CreateNotificationsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('notifications');
         Schema::drop('notification_user');
+        Schema::drop('notifications');
     }
 }

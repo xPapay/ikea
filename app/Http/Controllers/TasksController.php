@@ -75,7 +75,9 @@ class TasksController extends Controller
 
         $notification = Notification::create(['type' => 'Úloha vytvorená', 'user_id' => $user_id, 'task_id' => $task->id]);
         $executorsAndOrderer = $request->executorsList;
+
         array_push($executorsAndOrderer, $user_id);
+        $executorsAndOrderer = array_unique($executorsAndOrderer);
         $notification->involved_users()->attach($executorsAndOrderer);
         session()->flash('flash_success', 'Úloha bola úspešne vytvorená');
         return redirect('/tasks/ordered');
@@ -178,9 +180,14 @@ class TasksController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $task)
     {
-        //
+        if (Gate::denies('edit', $task)) {
+            return $this->unauthorizedResponse($request);
+        }
+        $task->delete();
+        session()->flash('flash_success', 'Úloha bola úspešne zmazaná');
+        return redirect('tasks/ordered');
     }
 
     public function accomplish(Task $task, Request $request)

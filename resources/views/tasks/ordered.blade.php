@@ -66,7 +66,12 @@
                         </td>
                     @endif
                     <td>
-                         <a href="{{ url("tasks/{$task->id}/edit") }}">Upraviť</a>
+                        <a href="{{ route("tasks.edit", ['id' => $task->id]) }}" class="btn btn-default btn-sm">Upraviť</a>
+                        {!! Form::open(['route' => ['tasks.destroy',$task->id], 'method'=>'delete']) !!}
+                        <button type="submit" class="btn btn-danger btn-sm">
+                            Zmazať
+                        </button>
+                        {!! Form::close() !!}
                     </td>
                 </tr>
             @endforeach

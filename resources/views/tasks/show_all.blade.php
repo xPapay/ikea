@@ -12,6 +12,7 @@
         <th>Deadline</th>
         <th>Zadal</th>
         <th>Splnená dňa</th>
+        <th>Akcia</th>
     </tr>
     </thead>
     <tbody>
@@ -35,6 +36,16 @@
                 @else
                     <span class="glyphicon glyphicon-remove-sign"></span>
                 @endif
+            </td>
+            <td>
+                @can('edit', $task)
+                <a href="{{ route("tasks.edit", ['id' => $task->id]) }}" class="btn btn-default btn-sm">Upraviť</a>
+                {!! Form::open(['route' => ['tasks.destroy',$task->id], 'method'=>'delete']) !!}
+                <button type="submit" class="btn btn-danger btn-sm">
+                    Zmazať
+                </button>
+                {!! Form::close() !!}
+                @endcan
             </td>
         </tr>
     @endforeach
