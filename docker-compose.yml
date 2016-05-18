@@ -1,0 +1,13 @@
+version: '2'
+
+services:
+  web:
+    build: 
+      context: docker/images/apache
+      args:
+        SERVER_NAME: ikea
+        DOCUMENT_ROOT: /var/www/html/public
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www/html
