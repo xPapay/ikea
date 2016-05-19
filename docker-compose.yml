@@ -20,7 +20,7 @@ services:
     environment:
       - DB_NAME=db_ikea
       - DB_USER=ikea_user
-      - DB_PASS=8Adec366bd
+      - DB_PASS=passwd
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:
