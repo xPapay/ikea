@@ -11,3 +11,17 @@ services:
       - "80:80"
     volumes:
       - .:/var/www/html
+  db:
+    image: sameersbn/mysql
+    volumes:
+      - /var/lib/mysql
+    ports:
+      - "5306:3306"
+    environment:
+      - DB_NAME=db_ikea
+      - DB_USER=ikea_user
+      - DB_PASS=8Adec366bd
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8080:80"
