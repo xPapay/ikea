@@ -123,7 +123,7 @@ abstract class Executable extends Documentable
             return $this->orderer->id == $user;
         }
 
-        if ($this->orderer->id == $user->id)
+        if ($this->orderer && $this->orderer->id == $user->id)
         {
             return true;
         }

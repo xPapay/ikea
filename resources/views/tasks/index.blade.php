@@ -31,7 +31,9 @@
                         {{ $task->deadline }}
                     </td>
                     <td>
-                        {{ $task->orderer->name }}
+                        @if($task->orderer)
+                            {{ $task->orderer->name }}
+                        @endif
                     </td>
                     <td>
                         @if($task->confirmed == 1)
@@ -39,7 +41,7 @@
                         @elseif(($task->confirmed == 0) && ($task->accomplish_date != null))
                             <span class="glyphicon glyphicon-time"></span>
                         @else
-                            <a href="{{url('tasks/accomplish', $task->id)}}"><span class="glyphicon glyphicon-remove-sign"></span></a>
+                            <a href="{{url('tasks/accomplish', $task->id)}}" class="btn btn-success btn-sm">Dokončiť</a>
                         @endif
                     </td>
                 </tr>

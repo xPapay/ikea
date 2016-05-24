@@ -28,7 +28,9 @@
                 {{ $task->deadline }}
             </td>
             <td>
+            @if($task->orderer)
                 {{ $task->orderer->name }}
+            @endif
             </td>
             <td>
                 @if (! is_null($task->accomplish_date))
