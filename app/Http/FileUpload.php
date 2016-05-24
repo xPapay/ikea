@@ -36,7 +36,7 @@ class FileUpload
             else
             {
                 $this->documentable->files()->create(['path' => $path, 'name' => $name]);
-                $file->move($this->baseDir, $this->getName($file));
+                $file->move($this->baseDir, $name);
             }
         }
     }
