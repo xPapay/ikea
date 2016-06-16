@@ -4,4 +4,6 @@ Homestead.yaml
 Homestead.json
 .env
 .idea
-/public/upload
+/public
+!/public/images
+!/public/profile_photos/photo.jpg
