@@ -5,7 +5,7 @@ Homestead.json
 .env
 .idea
 /public/css/*
-/public/fonts/bootstrap*
+/public/fonts/bootstrap/*
 /public/js/*
 /public/upload/*
 /public/profile_photos/*
