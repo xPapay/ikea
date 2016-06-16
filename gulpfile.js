@@ -40,7 +40,7 @@ elixir(function(mix) {
     mix.copy(pathToDateTimepicker + 'build/js/bootstrap-datetimepicker.min.js', 'public/js');
     mix.copy(pathToDateTimepicker + 'build/css/bootstrap-datetimepicker.css', 'public/css');
     
-    var pathToMoment = 'node_modules/moment/';
+    var pathToMoment = 'node_modules/eonasdan-bootstrap-datetimepicker/bower_components/moment/';
     mix.copy(pathToMoment + 'moment.js', 'public/js/moment');
     mix.copy(pathToMoment + 'locale/sk.js', 'public/js/moment');
 
