@@ -6,7 +6,9 @@
 </div>
 
 {{--<div class="row task" id="task_id-{{ $task->id }}">--}}
-
+{{ $now = \Carbon\Carbon::now() }}
+{{ $future = \Carbon\Carbon::createFromFormat('d. m. Y', '12. 07. 2016') }}
+{{ $now->gt($future) ? 'ano' : 'nie' }}
 <table class="table table-hover">
     <thead>
     <tr>
@@ -20,7 +22,20 @@
 
     <tbody>
     @foreach($tasks as $task)
-        <tr>
+        @if($now->gt(\Carbon\Carbon::createFromFormat('d. m. Y', $task->deadline)))
+            <?php
+                $colour = 'danger';
+            ?>
+        @elseif($now->diffInDays(\Carbon\Carbon::createFromFormat('d. m. Y', $task->deadline)) <= 14)
+            <?php
+                $colour = 'warning';
+            ?>
+        @else
+            <?php
+                $colour = 'active';
+            ?>
+        @endif
+        <tr class="{{ $colour }}">
             <th></th>
             <td>
                 icon
