@@ -127,6 +127,18 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-lg-12">
+            @if($task->confirmed == 1)
+                Splnená dňa: {{ $task->accomplish_date }}
+            @elseif(($task->confirmed == 0) && ($task->accomplish_date != null))
+                <span class="glyphicon glyphicon-time"></span>
+            @else
+                <a href="{{url('tasks/accomplish', $task->id)}}" class="btn btn-success btn-sm">Dokončiť</a>
+            @endif
+        </div>
+    </div>
+
     <hr>
 
     <div id="comments">
