@@ -127,6 +127,31 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-lg-12">
+        <!-- TODO: Refactor -->
+            @if($task->confirmed == 1)
+                Splnená dňa: {{ $task->accomplish_date }}
+            @elseif(($task->confirmed == 0) && ($task->accomplish_date != null))
+                @if($task->orderer->id == Auth::user()->id)
+                    <a href="{{ url("tasks/accept/{$task->id}") }}"><span class="glyphicon glyphicon-ok"></span></a>
+                    <a href="{{ url("tasks/reject/{$task->id}") }}"><span class="glyphicon glyphicon-remove"></span></a>
+                @else
+                    <span class="glyphicon glyphicon-time"></span>
+                @endif
+            @else
+                <a href="{{url('tasks/accomplish', $task->id)}}" class="btn btn-success btn-sm">Dokončiť</a>
+            @endif
+        </div>
+    </div>
+    @can('edit', $task)
+        <div class="row">
+            <div class="col-lg-12">
+                <a href="{{ route("tasks.edit", ['id' => $task->id]) }}" class="btn btn-default btn-sm">Upraviť</a>
+            </div>
+        </div>
+    @endcan
+
     <hr>
 
     <div id="comments">
