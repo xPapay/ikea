@@ -37,7 +37,7 @@
                 @if(!is_null($task->accomplish_date))
                     <span class="glyphicon glyphicon-time"></span>
                 @else
-                    <a href="{{url('tasks/accomplish', $task->id)}}"><span class="glyphicon glyphicon-remove-sign"></span></a>
+                    <a href="{{url('tasks/accomplish', $task->id)}}" class="btn btn-success btn-sm">Dokončiť</a>
                 @endif
             </td>
         </tr>

@@ -8,7 +8,9 @@
         <div class="col-sm-7">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <strong>{{ $comment->owner->name }}</strong>
+                    @if($comment->owner)
+                        <strong>{{ $comment->owner->name }}</strong>
+                    @endif
                     <span class="text-muted">{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $comment->created_at)->diffForHumans() }}</span>
                     <span class="text-muted">({{ Carbon\Carbon::parse($comment->created_at)->format('d.m.Y H:i') }})</span>
                 </div>

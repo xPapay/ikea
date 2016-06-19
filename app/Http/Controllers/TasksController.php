@@ -32,6 +32,7 @@ class TasksController extends Controller
         $initial_query = Auth::user()->tasks();
         $filter = new TaskFilter($request, $initial_query);
         $tasks_query = $filter->addFilterQuery();
+        $tasks_query = $tasks_query->orderBy('deadline', 'asc');
         $tasks = $tasks_query->paginate(20)->appends(Input::except('page'));
 
         $selectableOptions = $filter->getSelectableOptions();
@@ -163,11 +164,11 @@ class TasksController extends Controller
      * @param  Task $task
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Task $task)
+    public function update(AddTaskRequest $request, Task $task)
     {
         $task->update($request->all());
         $task->assignToUsers($request->input('executorsList'));
-        $task->assignTag($request->input('tagsList'));
+        $task->assignTag($request->input('tagsList', array()));
 
         $user_id = Auth::user()->id;
         $executorsAndOrderer = $request->executorsList;

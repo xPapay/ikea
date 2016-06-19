@@ -26,7 +26,7 @@ $factory->define(App\Task::class, function (Faker\Generator $faker) {
         'name' => $faker->sentence(6),
         'description' => $faker->paragraph(10),
         'deadline' => date_format($faker->dateTimeBetween($startDate = 'now', $endDate = '+5 months'), 'd. m. Y'),
-        'ordered_by' => factory(App\User::class)->create()->id,
+        'ordered_by' => 1,//factory(App\User::class)->create()->id,
         'accomplish_date' =>
             $date < new Carbon\Carbon('+2 months') ? $date : null
     ];

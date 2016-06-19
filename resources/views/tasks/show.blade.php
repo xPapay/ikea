@@ -29,7 +29,9 @@
 
             <div class="row">
                 <div class="col-lg-12">
+                @if($task->orderer)
                     {{ $task->orderer->name }}
+                @endif
                 </div>
             </div>
 
