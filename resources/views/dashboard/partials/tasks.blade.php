@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-lg-12">
-        <h4><a href="{{ action('TasksController@index') }}" class="btn btn-primary" role="button">Moje úlohy</a></h4>
+        <h3><a href="{{ action('TasksController@index') }}">Moje úlohy</a></h3>
         <hr>
     </div>
 </div>
