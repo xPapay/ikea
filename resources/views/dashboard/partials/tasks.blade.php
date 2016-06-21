@@ -4,11 +4,9 @@
         <hr>
     </div>
 </div>
-
-{{--<div class="row task" id="task_id-{{ $task->id }}">--}}
-{{ $now = \Carbon\Carbon::now() }}
-{{ $future = \Carbon\Carbon::createFromFormat('d. m. Y', '12. 07. 2016') }}
-{{ $now->gt($future) ? 'ano' : 'nie' }}
+<?php
+    $now = \Carbon\Carbon::now();
+?>
 <table class="table table-hover">
     <thead>
     <tr>
