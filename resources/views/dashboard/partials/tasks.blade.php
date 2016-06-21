@@ -1,12 +1,12 @@
 <div class="row">
     <div class="col-lg-12">
-        <h4><a href="{{ action('TasksController@index') }}" class="btn btn-primary" role="button">Moje úlohy</a></h4>
+        <h3><a href="{{ action('TasksController@index') }}">Moje úlohy</a></h3>
         <hr>
     </div>
 </div>
-
-{{--<div class="row task" id="task_id-{{ $task->id }}">--}}
-
+<?php
+    $now = \Carbon\Carbon::now();
+?>
 <table class="table table-hover">
     <thead>
     <tr>
@@ -20,7 +20,20 @@
 
     <tbody>
     @foreach($tasks as $task)
-        <tr>
+        @if($now->gt(\Carbon\Carbon::createFromFormat('d. m. Y', $task->deadline)))
+            <?php
+                $colour = 'danger';
+            ?>
+        @elseif($now->diffInDays(\Carbon\Carbon::createFromFormat('d. m. Y', $task->deadline)) <= 14)
+            <?php
+                $colour = 'warning';
+            ?>
+        @else
+            <?php
+                $colour = 'active';
+            ?>
+        @endif
+        <tr class="{{ $colour }}">
             <th></th>
             <td>
                 icon
