@@ -85,16 +85,28 @@ class UsersController extends Controller
         return redirect('admin/users');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function changeStatus($id)
     {
         $user = User::where('id', $id)->first();
-        $user->delete();
+        if ($user->active == 1)
+        {
+            $user->active = 0;
+            $user->save();
+            session()->flash('flash_success', 'Užívateľské konto bolo deaktivované');
+            return redirect('admin/users');
+        }
+        $user->active = 1;
+        $user->save();
+        session()->flash('flash_success', 'Užívateľské konto bolo aktivované');
+        return redirect('admin/users');
+    }
+
+    public function activate($id)
+    {
+        $user = User::where('id', $id)->first();
+        $user->active = 0;
+        $user->save();
+        session()->flash('flash_success', 'Užívateľské konto bolo deaktivované');
         return redirect('admin/users');
     }
 
