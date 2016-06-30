@@ -12,25 +12,32 @@
                         <th>Email</th>
                         <th>Role</th>
                         <th>Editovať</th>
-                        <th>Zmazať</th>
+                        <th>Akcia</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($users as $user)
+                    @foreach ($users as $user)
                         <tr>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>
-                                @foreach($user->roles as $role)
+                                @foreach ($user->roles as $role)
                                     <li>{{ $role->name }}</li>
                                 @endforeach
                             </td>
                             <td><a href="{{ url("admin/users/{$user->id}/edit") }}"><span class="glyphicon glyphicon-pencil"></span></a></td>
                             <td>
-                                {!! Form::open(['route' => ['admin.users.destroy',$user->id], 'method'=>'delete']) !!}
-                                <button type="submit" class="btn btn-default btn-sm">
-                                    <span class="glyphicon glyphicon-remove-sign"></span>
-                                </button>
+                                {!! Form::open(['route' => ['admin.users.change_status',$user->id], 'method'=>'POST']) !!}
+                                {{ method_field('PUT') }}
+                                @if ($user->active)
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        Deaktivovať
+                                    </button>
+                                @else
+                                    <button type="submit" class="btn btn-success btn-sm">
+                                        Aktivovať
+                                    </button>
+                                @endif
                                 {!! Form::close() !!}
                             </td>
                         </tr>
