@@ -259,4 +259,12 @@ class TasksController extends Controller
         return new Response(view('errors.403'), 403);
     }
 
+    public function resetFilter(Request $request)
+    {
+        if ($request->session()->has('filters')) {
+            $request->session()->forget('filters');
+        }
+        return redirect('tasks');
+    }
+
 }
