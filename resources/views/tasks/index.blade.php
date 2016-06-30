@@ -6,7 +6,7 @@
     {!! Form::open(array('route' => 'my_tasks.filter', 'method' => 'GET')) !!}
         @include('partials.filterbox')
     {!! Form::close() !!}
-
+    <a href="{{ route('reset_filter') }}" class="btn btn-default">Resetovať filter</a>
     @if (count($tasks) >= 1)
         <table class="table table-hover">
             <thead>

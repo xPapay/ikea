@@ -33,6 +33,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('tasks/accept/{tasks}', 'TasksController@accept');
     Route::get('tasks/reject/{tasks}', 'TasksController@reject');
     Route::get('tasks/filter', ['as' => 'my_tasks.filter', 'uses' => 'TasksController@index']);
+    Route::get('tasks/filter/reset', ['as' => 'reset_filter', 'uses' => 'TasksController@resetFilter']);
     Route::resource('tasks', 'TasksController');
     //Route::resource('issues', 'IssuesController');
     Route::resource('comments', 'CommentController', ['only' => [
