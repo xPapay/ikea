@@ -6,6 +6,7 @@
     {!! Form::open(array('route' => 'ordered_tasks.filter', 'method' => 'GET')) !!}
         @include('partials.filterbox')
     {!! Form::close() !!}
+    <a href="{{ route('reset_filter') }}" class="btn btn-default">Resetovať filter</a>
     @if (count($tasks) == 0)
         <i>Nenašli sa žiadne úlohy</i>
     @else
