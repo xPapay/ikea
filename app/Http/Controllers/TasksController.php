@@ -17,6 +17,13 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Input;
+use App\Events\TaskWasCreated;
+use App\Events\TaskWasEdited;
+use App\Events\ExecutorWasAddedToTask;
+use App\Events\ExecutorWasRemovedFromTask;
+use App\Events\TaskWasDeleted;
+
+use DB;
 
 class TasksController extends Controller
 {
@@ -62,32 +69,25 @@ class TasksController extends Controller
     public function store(AddTaskRequest $request)
     {
         $task = Auth::user()->orderTask(new Task($request->all()), $request->executorsList, $request->tagsList);
-        $user_id = Auth::user()->id;
         $fileUploader = new FileUpload($request->file('files'), $task);
         $fileUploader->handleFilesUpload();
 
-        $notification = Notification::create(['type' => 'Úloha vytvorená', 'user_id' => $user_id, 'task_id' => $task->id]);
-        $executorsAndOrderer = $request->executorsList;
-
-        array_push($executorsAndOrderer, $user_id);
-        $executorsAndOrderer = array_unique($executorsAndOrderer);
-        $notification->involved_users()->attach($executorsAndOrderer);
+        $usersToNotify = $request->executorsList;
+        $notification = $this->createNotification('Úloha vytvorená', Auth::user()->id, $task, $usersToNotify);
         session()->flash('flash_success', 'Úloha bola úspešne vytvorená');
-        $users = User::select('email')->whereIn('id', $request->executorsList)->get();
-        $emails = [];
-        foreach ($users->toArray() as $user)
-        {
-            $emails [] = $user['email'];
-        }
-        //dd($emails);
-        foreach ($emails as $email)
-        {
-            Mail::send('email.notification', ['notification' => $notification], function ($m) use ($email) {
-                $m->to($email)->subject('Pridelenie ulohy');
-            });
-        }
+        
 
         return redirect('/tasks/ordered');
+    }
+
+    public function createNotification($type, $initiator, $task, $usersToNotify)
+    {
+        $notification = Notification::create(['type' => $type, 'user_id' => $initiator, 'task_id' => $task->id]);
+        $notification->involved_users()->attach($usersToNotify);
+
+        event(new TaskWasCreated($notification));
+
+        return $notification;
     }
 
     /**
@@ -165,7 +165,9 @@ class TasksController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(AddTaskRequest $request, Task $task)
-    {
+    {   
+        $originExecutors = $task->executors;
+
         $task->update($request->all());
         $task->assignToUsers($request->input('executorsList'));
         $task->assignTag($request->input('tagsList', array()));
@@ -175,10 +177,47 @@ class TasksController extends Controller
         array_push($executorsAndOrderer, $user_id);
         $notification = Notification::create(['type' => 'Úloha editovaná', 'user_id' => $user_id, 'task_id' => $task->id]);
         $notification->involved_users()->sync($executorsAndOrderer);
+        $removedUsers = $this->notifyRemovedUsers($notification, $request->executorsList, $originExecutors);
+        $addedUsers = $this->notifyAddedUsers($notification, $request->executorsList, $originExecutors);
+
+        $removedAndAddedUsers = $removedUsers->merge($addedUsers);
+
+        $this->notifyAboutTaskChange($notification, $removedAndAddedUsers);
+
+        
 
         session()->flash('flash_success', 'Úloha bola úspešne editovaná');
 
         return redirect('tasks/' . $task->id);
+    }
+
+    public function notifyAboutTaskChange($notification, $removedAndAddedUsers)
+    {
+        //TODO: hash origin task and request fields and compare them. If not match task was edited.
+        event(new TaskWasEdited($notification, $notification->task->executors->diff($removedAndAddedUsers)));
+    }
+
+    public function notifyAddedUsers($notification, $newExecutorsId, $originExecutors)
+    {
+        $newExecutors = User::find($newExecutorsId);
+        $addedUsers = $newExecutors->diff($originExecutors);
+
+        if ($addedUsers->count() == 0) {
+            return collect();
+        }
+        event(new ExecutorWasAddedToTask($notification, $addedUsers));
+        return $addedUsers;
+    }
+
+    public function notifyRemovedUsers($notification, $newExecutorsId, $originExecutors)
+    {
+        $newExecutors = User::find($newExecutorsId);
+        $removedUsers = $originExecutors->except($newExecutorsId);
+        if ($removedUsers->count() == 0) {
+            return collect();
+        }
+        event(new ExecutorWasRemovedFromTask($notification, $removedUsers));
+        return $removedUsers;
     }
 
     /**
@@ -192,7 +231,11 @@ class TasksController extends Controller
         if (Gate::denies('edit', $task)) {
             return $this->unauthorizedResponse($request);
         }
+        $notification = Notification::create(['type' => 'Úloha zmazaná', 'user_id' => Auth::user()->id, 'task_id' => $task->id]);
+        $taskName = $task->name;
+        $taskExecutors = $task->executors;
         $task->delete();
+        event(new TaskWasDeleted($taskName, $taskExecutors));
         session()->flash('flash_success', 'Úloha bola úspešne zmazaná');
         return redirect('tasks/ordered');
     }

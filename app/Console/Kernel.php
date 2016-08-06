@@ -24,7 +24,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('inspire')
-                 ->hourly();
+        $schedule->call(function () {
+            \App\User::create([
+                'name' => 'My Cron',
+                'email' => time() . '@mail.com',
+                'password' => bcrypt('heslo')
+            ]);
+        })->everyMinute();
     }
 }

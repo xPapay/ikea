@@ -23,6 +23,7 @@ class Notification extends Model
         return $this->belongsTo('App\User');
     }
 
+    /** Get all users who will be notified **/
     public function involved_users()
     {
         return $this->belongsToMany('App\User', 'notification_user', 'notification_id', 'user_id');

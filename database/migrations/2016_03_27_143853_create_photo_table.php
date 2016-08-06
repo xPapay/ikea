@@ -16,6 +16,7 @@ class CreatePhotoTable extends Migration
             $table->increments('id');
             $table->string('path');
             $table->string('thumbnail_path');
+            $table->string('name');
             $table->timestamps();
             $table->integer('documentable_id')->unsigned();
             $table->string('documentable_type');
