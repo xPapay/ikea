@@ -22,6 +22,9 @@ use App\Events\TaskWasEdited;
 use App\Events\ExecutorWasAddedToTask;
 use App\Events\ExecutorWasRemovedFromTask;
 use App\Events\TaskWasDeleted;
+use App\Events\TaskWasAccepted;
+use App\Events\TaskWasAccomplished;
+use App\Events\TaskWasRejected;
 
 use DB;
 
@@ -83,7 +86,7 @@ class TasksController extends Controller
     public function createNotification($type, $initiator, $task, $usersToNotify)
     {
         $notification = Notification::create(['type' => $type, 'user_id' => $initiator, 'task_id' => $task->id]);
-        $notification->involved_users()->attach($usersToNotify);
+        $notification->involved_users()->sync($usersToNotify);
 
         event(new TaskWasCreated($notification));
 
@@ -253,7 +256,7 @@ class TasksController extends Controller
         $executorsAndOrderer = $task->executors->lists('id')->toArray();
         array_push($executorsAndOrderer, $task->orderer->id);
         $notification->involved_users()->sync($executorsAndOrderer);
-
+        event(new TaskWasAccomplished($notification));
         session()->flash('flash_info', 'Úloha čaká na schválenie zadávateľom');
         return redirect()->back();
     }
@@ -265,6 +268,11 @@ class TasksController extends Controller
         }
         $task->confirmed = 1;
         $task->save();
+        $notification = Notification::create(['type' => 'Úloha akceptovaná', 'user_id' => Auth::user()->id, 'task_id' => $task->id]);
+        $executorsAndOrderer = $task->executors->lists('id')->toArray();
+        array_push($executorsAndOrderer, $task->orderer->id);
+        $notification->involved_users()->sync($executorsAndOrderer);
+        event(new TaskWasAccepted($notification));
         session()->flash('flash_success', 'Úloha bola označená ako schválená');
         return redirect()->back();
     }
@@ -277,6 +285,11 @@ class TasksController extends Controller
         $task->confirmed = 0;
         $task->accomplish_date = null;
         $task->save();
+        $notification = Notification::create(['type' => 'Úloha navrátená', 'user_id' => Auth::user()->id, 'task_id' => $task->id]);
+        $executorsAndOrderer = $task->executors->lists('id')->toArray();
+        array_push($executorsAndOrderer, $task->orderer->id);
+        $notification->involved_users()->sync($executorsAndOrderer);
+        event(new TaskWasRejected($notification));
         session()->flash('flash_success', 'Úloha bola navrátená');
         return redirect()->back();
     }
