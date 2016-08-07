@@ -126,4 +126,9 @@ class UsersController extends Controller
         session()->flash('flash_success', 'Heslo bolo úspešne zmenené');
         return redirect('/');
     }
+
+    public function editNotifications()
+    {
+        return view('users.edit_notifications');
+    }
 }

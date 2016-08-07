@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSettingsTable extends Migration
+class AddSettingsColumnsToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,19 +12,17 @@ class CreateSettingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('settings', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned();
+        Schema::table('users', function (Blueprint $table) {
             $table->boolean('notify_task_assigned')->default(true);
+            $table->boolean('notify_task_unassigned')->default(true);
             $table->boolean('notify_task_edited')->default(true);
+            $table->boolean('notify_task_deleted')->default(true);
             $table->boolean('notify_task_accomplished')->default(true);
             $table->boolean('notify_task_accepted')->default(true);
             $table->boolean('notify_task_rejected')->default(true);
             $table->boolean('notify_comment_added')->default(true);
             $table->time('no_interruption_from')->nullable()->default(null);
             $table->time('no_interruption_to')->nullable()->default(null);
-
-            $table->primary('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -35,6 +33,8 @@ class CreateSettingsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('settings');
+        Schema::table('users', function (Blueprint $table) {
+            //
+        });
     }
 }

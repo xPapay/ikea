@@ -42,6 +42,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('download/{$file}', 'FileController@download');
     Route::get('users/edit/password', 'UsersController@editPassword');
     Route::patch('users/edit/password', 'UsersController@updatePassword');
+    Route::get('users/edit/notifications', 'UsersController@editNotifications');
+
 });
 
 // Authentication routes...
