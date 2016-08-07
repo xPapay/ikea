@@ -12,7 +12,7 @@
         </div>
         <div class="col-lg-12">
             <div class="col-md-6">
-                <a href="{{ url('users/edit/password') }}"><span class="glyphicon glyphicon-cog"></span></a>
+                <a href="{{ url('users/settings') }}"><span class="glyphicon glyphicon-cog"></span></a>
             </div>
         </div>
     </div>

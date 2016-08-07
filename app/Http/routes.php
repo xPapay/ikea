@@ -40,9 +40,11 @@ Route::group(['middleware' => 'auth'], function() {
         'store'
     ]]);
     Route::get('download/{$file}', 'FileController@download');
+    Route::get('users/settings', 'UsersController@showSettings');
     Route::get('users/edit/password', 'UsersController@editPassword');
     Route::patch('users/edit/password', 'UsersController@updatePassword');
     Route::get('users/edit/notifications', 'UsersController@editNotifications');
+    Route::patch('users/edit/notifications', 'UsersController@updateNotifications');
 
 });
 

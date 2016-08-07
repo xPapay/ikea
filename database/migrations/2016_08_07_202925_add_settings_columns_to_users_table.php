@@ -21,8 +21,8 @@ class AddSettingsColumnsToUsersTable extends Migration
             $table->boolean('notify_task_accepted')->default(true);
             $table->boolean('notify_task_rejected')->default(true);
             $table->boolean('notify_comment_added')->default(true);
-            $table->time('no_interruption_from')->nullable()->default(null);
-            $table->time('no_interruption_to')->nullable()->default(null);
+            $table->time('no_interruption_from')->nullable()->default('00:00');
+            $table->time('no_interruption_to')->nullable()->default('00:00');
         });
     }
 
