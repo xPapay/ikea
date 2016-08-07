@@ -16,6 +16,7 @@ class CreateFilesTable extends Migration
             $table->increments('id');
             $table->string('path');
             $table->string('type');
+            $table->string('name');
             $table->timestamps();
             $table->integer('documentable_id')->unsigned();
             $table->string('documentable_type');

@@ -4,9 +4,12 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Notification extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'type',
         'user_id',
@@ -15,7 +18,7 @@ class Notification extends Model
 
     public function task()
     {
-        return $this->belongsTo('App\Task');
+        return $this->belongsTo('App\Task')->withTrashed();
     }
 
     public function user()
@@ -23,6 +26,7 @@ class Notification extends Model
         return $this->belongsTo('App\User');
     }
 
+    /** Get all users who will be notified **/
     public function involved_users()
     {
         return $this->belongsToMany('App\User', 'notification_user', 'notification_id', 'user_id');

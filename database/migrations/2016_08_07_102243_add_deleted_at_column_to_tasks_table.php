@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddNameColumnToPhotoAndFileTable extends Migration
+class AddDeletedAtColumnToTasksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,8 @@ class AddNameColumnToPhotoAndFileTable extends Migration
      */
     public function up()
     {
-        Schema::table('files', function (Blueprint $table) {
-            $table->string('name');
-        });
-
-        Schema::table('photos', function (Blueprint $table) {
-            $table->string('name');
+        Schema::table('tasks', function (Blueprint $table) {
+            $table->softDeletes();
         });
     }
 
@@ -28,6 +24,8 @@ class AddNameColumnToPhotoAndFileTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('tasks', function (Blueprint $table) {
+            //
+        });
     }
 }
