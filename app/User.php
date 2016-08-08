@@ -77,6 +77,16 @@ class User extends Model implements AuthenticatableContract,
         return $hour;
     }
 
+    public function getNoInterruptionFromTimeAttribute($value)
+    {
+        return $this->attributes['no_interruption_from'];
+    }
+
+    public function getNoInterruptionToTimeAttribute($value)
+    {
+        return $this->attributes['no_interruption_to'];
+    }
+
     /**
      * Get all tasks ordered by user
      *

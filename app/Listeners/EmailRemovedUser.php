@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
 
 
-class EmailRemovedUser
+class EmailRemovedUser extends NotificationListener
 {
     /**
      * Create the event listener.
@@ -32,6 +32,10 @@ class EmailRemovedUser
         {
 
             if ($user->notify_task_unassigned == 0) {
+                continue;
+            }
+
+            if ($this->scheduleNotification($event, $user)) {
                 continue;
             }
 

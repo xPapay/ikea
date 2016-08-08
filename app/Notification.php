@@ -31,7 +31,7 @@ class Notification extends Model
 
     public function getCreatedAtAttribute($date)
     {
-        return Carbon::parse($date)->format('d. m. Y H:m:i');
+        return Carbon::parse($date)->format('d. m. Y H:i:s');
     }
 
     public function scopeLatestTen($query)

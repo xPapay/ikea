@@ -219,7 +219,9 @@ class TasksController extends Controller
         if ($removedUsers->count() == 0) {
             return collect();
         }
-        event(new ExecutorWasRemovedFromTask($notification, $removedUsers));
+        $removedNotification = Notification::create(['type' => 'Odstranenie z ulohy', 'user_id' => Auth::user()->id, 'task_id' => $notification->task->id]);
+        $removedNotification->involved_users()->sync($removedUsers);
+        event(new ExecutorWasRemovedFromTask($removedNotification, $removedUsers));
         return $removedUsers;
     }
 
@@ -235,10 +237,9 @@ class TasksController extends Controller
             return $this->unauthorizedResponse($request);
         }
         $notification = Notification::create(['type' => 'Úloha zmazaná', 'user_id' => Auth::user()->id, 'task_id' => $task->id]);
-        $taskName = $task->name;
-        $taskExecutors = $task->executors;
+        $notification->involved_users()->sync($task->executors);
         $task->delete();
-        event(new TaskWasDeleted($taskName, $taskExecutors));
+        event(new TaskWasDeleted($notification));
         session()->flash('flash_success', 'Úloha bola úspešne zmazaná');
         return redirect('tasks/ordered');
     }

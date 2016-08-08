@@ -7,7 +7,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
 
-class EmailTaskRejected
+class EmailTaskRejected extends NotificationListener
 {
     /**
      * Create the event listener.
@@ -32,6 +32,10 @@ class EmailTaskRejected
         {
 
             if ($user->notify_task_rejected == 0) {
+                continue;
+            }
+
+            if ($this->scheduleNotification($event, $user)) {
                 continue;
             }
 

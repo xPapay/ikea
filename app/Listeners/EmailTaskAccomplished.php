@@ -7,7 +7,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
 
-class EmailTaskAccomplished
+class EmailTaskAccomplished extends NotificationListener
 {
     /**
      * Create the event listener.
@@ -32,6 +32,10 @@ class EmailTaskAccomplished
         {
 
             if ($user->notify_task_accomplished == 0) {
+                continue;
+            }
+
+            if ($this->scheduleNotification($event, $user)) {
                 continue;
             }
 

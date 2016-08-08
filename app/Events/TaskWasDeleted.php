@@ -5,23 +5,22 @@ namespace App\Events;
 use App\Events\Event;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use App\Notification;
 
 class TaskWasDeleted extends Event
 {
     use SerializesModels;
 
-    public $name;
-    public $executors;
+    public $notification;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($name, $executors)
+    public function __construct(Notification $notification)
     {
-        $this->name = $name;
-        $this->executors = $executors;
+        $this->notification = $notification;
     }
 
     /**

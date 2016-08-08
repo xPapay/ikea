@@ -7,7 +7,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
 
-class EmailTaskDeleted
+class EmailTaskDeleted extends NotificationListener
 {
     /**
      * Create the event listener.
@@ -27,14 +27,20 @@ class EmailTaskDeleted
      */
     public function handle(TaskWasDeleted $event)
     {
-        foreach ($event->executors as $user)
+        $users = $event->notification->involved_users->except($event->notification->user->id);
+
+        foreach ($users as $user)
         {
 
             if ($user->notify_task_deleted == 0) {
                 continue;
             }
 
-            Mail::send('email.task_deleted', ['name' => $event->name], function ($m) use ($user) {
+            if ($this->scheduleNotification($event, $user)) {
+                continue;
+            }
+
+            Mail::send('email.task_deleted', ['name' => $event->notification->task->name], function ($m) use ($user) {
                 $m->to($user->email)->subject('Odstranenie ulohy');
             });
         }

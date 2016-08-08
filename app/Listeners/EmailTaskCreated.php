@@ -7,7 +7,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
 
-class EmailTaskCreated
+class EmailTaskCreated extends NotificationListener
 {
     /**
      * Create the event listener.
@@ -27,11 +27,15 @@ class EmailTaskCreated
      */
     public function handle(TaskWasCreated $event)
     {
-        $users = $event->notification->involved_users;
+        $users = $event->notification->involved_users->except($event->notification->user->id);
         foreach ($users as $user)
         {
 
             if ($user->notify_task_assigned == 0) {
+                continue;
+            }
+
+            if ($this->scheduleNotification($event, $user)) {
                 continue;
             }
 

@@ -7,7 +7,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
 
-class EmailCommentAdded
+class EmailCommentAdded extends NotificationListener
 {
     /**
      * Create the event listener.
@@ -35,7 +35,9 @@ class EmailCommentAdded
                 continue;
             }
 
-            
+            if ($this->scheduleNotification($event, $user)) {
+                continue;
+            }
 
             Mail::send('email.comment_added', ['headline' => 'Bol pridaný komentár k úlohe, na ktorú ste priradený', 'notification' => $event->notification], function ($m) use ($user) {
                 $m->to($user->email)->subject('Novy komentar');
