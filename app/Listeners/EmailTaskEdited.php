@@ -35,7 +35,7 @@ class EmailTaskEdited
             }
 
             Mail::send('email.task_created', ['headline' => 'Bola editova úloha, na ktorú ste priradený', 'notification' => $event->notification], function ($m) use ($user) {
-                $m->to($user['email'])->subject('Editacia ulohy');
+                $m->to($user->email)->subject('Editacia ulohy');
             });
         }
     }
