@@ -29,6 +29,11 @@ class EmailTaskDeleted
     {
         foreach ($event->executors as $user)
         {
+
+            if ($user->notify_task_deleted == 0) {
+                continue;
+            }
+
             Mail::send('email.task_deleted', ['name' => $event->name], function ($m) use ($user) {
                 $m->to($user->email)->subject('Odstranenie ulohy');
             });

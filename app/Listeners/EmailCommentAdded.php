@@ -30,6 +30,13 @@ class EmailCommentAdded
         $users = $event->notification->involved_users->except($event->notification->user->id);
         foreach ($users as $user)
         {
+
+            if ($user->notify_comment_added == 0) {
+                continue;
+            }
+
+            
+
             Mail::send('email.comment_added', ['headline' => 'Bol pridaný komentár k úlohe, na ktorú ste priradený', 'notification' => $event->notification], function ($m) use ($user) {
                 $m->to($user->email)->subject('Novy komentar');
             });

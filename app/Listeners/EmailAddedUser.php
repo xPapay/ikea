@@ -29,6 +29,11 @@ class EmailAddedUser
     {
         foreach ($event->addedUsers as $user)
         {
+
+            if ($user->notify_task_assigned == 0) {
+                continue;
+            }
+
             Mail::send('email.task_created', ['headline' => 'Boli ste priradený na úlohu', 'notification' => $event->notification], function ($m) use ($user) {
                 $m->to($user->email)->subject('Pridelenie ulohy');
             });

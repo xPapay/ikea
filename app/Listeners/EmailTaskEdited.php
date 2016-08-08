@@ -29,6 +29,11 @@ class EmailTaskEdited
     {
         foreach ($event->users as $user)
         {
+
+            if ($user->notify_task_edited == 0) {
+                continue;
+            }
+
             Mail::send('email.task_created', ['headline' => 'Bola editova úloha, na ktorú ste priradený', 'notification' => $event->notification], function ($m) use ($user) {
                 $m->to($user['email'])->subject('Editacia ulohy');
             });

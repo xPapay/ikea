@@ -30,6 +30,11 @@ class EmailRemovedUser
     {
         foreach ($event->removedUsers as $user)
         {
+
+            if ($user->notify_task_unassigned == 0) {
+                continue;
+            }
+
             Mail::send('email.user_removed_from_task', ['headline' => 'Boli ste odstránený z úlohy:', 'notification' => $event->notification], function ($m) use ($user) {
                 $m->to($user->email)->subject('Odobratie ulohy');
             });

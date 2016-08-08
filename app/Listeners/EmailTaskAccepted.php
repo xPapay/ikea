@@ -30,6 +30,11 @@ class EmailTaskAccepted
         $users = $event->notification->involved_users->except($event->notification->user->id);
         foreach ($users as $user)
         {
+
+            if ($user->notify_task_accepted == 0) {
+                continue;
+            }
+
             Mail::send('email.task_created', ['headline' => 'Úloha bola akceptovaná ako splnená', 'notification' => $event->notification], function ($m) use ($user) {
                 $m->to($user->email)->subject('Uloha akceptovana');
             });

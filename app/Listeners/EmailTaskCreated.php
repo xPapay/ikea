@@ -30,6 +30,11 @@ class EmailTaskCreated
         $users = $event->notification->involved_users()->select('email')->get()->toArray();
         foreach ($users as $user)
         {
+
+            if ($user->notify_task_assigned == 0) {
+                continue;
+            }
+
             Mail::send('email.task_created', ['headline' => 'Bola vytvorená nová úloha, na ktorú ste boli priradený', 'notification' => $event->notification], function ($m) use ($user) {
                 $m->to($user['email'])->subject('Pridelenie ulohy');
             });
