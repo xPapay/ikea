@@ -87,9 +87,11 @@ class EmailDelayedNotification extends NotificationListener
         $m->to($user->email)->subject($notificationType);
         });
 
-        $event->delayedNotification->delayed = false;
-        $event->delayedNotification->save();
-        dd($event->delayedNotification);        
-        
+        $user_id = $event->delayedNotification->user_id;
+        $notification_id = $event->delayedNotification->notification_id;
+        \DB::table('notification_user')
+            ->where('user_id', $user_id)
+            ->where('notification_id', $notification_id)
+            ->update(['delayed' => 0]);
     }
 }
