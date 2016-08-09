@@ -82,12 +82,14 @@ class EmailDelayedNotification extends NotificationListener
             return;
         }
 
+
         Mail::send('email.task_created', ['headline' => $notificationType, 'notification' => $event->delayedNotification->notification], function ($m) use ($user, $notificationType) {
         $m->to($user->email)->subject($notificationType);
         });
 
-        $event->delayedNotification->delayed = false;        
+        $event->delayedNotification->delayed = false;
         $event->delayedNotification->save();
-        dd($event->delayedNotification);
+        dd($event->delayedNotification);        
+        
     }
 }

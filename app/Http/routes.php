@@ -47,8 +47,10 @@ Route::group(['middleware' => 'auth'], function() {
     Route::patch('users/edit/notifications', 'UsersController@updateNotifications');
     Route::get('skuska', function() {
         $delayedNotifications = \App\NotificationUser::where('delayed', true)->get();
-        $smth=event(new \App\Events\FoundDelayedNotification($delayedNotifications[0]));
-        dd($smth);
+        foreach ($delayedNotifications as $delayedNotification)
+        {
+            event(new \App\Events\FoundDelayedNotification($delayedNotification));
+        }
     });
 });
 

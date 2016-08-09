@@ -14,6 +14,7 @@ abstract class NotificationListener
             $noInterruptToTimestamp = strtotime($user->no_interruption_to_time, $now->timestamp); // 02:00
             if (($currentTimeStamp <= $noInterruptToTimestamp) && ($currentTimeStamp > $noInterruptFromTimestamp)) {
                 // save into DB for cron
+
                 $notification = $user->notifications()->where('id', $event->notification->id)->first();
                 $notification->pivot->delayed = true;
                 $notification->pivot->save();

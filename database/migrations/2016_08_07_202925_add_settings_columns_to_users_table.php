@@ -13,14 +13,14 @@ class AddSettingsColumnsToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->boolean('notify_task_assigned')->default(true);
-            $table->boolean('notify_task_unassigned')->default(true);
-            $table->boolean('notify_task_edited')->default(true);
-            $table->boolean('notify_task_deleted')->default(true);
-            $table->boolean('notify_task_accomplished')->default(true);
-            $table->boolean('notify_task_accepted')->default(true);
-            $table->boolean('notify_task_rejected')->default(true);
-            $table->boolean('notify_comment_added')->default(true);
+            $table->boolean('notify_task_assigned')->default(1);
+            $table->boolean('notify_task_unassigned')->default(1);
+            $table->boolean('notify_task_edited')->default(1);
+            $table->boolean('notify_task_deleted')->default(1);
+            $table->boolean('notify_task_accomplished')->default(1);
+            $table->boolean('notify_task_accepted')->default(1);
+            $table->boolean('notify_task_rejected')->default(1);
+            $table->boolean('notify_comment_added')->default(1);
             $table->time('no_interruption_from')->nullable()->default('00:00');
             $table->time('no_interruption_to')->nullable()->default('00:00');
         });

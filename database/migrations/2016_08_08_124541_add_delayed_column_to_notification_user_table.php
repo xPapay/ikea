@@ -13,7 +13,7 @@ class AddDelayedColumnToNotificationUserTable extends Migration
     public function up()
     {
         Schema::table('notification_user', function (Blueprint $table) {
-            $table->boolean('delayed')->default('false');
+            $table->boolean('delayed')->default(0);
         });
     }
 

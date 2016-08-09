@@ -31,7 +31,7 @@ class Kernel extends ConsoleKernel
             $delayedNotifications = NotificationUser::where('delayed', true)->get();
             foreach($delayedNotifications as $delayedNotification)
             {
-                //event(new FoundDelayedNotification($delayedNotification));
+                event(new FoundDelayedNotification($delayedNotification));
             }
         })->everyMinute();
     }
