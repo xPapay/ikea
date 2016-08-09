@@ -16,7 +16,7 @@ abstract class NotificationListener
                 // save into DB for cron
                 $notification = $user->notifications()->where('id', $event->notification->id)->first();
                 $notification->pivot->delayed = true;
-                $notification->save();
+                $notification->pivot->save();
                 return true;
             }
             return false;

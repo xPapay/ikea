@@ -243,7 +243,7 @@ class User extends Model implements AuthenticatableContract,
 
     public function notifications()
     {
-        return $this->belongsToMany('App\Notification', 'notification_user', 'user_id', 'notification_id');
+        return $this->belongsToMany('App\Notification', 'notification_user', 'user_id', 'notification_id')->withPivot('delayed');
     }
 
     public function triggeredNotifications()

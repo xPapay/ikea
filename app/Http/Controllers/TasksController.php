@@ -181,7 +181,7 @@ class TasksController extends Controller
         $notification = Notification::create(['type' => 'Úloha editovaná', 'user_id' => $user_id, 'task_id' => $task->id]);
         $notification->involved_users()->sync($executorsAndOrderer);
         $removedUsers = $this->notifyRemovedUsers($notification, $request->executorsList, $originExecutors);
-        $addedUsers = $this->notifyAddedUsers($notification, $request->executorsList, $originExecutors);
+        $addedUsers = $this->notifyAddedUsers($task->id, $request->executorsList, $originExecutors);
 
         $removedAndAddedUsers = $removedUsers->merge($addedUsers);
 
@@ -200,7 +200,7 @@ class TasksController extends Controller
         event(new TaskWasEdited($notification, $notification->task->executors->diff($removedAndAddedUsers)));
     }
 
-    public function notifyAddedUsers($notification, $newExecutorsId, $originExecutors)
+    public function notifyAddedUsers($taskId, $newExecutorsId, $originExecutors)
     {
         $newExecutors = User::find($newExecutorsId);
         $addedUsers = $newExecutors->diff($originExecutors);
@@ -208,6 +208,8 @@ class TasksController extends Controller
         if ($addedUsers->count() == 0) {
             return collect();
         }
+        $notification = Notification::create(['type' => 'Priradenie na úlohu', 'user_id' => Auth::user()->id, 'task_id' => $taskId]);
+        $notification->involved_users()->sync($addedUsers->lists('id')->toArray());
         event(new ExecutorWasAddedToTask($notification, $addedUsers));
         return $addedUsers;
     }
@@ -219,8 +221,8 @@ class TasksController extends Controller
         if ($removedUsers->count() == 0) {
             return collect();
         }
-        $removedNotification = Notification::create(['type' => 'Odstranenie z ulohy', 'user_id' => Auth::user()->id, 'task_id' => $notification->task->id]);
-        $removedNotification->involved_users()->sync($removedUsers);
+        $removedNotification = Notification::create(['type' => 'Odstránenie z úlohy', 'user_id' => Auth::user()->id, 'task_id' => $notification->task->id]);
+        $removedNotification->involved_users()->sync($removedUsers->lists('id')->toArray());
         event(new ExecutorWasRemovedFromTask($removedNotification, $removedUsers));
         return $removedUsers;
     }

@@ -43,6 +43,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\ExecutorWasAddedToTask' => [
             'App\Listeners\EmailAddedUser',
         ],
+        'App\Events\FoundDelayedNotification' => [
+            'App\Listeners\EmailDelayedNotification',
+        ],
     ];
 
     /**
