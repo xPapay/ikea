@@ -27,7 +27,7 @@ class EmailTaskEdited extends NotificationListener
      */
     public function handle(TaskWasEdited $event)
     {
-        $users = $event->notification->involved_users->except($event->notification->user->id);
+        $users = $event->users;
         foreach ($users as $user)
         {
 
