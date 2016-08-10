@@ -30,7 +30,21 @@ class User extends Model implements AuthenticatableContract,
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password'];
+    protected $fillable = [
+        'name', 
+        'email', 
+        'password', 
+        'notify_task_assigned',
+        'notify_task_unassigned',
+        'notify_task_edited',
+        'notify_task_deleted',
+        'notify_task_accomplished',
+        'notify_task_accepted',
+        'notify_task_rejected',
+        'notify_comment_added',
+        'no_interruption_from',
+        'no_interruption_to',
+        ];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -38,6 +52,40 @@ class User extends Model implements AuthenticatableContract,
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
+
+    public function setNoInterruptionFromAttribute($value)
+    {
+        $this->attributes['no_interruption_from'] = $value . ":00";
+    }
+
+    public function setNoInterruptionToAttribute($value)
+    {
+        $this->attributes['no_interruption_to'] = $value . ":00";
+    }
+
+    public function getNoInterruptionFromAttribute($value)
+    {
+        $pieces = explode(":", $value, 2);
+        $hour = preg_replace('/^00/', '0', $pieces[0]);
+        return $hour;
+    }
+
+    public function getNoInterruptionToAttribute($value)
+    {
+        $pieces = explode(":", $value, 2);
+        $hour = preg_replace('/^00/', '0', $pieces[0]);
+        return $hour;
+    }
+
+    public function getNoInterruptionFromTimeAttribute($value)
+    {
+        return $this->attributes['no_interruption_from'];
+    }
+
+    public function getNoInterruptionToTimeAttribute($value)
+    {
+        return $this->attributes['no_interruption_to'];
+    }
 
     /**
      * Get all tasks ordered by user
@@ -195,11 +243,12 @@ class User extends Model implements AuthenticatableContract,
 
     public function notifications()
     {
-        return $this->belongsToMany('App\Notification', 'notification_user', 'user_id', 'notification_id');
+        return $this->belongsToMany('App\Notification', 'notification_user', 'user_id', 'notification_id')->withPivot('delayed');
     }
 
     public function triggeredNotifications()
     {
         return $this->hasMany('App\Notification');
     }
+    
 }

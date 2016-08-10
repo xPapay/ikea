@@ -126,4 +126,49 @@ class UsersController extends Controller
         session()->flash('flash_success', 'Heslo bolo úspešne zmenené');
         return redirect('/');
     }
+
+    public function editNotifications()
+    {
+        $user = Auth::user();
+        return view('users.edit_notifications', compact('user'));
+    }
+
+    public function updateNotifications(Request $request)
+    {
+        $this->validate($request, [
+            'notify_task_assigned' => 'boolean',
+            'notify_task_unassigned' => 'boolean',
+            'notify_task_edited' => 'boolean',
+            'notify_task_deleted' => 'boolean',
+            'notify_task_accomplished' => 'boolean',
+            'notify_task_accepted' => 'boolean',
+            'notify_task_rejected' => 'boolean',
+            'notify_comment_added' => 'boolean',
+            'no_interruption_from' => 'min:0|max:23',
+            'no_interruption_to' => 'min:0|max:23'
+        ]);
+        $user = Auth::user();
+        $user->update(
+            [
+            'notify_task_assigned' => $request->input('notify_task_assigned', false),
+            'notify_task_unassigned' => $request->input('notify_task_unassigned', false),
+            'notify_task_assigned' => $request->input('notify_task_assigned', false),
+            'notify_task_edited' => $request->input('notify_task_edited', false),
+            'notify_task_deleted' => $request->input('notify_task_deleted', false),
+            'notify_task_accomplished' => $request->input('notify_task_accomplished', false),
+            'notify_task_accepted' => $request->input('notify_task_accepted', false),
+            'notify_task_rejected' => $request->input('notify_task_rejected', false),
+            'notify_comment_added' => $request->input('notify_comment_added', false),
+            'no_interruption_from' => $request->input('no_interruption_from', 0),
+            'no_interruption_to' => $request->input('no_interruption_to', 0)
+            ]
+        );
+        session()->flash('flash_success', 'Nastavenia notifikácií boli aplikované');
+        return redirect()->back();
+    }
+
+    public function showSettings()
+    {
+        return view('users.settings');
+    }
 }

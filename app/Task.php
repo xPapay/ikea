@@ -4,9 +4,14 @@ namespace App;
 
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Task extends Executable
 {
+    use SoftDeletes;
+
+    protected $dates = ['deleted_at'];
+    
     protected $fillable = [
         'name',
         'description',

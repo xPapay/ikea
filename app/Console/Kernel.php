@@ -4,6 +4,9 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Mail;
+use App\NotificationUser;
+use App\Events\FoundDelayedNotification;
 
 class Kernel extends ConsoleKernel
 {
@@ -24,7 +27,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('inspire')
-                 ->hourly();
+        $schedule->call(function () {
+            $delayedNotifications = NotificationUser::where('delayed', true)->get();
+            foreach($delayedNotifications as $delayedNotification)
+            {
+                event(new FoundDelayedNotification($delayedNotification));
+            }
+        })->everyMinute();
     }
 }

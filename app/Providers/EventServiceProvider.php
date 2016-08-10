@@ -13,8 +13,38 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\SomeEvent' => [
-            'App\Listeners\EventListener',
+        'App\Events\TaskWasCreated' => [
+            'App\Listeners\EmailTaskCreated',
+        ],
+        'App\Events\TaskWasDeleted' => [
+            'App\Listeners\EmailTaskDeleted',
+        ],
+        'App\Events\TaskWasAssigned' => [
+            'App\Listeners\EmailTaskAssignment',
+        ],
+        'App\Events\TaskWasEdited' => [
+            'App\Listeners\EmailTaskEdited',
+        ],
+        'App\Events\TaskWasAccomplished' => [
+            'App\Listeners\EmailTaskAccomplished',
+        ],
+        'App\Events\TaskWasAccepted' => [
+            'App\Listeners\EmailTaskAccepted',
+        ],
+        'App\Events\TaskWasRejected' => [
+            'App\Listeners\EmailTaskRejected',
+        ],
+        'App\Events\CommentAdded' => [
+            'App\Listeners\EmailCommentAdded',
+        ],
+        'App\Events\ExecutorWasRemovedFromTask' => [
+            'App\Listeners\EmailRemovedUser',
+        ],
+        'App\Events\ExecutorWasAddedToTask' => [
+            'App\Listeners\EmailAddedUser',
+        ],
+        'App\Events\FoundDelayedNotification' => [
+            'App\Listeners\EmailDelayedNotification',
         ],
     ];
 

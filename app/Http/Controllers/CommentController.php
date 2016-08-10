@@ -13,6 +13,7 @@ use App\Http\Requests;
 use App\Http\Requests\AddTaskRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Events\CommentAdded;
 
 class CommentController extends Controller
 {
@@ -32,7 +33,7 @@ class CommentController extends Controller
             array_push($executorsAndOrderer, $user_id);
             $notification = Notification::create(['type' => 'Pridaný komentár', 'user_id' => $user_id, 'task_id' => $task->id]);
             $notification->involved_users()->sync($executorsAndOrderer);
-
+            event(new CommentAdded($notification));
             session()->flash('flash_success', 'Komentár bol pridaný');
 
             return redirect('tasks/' . $request->input('executable_id'));

@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/css/app.css">
     <link rel="stylesheet" href="/css/libs.css">
     <script type="application/javascript" src="/js/libs.js"></script>
+    @yield('head')
 </head>
 <body>
 <div class="container">

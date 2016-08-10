@@ -15,7 +15,7 @@ class Notification extends Model
 
     public function task()
     {
-        return $this->belongsTo('App\Task');
+        return $this->belongsTo('App\Task')->withTrashed();
     }
 
     public function user()
@@ -23,6 +23,7 @@ class Notification extends Model
         return $this->belongsTo('App\User');
     }
 
+    /** Get all users who will be notified **/
     public function involved_users()
     {
         return $this->belongsToMany('App\User', 'notification_user', 'notification_id', 'user_id');
@@ -30,7 +31,7 @@ class Notification extends Model
 
     public function getCreatedAtAttribute($date)
     {
-        return Carbon::parse($date)->format('d. m. Y H:m:i');
+        return Carbon::parse($date)->format('d. m. Y H:i:s');
     }
 
     public function scopeLatestTen($query)
