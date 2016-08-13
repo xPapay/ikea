@@ -42,6 +42,7 @@ class User extends Model implements AuthenticatableContract,
         'notify_task_accepted',
         'notify_task_rejected',
         'notify_comment_added',
+        'notify_task_before_deadline',
         'no_interruption_from',
         'no_interruption_to',
         ];

@@ -142,4 +142,10 @@ abstract class Executable extends Documentable
         return $query->where('confirmed', 0)->orderBy('deadline', 'asc')->take($count);
     }
 
+    public function scopeDaysBeforeDeadline($query, $days)
+    {
+        $date = new Carbon('+' . $days . 'days');
+        return $query->where('deadline', '=', $date->toDateString());
+    }
+
 }

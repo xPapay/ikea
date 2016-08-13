@@ -45,13 +45,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::patch('users/edit/password', 'UsersController@updatePassword');
     Route::get('users/edit/notifications', 'UsersController@editNotifications');
     Route::patch('users/edit/notifications', 'UsersController@updateNotifications');
-    Route::get('skuska', function() {
-        $delayedNotifications = \App\NotificationUser::where('delayed', true)->get();
-        foreach ($delayedNotifications as $delayedNotification)
-        {
-            event(new \App\Events\FoundDelayedNotification($delayedNotification));
-        }
-    });
 });
 
 // Authentication routes...
