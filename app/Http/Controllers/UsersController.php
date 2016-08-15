@@ -144,6 +144,7 @@ class UsersController extends Controller
             'notify_task_accepted' => 'boolean',
             'notify_task_rejected' => 'boolean',
             'notify_comment_added' => 'boolean',
+            'notify_task_before_deadline' => 'boolean',
             'no_interruption_from' => 'min:0|max:23',
             'no_interruption_to' => 'min:0|max:23'
         ]);
@@ -159,6 +160,7 @@ class UsersController extends Controller
             'notify_task_accepted' => $request->input('notify_task_accepted', false),
             'notify_task_rejected' => $request->input('notify_task_rejected', false),
             'notify_comment_added' => $request->input('notify_comment_added', false),
+            'notify_task_before_deadline' => $request->input('notify_task_before_deadline', false),
             'no_interruption_from' => $request->input('no_interruption_from', 0),
             'no_interruption_to' => $request->input('no_interruption_to', 0)
             ]

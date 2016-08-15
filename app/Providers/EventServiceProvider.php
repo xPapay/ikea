@@ -46,6 +46,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\FoundDelayedNotification' => [
             'App\Listeners\EmailDelayedNotification',
         ],
+        'App\Events\FoundTaskBeforeDeadline' => [
+            'App\Listeners\EmailTaskBeforeDeadline',
+        ],
     ];
 
     /**

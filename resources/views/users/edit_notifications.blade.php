@@ -54,6 +54,10 @@
         {!! Form::label('notify_comment_added', 'Pridaní komentára') !!}
         {!! Form::checkbox('notify_comment_added', 1) !!}
     </div>
+    <div class="form-group">
+        {!! Form::label('notify_task_before_deadline', 'Blížiacom sa dedlajne') !!}
+        {!! Form::checkbox('notify_task_before_deadline', 1) !!}
+    </div>
     </br>
     <hr>
     <div class="row">
