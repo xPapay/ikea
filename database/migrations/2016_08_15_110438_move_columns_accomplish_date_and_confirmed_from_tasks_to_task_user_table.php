@@ -16,9 +16,13 @@ class MoveColumnsAccomplishDateAndConfirmedFromTasksToTaskUserTable extends Migr
             $table->timestamp('accomplish_date')->nullable()->default(null);
             $table->boolean('confirmed')->default(0);
         });
-        
-        DB::query('UPDATE `task_user` JOIN `tasks` ON `task_user.task_id`=`tasks.id` SET `task_user.accomplish_date` = (SELECT `accomplish_date` FROM `tasks` WHERE `tasks.id` = `task_user.task_id`), 
-            `task_user.confirmed` = (SELECT `confirmed` FROM `tasks` WHERE `tasks.id` = `task_user.task_id`);');
+
+        DB::query('
+            UPDATE `task_user`, `tasks`
+            SET `task_user`.`accomplish_date` = `tasks`.`accomplish_date`,
+                `task_user`.`confirmed` = `tasks`.`confirmed`
+            WHERE `task_user`.`task_id` = `tasks`.`id`;
+        ');
         
         Schema::table('tasks', function (Blueprint $table) {
             $table->dropColumn('accomplish_date');
