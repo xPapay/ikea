@@ -17,7 +17,7 @@ class MoveColumnsAccomplishDateAndConfirmedFromTasksToTaskUserTable extends Migr
             $table->boolean('confirmed')->default(0);
         });
 
-        DB::query('
+        \DB::statement('
             UPDATE `task_user`, `tasks`
             SET `task_user`.`accomplish_date` = `tasks`.`accomplish_date`,
                 `task_user`.`confirmed` = `tasks`.`confirmed`
