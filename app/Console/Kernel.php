@@ -48,6 +48,6 @@ class Kernel extends ConsoleKernel
                 $notification->involved_users()->sync($executorsAndOrderer);
                 event(new FoundTaskBeforeDeadline($notification));
             }
-        })->dailyAt('11:37');
+        })->dailyAt('08:45');
     }
 }
