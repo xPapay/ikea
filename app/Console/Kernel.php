@@ -39,7 +39,7 @@ class Kernel extends ConsoleKernel
         })->everyMinute();
 
         $schedule->call(function () {
-            $tasksBeforeDeadline = Task::daysBeforeDeadline(5)->get();
+            $tasksBeforeDeadline = Task::unfinished(200)->daysBeforeDeadline(5)->get();
             foreach($tasksBeforeDeadline as $task)
             {
                 $notification = Notification::create(['type' => 'Úloha pred deadlajnom', 'user_id' => $task->orderer->id, 'task_id' => $task->id]);
