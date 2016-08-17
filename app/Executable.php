@@ -22,12 +22,7 @@ abstract class Executable extends Documentable
 //        $this->attributes['accomplish_date'] = Carbon::createFromFormat('d. m. Y', $date);
 //    }
 
-    public function getAccomplishDateAttribute($date)
-    {
-        if ($date == null)
-            return null;
-        return Carbon::parse($date)->format('d. m. Y');
-    }
+    
 
     public function getTagsListAttribute()
     {

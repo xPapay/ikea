@@ -18,17 +18,9 @@ class Task extends Executable
         'deadline'
     ];
 
-    public function scopeWithStatus($query, $status)
+    public function user_task()
     {
-        if ($status == 'unfinished')
-            return $query->where('confirmed', 0);
-        if ($status == 'finished')
-            return $query->where('confirmed', 1);
-        if ($status == 'to_confirmation')
-            return $query->whereNotNull('accomplish_date')->where('confirmed', 0);
-        if ($status == 'all')
-            return $query;
-        throw new Exception('Undefined Status');
+        return $this->hasMany('App\Task_User');
     }
 
     public function scopeWithKeyword($query, $keyword)

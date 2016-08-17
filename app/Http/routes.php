@@ -29,9 +29,9 @@ Route::group(['middleware' => 'auth'], function() {
     //Route::get('tasks/ordered/filter/{status}', 'TasksController@showOrdered');
     //Route::get('issues/reported/filter/{status}', 'IssuesController@showReported');
     //Route::get('tasks/filter/{status}', 'TasksController@index');
-    Route::get('tasks/accomplish/{tasks}', 'TasksController@accomplish');
-    Route::get('tasks/accept/{tasks}', 'TasksController@accept');
-    Route::get('tasks/reject/{tasks}', 'TasksController@reject');
+    Route::get('tasks/accomplish/{tasks}/{users}', 'TasksController@accomplish');
+    Route::get('tasks/accept/{tasks}/{users}', 'TasksController@accept');
+    Route::get('tasks/reject/{tasks}/{users}', 'TasksController@reject');
     Route::get('tasks/filter', ['as' => 'my_tasks.filter', 'uses' => 'TasksController@index']);
     Route::get('tasks/filter/reset', ['as' => 'reset_filter', 'uses' => 'TasksController@resetFilter']);
     Route::resource('tasks', 'TasksController');

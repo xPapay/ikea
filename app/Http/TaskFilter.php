@@ -63,7 +63,7 @@ class TaskFilter
     {
         //dd($this->request->session()->get('filters'));
         $this->query = $this->query->withStatus($this->request->session()->get('filters.status'));
-        $this->query = $this->query->filter($this->request->session()->get('filters'));
+        //$this->query = $this->query->filter($this->request->session()->get('filters'));
 
 
         return $this->query;

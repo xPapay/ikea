@@ -9,6 +9,7 @@ use App\Notification;
 use App\Tag;
 use App\Task;
 use App\User;
+use App\Task_User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -39,16 +40,24 @@ class TasksController extends Controller
      */
     public function index(Request $request)
     {
-        $initial_query = Auth::user()->tasks();
+        $initial_query = Task_User::with([
+            'task' => function ($query) {
+                $query->orderBy('deadline', 'asc');
+            },
+            'task.orderer' => function ($query) {
+                $query->where('id', Auth::user()->id);
+            },
+            'user'
+        ])->where('user_id', Auth::user()->id);
+
         $filter = new TaskFilter($request, $initial_query);
         $tasks_query = $filter->addFilterQuery();
-        $tasks_query = $tasks_query->orderBy('deadline', 'asc');
-        $tasks = $tasks_query->paginate(20)->appends(Input::except('page'));
+        $user_tasks = $tasks_query->paginate(20)->appends(Input::except('page'));
 
         $selectableOptions = $filter->getSelectableOptions();
         $filters = $filter->getFilters();
 
-        return view('tasks.index', compact('tasks', 'selectableOptions', 'filters'));
+        return view('tasks.index', compact('user_tasks', 'selectableOptions', 'filters'));
     }
 
     /**
@@ -128,17 +137,22 @@ class TasksController extends Controller
 
     public function showOrdered(Request $request)
     {
-        $initial_query = Auth::user()->orderedTasks()->with('executors');
+        $initial_query = Task_User::with([
+            'task' => function ($query) {
+                $query->orderBy('deadline');
+            },
+            'task.orderer' => function ($query) {
+                $query->where('id', Auth::user()->id);
+            },
+            'user'
+        ]);
 
         $filter = new TaskFilter($request, $initial_query);
         $tasks_query = $filter->addFilterQuery();
-
-        $tasks = $tasks_query->orderBy('deadline')->paginate(20)->appends(Input::except('page'));
-
+        $tasks_users = $tasks_query->paginate(20)->appends(Input::except('page'));
         $selectableOptions = $filter->getSelectableOptions();
         $filters = $filter->getFilters();
-
-        return view('tasks.ordered', compact('tasks', 'selectableOptions', 'filters'));
+        return view('tasks.ordered', compact('tasks_users', 'selectableOptions', 'filters'));
     }
 
     /**
@@ -246,52 +260,59 @@ class TasksController extends Controller
         return redirect('tasks/ordered');
     }
 
-    public function accomplish(Task $task, Request $request)
+    public function accomplish(Task $task, User $user, Request $request)
     {
         if (Gate::denies('accomplish', $task)) {
             return $this->unauthorizedResponse($request);
         }
-        $task->accomplish_date = Carbon::now();
-        $task->save();
+
+        \DB::table('task_user')
+            ->where('user_id', $user->id)
+            ->where('task_id', $task->id)
+            ->update(['accomplish_date' => Carbon::now()]);
 
         $user_id = Auth::user()->id;
         $notification = Notification::create(['type' => 'Úloha dokončená', 'user_id' => $user_id, 'task_id' => $task->id]);
-        $executorsAndOrderer = $task->executors->lists('id')->toArray();
-        array_push($executorsAndOrderer, $task->orderer->id);
-        $notification->involved_users()->sync($executorsAndOrderer);
+        $notification->involved_users()->sync([$task->orderer->id, $user_id]);
         event(new TaskWasAccomplished($notification));
         session()->flash('flash_info', 'Úloha čaká na schválenie zadávateľom');
         return redirect()->back();
     }
 
-    public function accept(Task $task, Request $request)
+    public function accept(Task $task, User $user, Request $request)
     {
         if (Gate::denies('determine', $task)) {
             return $this->unauthorizedResponse($request);
         }
-        $task->confirmed = 1;
-        $task->save();
+
+        \DB::table('task_user')
+            ->where('user_id', $user->id)
+            ->where('task_id', $task->id)
+            ->update(['confirmed' => 1]);
+
         $notification = Notification::create(['type' => 'Úloha akceptovaná', 'user_id' => Auth::user()->id, 'task_id' => $task->id]);
-        $executorsAndOrderer = $task->executors->lists('id')->toArray();
-        array_push($executorsAndOrderer, $task->orderer->id);
-        $notification->involved_users()->sync($executorsAndOrderer);
+        $notification->involved_users()->sync([Auth::user()->id, $user->id]);
         event(new TaskWasAccepted($notification));
         session()->flash('flash_success', 'Úloha bola označená ako schválená');
         return redirect()->back();
     }
 
-    public function reject(Task $task, Request $request)
+    public function reject(Task $task, User $user, Request $request)
     {
         if (Gate::denies('determine', $task)) {
             return $this->unauthorizedResponse($request);
         }
-        $task->confirmed = 0;
-        $task->accomplish_date = null;
-        $task->save();
+
+        \DB::table('task_user')
+            ->where('user_id', $user->id)
+            ->where('task_id', $task->id)
+            ->update([
+                'confirmed' => 0,
+                'accomplish_date' => null
+            ]);
+
         $notification = Notification::create(['type' => 'Úloha navrátená', 'user_id' => Auth::user()->id, 'task_id' => $task->id]);
-        $executorsAndOrderer = $task->executors->lists('id')->toArray();
-        array_push($executorsAndOrderer, $task->orderer->id);
-        $notification->involved_users()->sync($executorsAndOrderer);
+        $notification->involved_users()->sync([Auth::user()->id, $user->id]);
         event(new TaskWasRejected($notification));
         session()->flash('flash_success', 'Úloha bola navrátená');
         return redirect()->back();

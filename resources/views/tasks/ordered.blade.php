@@ -7,7 +7,7 @@
         @include('partials.filterbox')
     {!! Form::close() !!}
     <a href="{{ route('reset_filter') }}" class="btn btn-default">Resetovať filter</a>
-    @if (count($tasks) == 0)
+    @if (count($tasks_users) == 0)
         <i>Nenašli sa žiadne úlohy</i>
     @else
         <table class="table table-hover">
@@ -26,49 +26,41 @@
             </thead>
 
             <tbody>
-            @foreach($tasks as $task)
+            @foreach($tasks_users as $task_user)
                 <?php
-                $numberOfExecutors = count($task->executors);
+                $numberOfExecutors = count($task_user->task->executors);
                 ?>
                 <tr>
                     <th></th>
                     <td>
-                        <a href="{{ action('TasksController@show', ['id' => $task->id]) }}">
-                            {{ $task->name }}
+                        <a href="{{ action('TasksController@show', ['id' => $task_user->task->id]) }}">
+                            {{ $task_user->task->name }}
                         </a>
                     </td>
                     <td>
-                        {{ $task->deadline }}
+                        {{ $task_user->task->deadline }}
                     </td>
                     <td>
-                        @if ($numberOfExecutors == 0)
-                            <i>nešpecifikované</i>
-                        @elseif ($numberOfExecutors == 1)
-                        {{ $task->executors[0]->name }}
-                        @else
-                            {{ $task->executors[0]->name }}
-                            <span class="more_executors"
-                                  title="{!! $task->createTooltipster() !!}"><i>(+{{ $numberOfExecutors - 1 }})</i></span>
-                        @endif
+                        {{ $task_user->user->name }}
                     </td>
                     <td>
-                        @if (! is_null($task->accomplish_date))
-                            {{ $task->accomplish_date }}
+                        @if (! is_null($task_user->accomplish_date))
+                            {{ $task_user->accomplish_date }}
                         @else
                             <span class="glyphicon glyphicon-remove-sign"></span>
                         @endif
                     </td>
                     @if ($filters['status'] != "finished")
                         <td>
-                            @if (($task->accomplish_date != null) && ($task->confirmed != 1))
-                                <a href="{{ url("tasks/accept/{$task->id}") }}"><span class="glyphicon glyphicon-ok"></span></a>
-                                <a href="{{ url("tasks/reject/{$task->id}") }}"><span class="glyphicon glyphicon-remove"></span></a>
+                            @if (($task_user->accomplish_date != null) && ($task_user->confirmed != 1))
+                                <a href="{{ url("tasks/accept/{$task_user->task_id}/{$task_user->user_id}") }}"><span class="glyphicon glyphicon-ok"></span></a>
+                                <a href="{{ url("tasks/reject/{$task_user->task_id}/{$task_user->user_id}") }}"><span class="glyphicon glyphicon-remove"></span></a>
                             @endif
                         </td>
                     @endif
                     <td>
-                        <a href="{{ route("tasks.edit", ['id' => $task->id]) }}" class="btn btn-default btn-sm">Upraviť</a>
-                        {!! Form::open(['route' => ['tasks.destroy',$task->id], 'method'=>'delete']) !!}
+                        <a href="{{ route("tasks.edit", ['id' => $task_user->task->id]) }}" class="btn btn-default btn-sm">Upraviť</a>
+                        {!! Form::open(['route' => ['tasks.destroy',$task_user->task->id], 'method'=>'delete']) !!}
                         <button type="submit" class="btn btn-danger btn-sm">
                             Zmazať
                         </button>
@@ -83,7 +75,7 @@
 
     <div class="row">
         <div class="col-lg-12">
-            {!! $tasks->render() !!}
+            {!! $tasks_users->render() !!}
         </div>
     </div>
 
