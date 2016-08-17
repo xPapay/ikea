@@ -40,10 +40,10 @@ class Kernel extends ConsoleKernel
         })->everyMinute();
 
         $schedule->call(function () {
-            $tasksBeforeDeadline = Task_User::whereHas('task', function ($query) {
-                $query->daysBeforeDeadline(5);
+            $date = new \Carbon\Carbon('+2days');
+            $tasksBeforeDeadline = Task_User::whereHas('task', function ($query) use ($date) {
+                $query->where('deadline', '=', $date->toDateString());
             })->with(['task.orderer', 'user'])->unfinished(200)->get();
-
             foreach($tasksBeforeDeadline as $task_user)
             {
                 $notification = Notification::create(['type' => 'Úloha pred deadlajnom', 'user_id' => $task_user->task->orderer->id, 'task_id' => $task_user->task_id]);
