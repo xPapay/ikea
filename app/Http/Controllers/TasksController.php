@@ -138,14 +138,11 @@ class TasksController extends Controller
     public function showOrdered(Request $request)
     {
         $initial_query = Task_User::with([
-            'task' => function ($query) {
-                $query->orderBy('deadline');
-            },
-            'task.orderer' => function ($query) {
-                $query->where('id', Auth::user()->id);
-            },
+            'task',
+            'task.orderer',
             'user'
-        ]);
+        ])->join('tasks', 'task_user.task_id', '=', 'tasks.id')
+        ->join('users', 'tasks.ordered_by', '=', 'users.id')->where('users.id', '=', Auth::user()->id)->orderBy('tasks.deadline', 'asc');
 
         $filter = new TaskFilter($request, $initial_query);
         $tasks_query = $filter->addFilterQuery();
@@ -247,14 +244,16 @@ class TasksController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $task)
+    public function destroy(Request $request, Task $task, User $user)
     {
         if (Gate::denies('edit', $task)) {
             return $this->unauthorizedResponse($request);
         }
+
+        $user->tasks()->detach($task->id);
+
         $notification = Notification::create(['type' => 'Úloha zmazaná', 'user_id' => Auth::user()->id, 'task_id' => $task->id]);
-        $notification->involved_users()->sync($task->executors);
-        $task->delete();
+        $notification->involved_users()->sync([$user->id]);
         event(new TaskWasDeleted($notification));
         session()->flash('flash_success', 'Úloha bola úspešne zmazaná');
         return redirect('tasks/ordered');

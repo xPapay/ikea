@@ -10,6 +10,7 @@ use App\Notification;
 use App\Events\FoundDelayedNotification;
 use App\Events\FoundTaskBeforeDeadline;
 use App\Task;
+use App\Task_User;
 
 class Kernel extends ConsoleKernel
 {
@@ -39,13 +40,14 @@ class Kernel extends ConsoleKernel
         })->everyMinute();
 
         $schedule->call(function () {
-            $tasksBeforeDeadline = Task::unfinished(200)->daysBeforeDeadline(5)->get();
-            foreach($tasksBeforeDeadline as $task)
+            $tasksBeforeDeadline = Task_User::whereHas('task', function ($query) {
+                $query->daysBeforeDeadline(5);
+            })->with(['task.orderer', 'user'])->unfinished(200)->get();
+
+            foreach($tasksBeforeDeadline as $task_user)
             {
-                $notification = Notification::create(['type' => 'Úloha pred deadlajnom', 'user_id' => $task->orderer->id, 'task_id' => $task->id]);
-                $executorsAndOrderer = $task->executorsList;
-                array_push($executorsAndOrderer, $task->orderer->id);
-                $notification->involved_users()->sync($executorsAndOrderer);
+                $notification = Notification::create(['type' => 'Úloha pred deadlajnom', 'user_id' => $task_user->task->orderer->id, 'task_id' => $task_user->task_id]);
+                $notification->involved_users()->sync([$task_user->user_id, $task_user->task->orderer->id]);
                 event(new FoundTaskBeforeDeadline($notification));
             }
         })->dailyAt('08:45');

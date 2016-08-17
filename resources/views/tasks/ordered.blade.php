@@ -60,7 +60,7 @@
                     @endif
                     <td>
                         <a href="{{ route("tasks.edit", ['id' => $task_user->task->id]) }}" class="btn btn-default btn-sm">Upraviť</a>
-                        {!! Form::open(['route' => ['tasks.destroy',$task_user->task->id], 'method'=>'delete']) !!}
+                        {!! Form::open(['url' => "tasks/{$task_user->task_id}/{$task_user->user_id}", 'method'=>'delete']) !!}
                         <button type="submit" class="btn btn-danger btn-sm">
                             Zmazať
                         </button>

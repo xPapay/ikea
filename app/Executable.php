@@ -132,15 +132,11 @@ abstract class Executable extends Documentable
         return $tooltipster->create($this->executors);
     }
 
-    public function scopeUnfinished($query, $count)
-    {
-        return $query->where('confirmed', 0)->orderBy('deadline', 'asc')->take($count);
-    }
 
     public function scopeDaysBeforeDeadline($query, $days)
     {
         $date = new Carbon('+' . $days . 'days');
-        return $query->where('deadline', '=', $date->toDateString());
+        return $query->where('deadline', '=', $date->toDateString())->orderBy('deadline', 'asc');
     }
 
 }

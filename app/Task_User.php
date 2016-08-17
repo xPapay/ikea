@@ -39,4 +39,9 @@ class Task_User extends Model
             return $query;
         throw new Exception('Undefined Status');
     }
+
+    public function scopeUnfinished($query, $count)
+    {
+        return $query->where('confirmed', 0)->take($count);
+    }
 }
