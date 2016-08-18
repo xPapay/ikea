@@ -14,6 +14,7 @@
 Route::group(['middleware' => 'auth'], function() {
     Route::get('/', 'DashboardController@index');
     Route::get('tasks/ordered', 'TasksController@showOrdered');
+    Route::get('tasks/supported', 'TasksController@showSupported');
     Route::get('tasks/ordered/filter', ['as' => 'ordered_tasks.filter', 'uses' => 'TasksController@showOrdered']);
     //Route::get('issues/reported', 'IssuesController@showReported');
     Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {

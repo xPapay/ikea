@@ -69,6 +69,26 @@
 
             <div class="row">
                 <div class="col-lg-12">
+                    <h4>Supportujúci pracovníci:</h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    @if (count($task->supporters) == 0)
+                        nešpecifikované
+                    @else
+                        <ul>
+                            @foreach ($task->supporters as $supporter)
+                                <li>{{ $supporter->name }}</li>
+                            @endforeach
+                        </ul>
+                    @endif
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
                     <h4>Tagy:</h4>
                     <ul>
                         @foreach ($task->tags as $tag)
@@ -140,7 +160,9 @@
                     <span class="glyphicon glyphicon-time"></span>
                 @endif
             @else
-                <a href="{{url('tasks/accomplish', $task->id)}}" class="btn btn-success btn-sm">Dokončiť</a>
+                @can('accomplish', $task)
+                    <a href="{{url('tasks/accomplish', [$task->id, Auth::user()->id])}}" class="btn btn-success btn-sm">Dokončiť</a>
+                @endcan
             @endif
         </div>
     </div>

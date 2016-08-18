@@ -26,7 +26,7 @@ use App\Events\TaskWasDeleted;
 use App\Events\TaskWasAccepted;
 use App\Events\TaskWasAccomplished;
 use App\Events\TaskWasRejected;
-
+use App\User_Support_Task;
 use DB;
 
 class TasksController extends Controller
@@ -80,7 +80,7 @@ class TasksController extends Controller
      */
     public function store(AddTaskRequest $request)
     {
-        $task = Auth::user()->orderTask(new Task($request->all()), $request->executorsList, $request->tagsList);
+        $task = Auth::user()->orderTask(new Task($request->all()), $request->executorsList, $request->tagsList, $request->supportersList);
         $fileUploader = new FileUpload($request->file('files'), $task);
         $fileUploader->handleFilesUpload();
 
@@ -150,6 +150,18 @@ class TasksController extends Controller
         $selectableOptions = $filter->getSelectableOptions();
         $filters = $filter->getFilters();
         return view('tasks.ordered', compact('tasks_users', 'selectableOptions', 'filters'));
+    }
+
+    public function showSupported(Request $request)
+    {
+        $supported_tasks = User_Support_Task::with([
+            'task'
+        ])
+        ->join('tasks', 'tasks.id', '=', 'user_support_task.task_id')
+        ->where('user_support_task.user_id', '=', Auth::user()->id)
+        ->orderBy('tasks.deadline')->paginate(20)->appends(Input::except('page'));
+
+        return view('tasks.supported', compact('supported_tasks'));
     }
 
     /**

@@ -30,6 +30,12 @@ class TaskPolicy
         {
             return true;
         }
+
+        if ($executable->supporters->intersect([$user])->count())
+        {
+            return true;
+        }
+
         return false;
     }
 
