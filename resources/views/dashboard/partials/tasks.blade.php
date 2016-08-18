@@ -19,12 +19,12 @@
     </thead>
 
     <tbody>
-    @foreach($tasks as $task)
-        @if($now->gt(\Carbon\Carbon::createFromFormat('d. m. Y', $task->deadline)))
+    @foreach($tasks_user as $task_user)
+        @if($now->gt(\Carbon\Carbon::createFromFormat('d. m. Y', $task_user->task->deadline)))
             <?php
                 $colour = 'danger';
             ?>
-        @elseif($now->diffInDays(\Carbon\Carbon::createFromFormat('d. m. Y', $task->deadline)) <= 14)
+        @elseif($now->diffInDays(\Carbon\Carbon::createFromFormat('d. m. Y', $task_user->task->deadline)) <= 14)
             <?php
                 $colour = 'warning';
             ?>
@@ -39,18 +39,18 @@
                 icon
             </td>
             <td>
-                {{ $task->deadline }}
+                {{ $task_user->task->deadline }}
             </td>
             <td>
-                <a href="{{ action('TasksController@show', ['id' => $task->id]) }}">
-                    {{ $task->name }}
+                <a href="{{ action('TasksController@show', ['id' => $task_user->task_id]) }}">
+                    {{ $task_user->task->name }}
                 </a>
             </td>
             <td>
-                @if(!is_null($task->accomplish_date))
+                @if(!is_null($task_user->accomplish_date))
                     <span class="glyphicon glyphicon-time"></span>
                 @else
-                    <a href="{{url('tasks/accomplish', $task->id)}}" class="btn btn-success btn-sm">Dokončiť</a>
+                    <a href="{{url('tasks/accomplish', [$task_user->task_id, Auth::user()->id])}}" class="btn btn-success btn-sm">Dokončiť</a>
                 @endif
             </td>
         </tr>

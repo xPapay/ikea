@@ -1,6 +1,7 @@
 @extends('email_layout')
 @section('content')
 <h2>{{ $headline }}</h2>
+<h3> {{ $notification->user->name }} </h3>
     <div class="row">
         <div class="col-lg-5">
             <div class="row">

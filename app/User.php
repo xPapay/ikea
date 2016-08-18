@@ -98,6 +98,11 @@ class User extends Model implements AuthenticatableContract,
         return $this->hasMany('App\Task', 'ordered_by');
     }
 
+    public function orderedTasksUsers()
+    {
+        return $this->hasManyThrough('App\Task_User', 'App\Task', 'ordered_by');
+    }
+
     /**
      * Get all issues reported by user
      *
@@ -138,7 +143,12 @@ class User extends Model implements AuthenticatableContract,
      */
     public function tasks()
     {
-        return $this->belongsToMany('App\Task')->withTimestamps();
+        return $this->belongsToMany('App\Task')->withPivot('accomplish_date', 'confirmed')->withTimestamps();
+    }
+
+    public function user_tasks()
+    {
+        return $this->hasMany('App\Task_User');
     }
 
     /**

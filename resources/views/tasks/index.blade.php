@@ -7,7 +7,7 @@
         @include('partials.filterbox')
     {!! Form::close() !!}
     <a href="{{ route('reset_filter') }}" class="btn btn-default">Resetovať filter</a>
-    @if (count($tasks) >= 1)
+    @if (count($user_tasks) >= 1)
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -19,29 +19,29 @@
                 </tr>
             </thead>
             <tbody>
-            @foreach($tasks as $task)
+            @foreach($user_tasks as $user_task)
                 <tr>
                     <th></th>
                     <td>
-                        <a href="{{ action('TasksController@show', ['id' => $task->id]) }}">
-                            {{ $task->name }}
+                        <a href="{{ action('TasksController@show', ['id' => $user_task->task->id]) }}">
+                            {{ $user_task->task->name }}
                         </a>
                     </td>
                     <td>
-                        {{ $task->deadline }}
+                        {{ $user_task->task->deadline }}
                     </td>
                     <td>
-                        @if($task->orderer)
-                            {{ $task->orderer->name }}
+                        @if($user_task->task->orderer)
+                            {{ $user_task->task->orderer->name }}
                         @endif
                     </td>
                     <td>
-                        @if($task->confirmed == 1)
-                            {{ $task->accomplish_date }}
-                        @elseif(($task->confirmed == 0) && ($task->accomplish_date != null))
+                        @if($user_task->confirmed == 1)
+                            {{ $user_task->accomplish_date }}
+                        @elseif(($user_task->confirmed == 0) && ($user_task->accomplish_date != null))
                             <span class="glyphicon glyphicon-time"></span>
                         @else
-                            <a href="{{url('tasks/accomplish', $task->id)}}" class="btn btn-success btn-sm">Dokončiť</a>
+                            <a href="{{url('tasks/accomplish', [$user_task->task->id, Auth::user()->id])}}" class="btn btn-success btn-sm">Dokončiť</a>
                         @endif
                     </td>
                 </tr>
@@ -51,7 +51,7 @@
 
         <div class="row">
             <div class="col-lg-12">
-                {!! $tasks->render() !!}
+                {!! $user_tasks->render() !!}
             </div>
         </div>
     @endif
