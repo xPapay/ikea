@@ -41,14 +41,9 @@ class TasksController extends Controller
     public function index(Request $request)
     {
         $initial_query = Task_User::with([
-            'task' => function ($query) {
-                $query->orderBy('deadline', 'asc');
-            },
-            'task.orderer' => function ($query) {
-                $query->where('id', Auth::user()->id);
-            },
-            'user'
-        ])->where('user_id', Auth::user()->id);
+            'task'
+        ])->join('tasks', 'tasks.id', '=', 'task_user.task_id')
+        ->where('user_id', Auth::user()->id)->orderBy('tasks.deadline');
 
         $filter = new TaskFilter($request, $initial_query);
         $tasks_query = $filter->addFilterQuery();
@@ -56,7 +51,7 @@ class TasksController extends Controller
 
         $selectableOptions = $filter->getSelectableOptions();
         $filters = $filter->getFilters();
-
+        //dd($user_tasks);
         return view('tasks.index', compact('user_tasks', 'selectableOptions', 'filters'));
     }
 
