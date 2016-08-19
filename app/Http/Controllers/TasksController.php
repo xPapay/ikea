@@ -40,6 +40,7 @@ class TasksController extends Controller
      */
     public function index(Request $request)
     {
+        //dd($request->get('orderersList', 2));
         $initial_query = Task_User::with([
             'task'
         ])->join('tasks', 'tasks.id', '=', 'task_user.task_id')
@@ -120,11 +121,16 @@ class TasksController extends Controller
 
     public function filter(Request $request)
     {
-        $initial_query = Task::select();
+        $initial_query = Task_User::with([
+            'task',
+            'task.orderer',
+            'user'
+        ])->join('tasks', 'task_user.task_id', '=', 'tasks.id')->orderBy('tasks.deadline', 'asc');
         $filter = new TaskFilter($request, $initial_query);
         $tasks_query = $filter->addFilterQuery();
 
         $tasks = $tasks_query->paginate(20)->appends(Input::except('page'));
+        //dd($tasks);
         $selectableOptions = $filter->getSelectableOptions();
         $filters = $filter->getFilters();
         return view('tasks.show_all', compact('tasks', 'selectableOptions', 'filters'));
@@ -263,7 +269,7 @@ class TasksController extends Controller
         $notification->involved_users()->sync([$user->id]);
         event(new TaskWasDeleted($notification));
         session()->flash('flash_success', 'Úloha bola úspešne zmazaná');
-        return redirect('tasks/ordered');
+        return back();
     }
 
     public function accomplish(Task $task, User $user, Request $request)
@@ -345,12 +351,12 @@ class TasksController extends Controller
         return new Response(view('errors.403'), 403);
     }
 
-    public function resetFilter(Request $request)
+    public function resetFilter(Request $request, $back = 'tasks')
     {
         if ($request->session()->has('filters')) {
             $request->session()->forget('filters');
         }
-        return redirect('tasks');
+        return redirect($back);
     }
 
 }
