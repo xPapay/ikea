@@ -34,8 +34,8 @@
             @endif
             </td>
             <td>
-                @if (! is_null($task->task->accomplish_date))
-                    {{ $task->task->accomplish_date }}
+                @if (! is_null($task->accomplish_date))
+                    {{ $task->accomplish_date }}
                 @else
                     <span class="glyphicon glyphicon-remove-sign"></span>
                 @endif
