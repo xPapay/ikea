@@ -133,6 +133,7 @@ class TasksController extends Controller
         //dd($tasks);
         $selectableOptions = $filter->getSelectableOptions();
         $filters = $filter->getFilters();
+        $request->session()->flash('route', 'admin/tasks');
         return view('tasks.show_all', compact('tasks', 'selectableOptions', 'filters'));
     }
 
@@ -351,12 +352,12 @@ class TasksController extends Controller
         return new Response(view('errors.403'), 403);
     }
 
-    public function resetFilter(Request $request, $back = 'tasks')
+    public function resetFilter(Request $request)
     {
         if ($request->session()->has('filters')) {
             $request->session()->forget('filters');
         }
-        return redirect($back);
+        return redirect($request->session()->get('route', 'tasks'));
     }
 
 }
