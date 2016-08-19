@@ -151,19 +151,26 @@ class TasksController extends Controller
         $tasks_users = $tasks_query->paginate(20)->appends(Input::except('page'));
         $selectableOptions = $filter->getSelectableOptions();
         $filters = $filter->getFilters();
+        $request->session()->flash('route', 'tasks/ordered');
         return view('tasks.ordered', compact('tasks_users', 'selectableOptions', 'filters'));
     }
 
     public function showSupported(Request $request)
     {
-        $supported_tasks = User_Support_Task::with([
-            'task'
+        $initial_query = User_Support_Task::with([
+            'task',
         ])
         ->join('tasks', 'tasks.id', '=', 'user_support_task.task_id')
         ->where('user_support_task.user_id', '=', Auth::user()->id)
-        ->orderBy('tasks.deadline')->paginate(20)->appends(Input::except('page'));
+        ->orderBy('tasks.deadline');
+        $filter = new TaskFilter($request, $initial_query);
+        $tasks_query = $filter->addFilterQuery();
+        $supported_tasks = $tasks_query->paginate(20)->appends(Input::except('page'));
+        $selectableOptions = $filter->getSelectableOptions();
+        $filters = $filter->getFilters();
+        $request->session()->flash('route', 'tasks/supported');
 
-        return view('tasks.supported', compact('supported_tasks'));
+        return view('tasks.supported', compact('supported_tasks', 'selectableOptions', 'filters'));
     }
 
     /**

@@ -12,4 +12,9 @@ class User_Support_Task extends Model
     {
     	return $this->belongsTo('App\Task');
     }
+
+    public function scopeWithStatus($query, $status)
+    {
+        return $query;
+    }
 }

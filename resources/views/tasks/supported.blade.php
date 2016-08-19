@@ -2,6 +2,10 @@
 @section('content')
     <div class="page-header">
         <h1>Supportované úlohy</h1>
+        {!! Form::open(array('route' => 'my_supported_tasks.filter', 'method' => 'GET')) !!}
+            @include('partials.filterbox', array('do_not_show_status' => 'true'))
+        {!! Form::close() !!}
+    <a href="{{ route('reset_filter') }}" class="btn btn-default">Resetovať filter</a>
     </div>
     @if (count($supported_tasks) >= 1)
         <table class="table table-hover">

@@ -35,6 +35,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('tasks/accept/{tasks}/{users}', 'TasksController@accept');
     Route::get('tasks/reject/{tasks}/{users}', 'TasksController@reject');
     Route::get('tasks/filter', ['as' => 'my_tasks.filter', 'uses' => 'TasksController@index']);
+    Route::get('tasks/supported/filter', ['as' => 'my_supported_tasks.filter', 'uses' => 'TasksController@showSupported']);
     Route::get('tasks/filter/reset', ['as' => 'reset_filter', 'uses' => 'TasksController@resetFilter']);
     Route::delete('tasks/{tasks}/{users}', 'TasksController@destroy');
     Route::resource('tasks', 'TasksController');

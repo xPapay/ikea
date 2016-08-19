@@ -12,6 +12,7 @@
         <th>Názov</th>
         <th>Deadline</th>
         <th>Zadal</th>
+        <th>Vykoná</th>
         <th>Splnená dňa</th>
         <th>Akcia</th>
     </tr>
@@ -31,6 +32,11 @@
             <td>
             @if($task->task->orderer)
                 {{ $task->task->orderer->name }}
+            @endif
+            </td>
+            <td>
+            @if($task->user->name)
+                {{ $task->user->name }}
             @endif
             </td>
             <td>

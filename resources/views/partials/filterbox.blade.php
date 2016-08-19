@@ -32,13 +32,14 @@
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-lg-2">
-        {!! Form::label('status', 'Status') !!}
-        {!! Form::select('status', $selectableOptions['status'], $filters['status'], ['class' => 'form-control', 'id' => 'status']) !!}
+@if (!isset($do_not_show_status))
+    <div class="row">
+        <div class="col-lg-2">
+            {!! Form::label('status', 'Status') !!}
+            {!! Form::select('status', $selectableOptions['status'], $filters['status'], ['class' => 'form-control', 'id' => 'status']) !!}
+        </div>
     </div>
-</div>
-
+@endif
 <div class="row">
     <div class="col-lg-2">
         {!! Form::input('submit', 'filter', 'Filtruj', ['class' => 'btn btn-primary form-control']) !!}
