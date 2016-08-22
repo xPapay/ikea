@@ -34,6 +34,11 @@ abstract class Executable extends Documentable
         return $this->executors->lists('id')->toArray();
     }
 
+    public function getSupportersListAttribute()
+    {
+        return $this->supporters->lists('id')->toArray();
+    }
+
     /**
      * Get all comments belongs to Executable instance
      *
@@ -84,6 +89,11 @@ abstract class Executable extends Documentable
         return $this->belongsToMany('App\User')->withTimestamps();
     }
 
+    public function supporters()
+    {
+        return $this->belongsToMany('App\User', 'user_support_task')->withTimestamps();
+    }
+
     public function tags()
     {
         return $this->belongsToMany('App\Tag');
@@ -102,6 +112,13 @@ abstract class Executable extends Documentable
     public function assignToUsers(array $users)
     {
         $this->executors()->sync($users);
+    }
+
+    public function assignSupportToUsers($users = array())
+    {
+        if (empty($users))
+            return;
+        $this->supporters()->sync($users);
     }
 
 

@@ -14,6 +14,7 @@
 Route::group(['middleware' => 'auth'], function() {
     Route::get('/', 'DashboardController@index');
     Route::get('tasks/ordered', 'TasksController@showOrdered');
+    Route::get('tasks/supported', 'TasksController@showSupported');
     Route::get('tasks/ordered/filter', ['as' => 'ordered_tasks.filter', 'uses' => 'TasksController@showOrdered']);
     //Route::get('issues/reported', 'IssuesController@showReported');
     Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
@@ -34,6 +35,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('tasks/accept/{tasks}/{users}', 'TasksController@accept');
     Route::get('tasks/reject/{tasks}/{users}', 'TasksController@reject');
     Route::get('tasks/filter', ['as' => 'my_tasks.filter', 'uses' => 'TasksController@index']);
+    Route::get('tasks/supported/filter', ['as' => 'my_supported_tasks.filter', 'uses' => 'TasksController@showSupported']);
     Route::get('tasks/filter/reset', ['as' => 'reset_filter', 'uses' => 'TasksController@resetFilter']);
     Route::delete('tasks/{tasks}/{users}', 'TasksController@destroy');
     Route::resource('tasks', 'TasksController');

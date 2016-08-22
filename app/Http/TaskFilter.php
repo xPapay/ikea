@@ -17,6 +17,7 @@ class TaskFilter
 
     public function __construct(Request $request, $initial_query)
     {
+        //dd($request);
         $this->request = $request;
         $this->isSubmitted = $request->has('filter');
         $this->isNextPage = $request->has('page');
@@ -43,6 +44,12 @@ class TaskFilter
         ];
     }
 
+    public function getDeadline($date)
+    {
+        $formated_date = \Carbon\Carbon::createFromFormat('d. m. Y', $date);
+        return $formated_date;
+    }
+
     private function setOrdererList()
     {
         if ($this->isSubmitted) {
@@ -64,7 +71,30 @@ class TaskFilter
         //dd($this->request->session()->get('filters'));
         $this->query = $this->query->withStatus($this->request->session()->get('filters.status'));
         //$this->query = $this->query->filter($this->request->session()->get('filters'));
+        if ($this->request->session()->get('filters.orderersList') != null)
+        {
+            $this->query = $this->query->whereIn('tasks.ordered_by', $this->request->session()->get('filters.orderersList'));
+        }
 
+        if ($this->request->session()->get('filters.tagsList') != null)
+        {
+            $this->query = $this->query->whereIn('tasks.ordered_by', $this->request->session()->get('filters.orderersList'));
+        }
+
+        if ($this->request->session()->get('filters.deadline_from') != '')
+        {
+            $this->query = $this->query->where('tasks.deadline', '>=', $this->getDeadline($this->request->session()->get('filters.deadline_from')));
+        }
+
+        if ($this->request->session()->get('filters.deadline_to') != '')
+        {
+            $this->query = $this->query->where('tasks.deadline', '<=', $this->getDeadline($this->request->session()->get('filters.deadline_to')));
+        }
+
+        if ($this->request->session()->get('filters.keyword') != '')
+        {
+            $this->query = $this->query->where('tasks.name', 'like', '%' . $this->request->session()->get('filters.keyword') . '%');
+        }
 
         return $this->query;
     }

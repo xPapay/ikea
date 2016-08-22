@@ -34,6 +34,12 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="col-lg-12">
+        <a href="{{ url('tasks/supported') }}" class="btn btn-primary" role="button">Suportované úlohy</a>
+    </div>
+</div>
+
 {{--<div class="row">--}}
     {{--<div class="col-lg-12">--}}
         {{--<a href="{{ url('issues/create') }}">Zadať problém</a>--}}

@@ -26,7 +26,7 @@ use App\Events\TaskWasDeleted;
 use App\Events\TaskWasAccepted;
 use App\Events\TaskWasAccomplished;
 use App\Events\TaskWasRejected;
-
+use App\User_Support_Task;
 use DB;
 
 class TasksController extends Controller
@@ -40,15 +40,11 @@ class TasksController extends Controller
      */
     public function index(Request $request)
     {
+        //dd($request->get('orderersList', 2));
         $initial_query = Task_User::with([
-            'task' => function ($query) {
-                $query->orderBy('deadline', 'asc');
-            },
-            'task.orderer' => function ($query) {
-                $query->where('id', Auth::user()->id);
-            },
-            'user'
-        ])->where('user_id', Auth::user()->id);
+            'task'
+        ])->join('tasks', 'tasks.id', '=', 'task_user.task_id')
+        ->where('user_id', Auth::user()->id)->orderBy('tasks.deadline');
 
         $filter = new TaskFilter($request, $initial_query);
         $tasks_query = $filter->addFilterQuery();
@@ -56,7 +52,7 @@ class TasksController extends Controller
 
         $selectableOptions = $filter->getSelectableOptions();
         $filters = $filter->getFilters();
-
+        //dd($user_tasks);
         return view('tasks.index', compact('user_tasks', 'selectableOptions', 'filters'));
     }
 
@@ -80,7 +76,7 @@ class TasksController extends Controller
      */
     public function store(AddTaskRequest $request)
     {
-        $task = Auth::user()->orderTask(new Task($request->all()), $request->executorsList, $request->tagsList);
+        $task = Auth::user()->orderTask(new Task($request->all()), $request->executorsList, $request->tagsList, $request->supportersList);
         $fileUploader = new FileUpload($request->file('files'), $task);
         $fileUploader->handleFilesUpload();
 
@@ -125,13 +121,19 @@ class TasksController extends Controller
 
     public function filter(Request $request)
     {
-        $initial_query = Task::select();
+        $initial_query = Task_User::with([
+            'task',
+            'task.orderer',
+            'user'
+        ])->join('tasks', 'task_user.task_id', '=', 'tasks.id')->orderBy('tasks.deadline', 'asc');
         $filter = new TaskFilter($request, $initial_query);
         $tasks_query = $filter->addFilterQuery();
 
         $tasks = $tasks_query->paginate(20)->appends(Input::except('page'));
+        //dd($tasks);
         $selectableOptions = $filter->getSelectableOptions();
         $filters = $filter->getFilters();
+        $request->session()->flash('route', 'admin/tasks');
         return view('tasks.show_all', compact('tasks', 'selectableOptions', 'filters'));
     }
 
@@ -149,7 +151,26 @@ class TasksController extends Controller
         $tasks_users = $tasks_query->paginate(20)->appends(Input::except('page'));
         $selectableOptions = $filter->getSelectableOptions();
         $filters = $filter->getFilters();
+        $request->session()->flash('route', 'tasks/ordered');
         return view('tasks.ordered', compact('tasks_users', 'selectableOptions', 'filters'));
+    }
+
+    public function showSupported(Request $request)
+    {
+        $initial_query = User_Support_Task::with([
+            'task',
+        ])
+        ->join('tasks', 'tasks.id', '=', 'user_support_task.task_id')
+        ->where('user_support_task.user_id', '=', Auth::user()->id)
+        ->orderBy('tasks.deadline');
+        $filter = new TaskFilter($request, $initial_query);
+        $tasks_query = $filter->addFilterQuery();
+        $supported_tasks = $tasks_query->paginate(20)->appends(Input::except('page'));
+        $selectableOptions = $filter->getSelectableOptions();
+        $filters = $filter->getFilters();
+        $request->session()->flash('route', 'tasks/supported');
+
+        return view('tasks.supported', compact('supported_tasks', 'selectableOptions', 'filters'));
     }
 
     /**
@@ -256,7 +277,7 @@ class TasksController extends Controller
         $notification->involved_users()->sync([$user->id]);
         event(new TaskWasDeleted($notification));
         session()->flash('flash_success', 'Úloha bola úspešne zmazaná');
-        return redirect('tasks/ordered');
+        return back();
     }
 
     public function accomplish(Task $task, User $user, Request $request)
@@ -343,7 +364,7 @@ class TasksController extends Controller
         if ($request->session()->has('filters')) {
             $request->session()->forget('filters');
         }
-        return redirect('tasks');
+        return redirect($request->session()->get('route', 'tasks'));
     }
 
 }

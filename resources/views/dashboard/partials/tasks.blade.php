@@ -4,9 +4,7 @@
         <hr>
     </div>
 </div>
-<?php
-    $now = \Carbon\Carbon::now();
-?>
+
 <table class="table table-hover">
     <thead>
     <tr>

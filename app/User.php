@@ -146,6 +146,11 @@ class User extends Model implements AuthenticatableContract,
         return $this->belongsToMany('App\Task')->withPivot('accomplish_date', 'confirmed')->withTimestamps();
     }
 
+    public function supportedTasks()
+    {
+        return $this->belongsToMany('App\Task', 'user_support_task')->withTimestamps();
+    }
+
     public function user_tasks()
     {
         return $this->hasMany('App\Task_User');
@@ -183,7 +188,7 @@ class User extends Model implements AuthenticatableContract,
      * @param array $executors
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function orderTask(Task $task, array $executors, $tags)
+    public function orderTask(Task $task, array $executors, $tags, $supporters = array())
     {
         $task = $this->orderedTasks()->save($task);
         if ($tags != null)
@@ -191,6 +196,7 @@ class User extends Model implements AuthenticatableContract,
             $task->assignTag($tags);
         }
         $task->assignToUsers($executors);
+        $task->assignSupportToUsers($supporters);
         return $task;
     }
 

@@ -27,6 +27,11 @@
 </div>
 
 <div class="form-group">
+    {!! Form::label('supportersList', 'Pracovníci na support') !!}
+    {!! Form::select('supportersList[]', $users, null, ['class' => 'form-control', 'id' => 'supportersList', 'multiple']) !!}
+</div>
+
+<div class="form-group">
     {!! Form::label('tagsList', 'Tagy') !!}
     {!! Form::select('tagsList[]', $tags, null, ['class' => 'form-control', 'id' => 'tagsList', 'multiple']) !!}
 </div>
@@ -46,6 +51,10 @@
     <script>
         $('#executorsList').select2({
             placeholder: "Vyber pracovníkov"
+        });
+
+        $('#supportersList').select2({
+            placeholder: "Vyber pracovníkov na support"
         });
 
         $('#tagsList').select2({

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Task_User;
+use App\User_Support_Task;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,8 +21,17 @@ class DashboardController extends Controller
             },
             'task.orderer',
             'user'
-        ])->where('user_id', Auth::user()->id)->where('confirmed', 0)->take(5)->get();
+        ])->join('tasks', 'tasks.id', '=', 'task_user.task_id')
+        ->where('user_id', Auth::user()->id)->where('confirmed', 0)->orderBy('tasks.deadline')->take(5)->get();
+
+        $supported_tasks = User_Support_Task::with([
+            'task'
+        ])
+        ->join('tasks', 'tasks.id', '=', 'user_support_task.task_id')
+        ->where('user_support_task.user_id', '=', Auth::user()->id)
+        ->orderBy('tasks.deadline')->take(5)->get();
+        //dd($supported_tasks);
         $notifications = Auth::user()->notifications()->latestTen()->get();
-        return view('dashboard.main', compact('first_name', 'last_name', 'tasks_user', 'notifications'));
+        return view('dashboard.main', compact('first_name', 'last_name', 'tasks_user', 'supported_tasks', 'notifications'));
     }
 }
