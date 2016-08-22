@@ -25,6 +25,8 @@ Route::group(['middleware' => 'auth'], function() {
             'UsersController@changeStatus']);
         Route::get('tasks/filter', ['as' => 'admin.tasks.filter', 'uses' => 'TasksController@filter']);
         Route::get('tasks', ['as' => 'admin.tasks', 'uses' => 'TasksController@filter']);
+        Route::get('comments/{comments}/{tasks}/edit', 'TasksController@editComment');
+        Route::patch('comments/{comments}', 'TasksController@updateComment');
     });
 
     //Route::get('tasks/ordered/filter/{status}', 'TasksController@showOrdered');
