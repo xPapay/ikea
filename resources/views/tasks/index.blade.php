@@ -7,6 +7,9 @@
         @include('partials.filterbox')
     {!! Form::close() !!}
     <a href="{{ route('reset_filter') }}" class="btn btn-default">Resetovať filter</a>
+    <?php
+        $now = \Carbon\Carbon::now();
+    ?>
     @if (count($user_tasks) >= 1)
         <table class="table table-hover">
             <thead>
@@ -20,7 +23,20 @@
             </thead>
             <tbody>
             @foreach($user_tasks as $user_task)
-                <tr>
+                @if($now->gt(\Carbon\Carbon::createFromFormat('d. m. Y', $user_task->task->deadline)))
+                    <?php
+                        $colour = 'danger';
+                    ?>
+                @elseif($now->diffInDays(\Carbon\Carbon::createFromFormat('d. m. Y', $user_task->task->deadline)) <= 14)
+                    <?php
+                        $colour = 'warning';
+                    ?>
+                @else
+                    <?php
+                        $colour = 'active';
+                    ?>
+                @endif
+                <tr class="{{ $colour }}">
                     <th></th>
                     <td>
                         <a href="{{ action('TasksController@show', ['id' => $user_task->task->id]) }}">
