@@ -13,6 +13,9 @@
                     @endif
                     <span class="text-muted">{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $comment->created_at)->diffForHumans() }}</span>
                     <span class="text-muted">({{ Carbon\Carbon::parse($comment->created_at)->format('d.m.Y H:i') }})</span>
+                    @can('edit', $comment)
+                        <a href="{{ url('admin/comments/' . $comment->id . '/' . $task->id . '/edit') }}"><span class="glyphicon glyphicon-edit"></span></a>
+                    @endcan
                 </div>
                 <div class="panel-body">
                     {{ $comment->content }}

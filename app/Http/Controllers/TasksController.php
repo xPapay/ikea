@@ -10,6 +10,7 @@ use App\Tag;
 use App\Task;
 use App\User;
 use App\Task_User;
+use App\Comment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -192,6 +193,15 @@ class TasksController extends Controller
         return view('tasks.edit', compact('task', 'users', 'tags'));
     }
 
+    public function editComment(Request $request, Comment $comment, Task $task)
+    {
+        if (Gate::denies('edit', $comment)) {
+            return $this->unauthorizedResponse($request);
+        }
+        $task_id = $task->id;
+        return view('tasks.edit_comment', compact('comment', 'task_id'));
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -224,6 +234,17 @@ class TasksController extends Controller
         session()->flash('flash_success', 'Úloha bola úspešne editovaná');
 
         return redirect('tasks/' . $task->id);
+    }
+
+    public function updateComment(Request $request, Comment $comment)
+    {
+        if (Gate::denies('edit', $comment)) {
+            return $this->unauthorizedResponse($request);
+        }
+
+        $comment->content = $request->content;
+        $comment->save();
+        return redirect('tasks/' . $request->task_id);
     }
 
     public function notifyAboutTaskChange($notification, $removedAndAddedUsers)
