@@ -14,6 +14,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        $user = Auth::user();
         list($first_name, $last_name) = explode(' ', Auth::user()->name, 2);
         $tasks_user = Task_User::with([
             'task' => function ($query) {
@@ -32,6 +33,6 @@ class DashboardController extends Controller
         ->orderBy('tasks.deadline')->take(5)->get();
         //dd($supported_tasks);
         $notifications = Auth::user()->notifications()->latestTen()->get();
-        return view('dashboard.main', compact('first_name', 'last_name', 'tasks_user', 'supported_tasks', 'notifications'));
+        return view('dashboard.main', compact('user', 'first_name', 'last_name', 'tasks_user', 'supported_tasks', 'notifications'));
     }
 }

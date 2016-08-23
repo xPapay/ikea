@@ -17,7 +17,7 @@
         </div>
     </div>
     <div class="col-xs-1">
-        <img src="profile_photos/photo.jpg">
+        <img src="{{ asset($user->photo_path)}}">
     </div>
 </div>
 <hr>
