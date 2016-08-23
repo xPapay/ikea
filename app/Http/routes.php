@@ -23,6 +23,7 @@ Route::group(['middleware' => 'auth'], function() {
         Route::resource('users', 'UsersController', ['except' => ['show', 'destroy']]);
         Route::put('users/{users}/change_status', ['as' => 'admin.users.change_status', 'uses' => 
             'UsersController@changeStatus']);
+        Route::patch('users/{users}/reset_password', ['as' => 'admin.users.reset_password', 'uses' => 'UsersController@resetPassword']);
         Route::get('tasks/filter', ['as' => 'admin.tasks.filter', 'uses' => 'TasksController@filter']);
         Route::get('tasks', ['as' => 'admin.tasks', 'uses' => 'TasksController@filter']);
         Route::get('comments/{comments}/{tasks}/edit', 'TasksController@editComment');

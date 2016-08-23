@@ -127,6 +127,14 @@ class UsersController extends Controller
         return redirect('/');
     }
 
+    public function resetPassword(User $user)
+    {
+        $user->password = bcrypt('123456');
+        $user->save();
+        session()->flash('flash_success', 'Heslo bolo zresetované');
+        return back();
+    }
+
     public function editNotifications()
     {
         $user = Auth::user();
