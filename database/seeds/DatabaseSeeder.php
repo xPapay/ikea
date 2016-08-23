@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use App\User;
 use App\Task;
+use App\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,6 +20,9 @@ class DatabaseSeeder extends Seeder
         $user3 = User::create(['name' => 'Peter Slovak', 'email' => 'slovak@gmail.com', 'password' => bcrypt('heslo')]);
         $task = Task::create(['name' => 'Uloha ' . time(), 'description' => 'Some desc...', 'deadline' => '19. 08. 2016']);
         $user->orderTask($task, [$user2->id, $user3->id],[]);
+
+        $role = Role::create(['name' => 'admin']);
+        $user->assignRole([$role->id]);
         Model::unguard();
 
         // $this->call(UserTableSeeder::class);

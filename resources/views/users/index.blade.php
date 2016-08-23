@@ -39,6 +39,11 @@
                                     </button>
                                 @endif
                                 {!! Form::close() !!}
+                                {!! Form::open(['route' => ['admin.users.reset_password',$user->id], 'method'=>'PATCH']) !!}
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        Resetovať heslo
+                                    </button>
+                                {!! Form::close() !!}
                             </td>
                         </tr>
                     @endforeach
