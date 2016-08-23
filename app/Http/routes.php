@@ -52,6 +52,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::patch('users/edit/password', 'UsersController@updatePassword');
     Route::get('users/edit/notifications', 'UsersController@editNotifications');
     Route::patch('users/edit/notifications', 'UsersController@updateNotifications');
+    Route::get('users/change/photo', 'UsersController@changePhoto');
+    Route::post('users/change/photo', 'UsersController@uploadPhoto');
 });
 
 // Authentication routes...
