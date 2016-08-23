@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Role;
 use App\User;
 use Illuminate\Http\Request;
-
+use Intervention\Image\Facades\Image;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -139,6 +139,42 @@ class UsersController extends Controller
     {
         $user = Auth::user();
         return view('users.edit_notifications', compact('user'));
+    }
+
+    public function changePhoto()
+    {
+        return view('users.change_photo');
+    }
+
+    public function uploadPhoto(Request $request)
+    {
+        $this->validate($request, [
+            'photo' => 'required|image'
+        ]);
+
+        $user = Auth::user();
+        $photo = $request->file('photo');
+        $path = 'profile_photos/' . $photo->getClientOriginalName() . time();
+        $thumbnailPath = 'profile_photos/tn-' . $photo->getClientOriginalName() . time();
+
+        $image = Image::make($photo->getPathName());
+        $image->resize(100, null, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+        $image->save($path);
+
+       $thumbnailImage = Image::make($photo->getPathName());
+       $thumbnailImage->resize(50, null, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+       $thumbnailImage->save($thumbnailPath);
+
+       $user->photo_path = $path;
+       $user->thumbnail_path = $thumbnailPath;
+       $user->save();
+       return redirect('/');
     }
 
     public function updateNotifications(Request $request)
