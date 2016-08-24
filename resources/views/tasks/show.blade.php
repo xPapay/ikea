@@ -151,7 +151,7 @@
         <div class="col-lg-12">
         <!-- TODO: Refactor -->
             @if($task->confirmed == 1)
-                Splnená dňa: {{ $task->accomplish_date }}
+                Splnená dňa: {{ \Carbon\Carbon::parse($task->accomplish_date)->format('d. m. Y') }}
             @elseif(($task->confirmed == 0) && ($task->accomplish_date != null))
                 @if($task->orderer->id == Auth::user()->id)
                     <a href="{{ url("tasks/accept/{$task->id}/{$task->user_id}") }}"><span class="glyphicon glyphicon-ok"></span></a>

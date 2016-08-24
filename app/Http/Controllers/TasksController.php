@@ -108,9 +108,14 @@ class TasksController extends Controller
      */
     public function show(Request $request)
     {
-        $task = Task::join('task_user', 'tasks.id', '=', 'task_user.task_id')
-        ->where('tasks.id', $request->tasks->id)->where('task_user.user_id', $request->user_id)
-        ->firstOrFail();
+        if($request->user_id) {
+            $task = Task::join('task_user', 'tasks.id', '=', 'task_user.task_id')
+                        ->where('tasks.id', $request->tasks->id)->where('task_user.user_id', $request->user_id)
+                        ->firstOrFail();
+        } else {
+            $task = Task::where('tasks.id', $request->tasks->id)->firstOrFail();
+        }
+        
         if (Gate::denies('show', $task)) {
             return $this->unauthorizedResponse($request);
         }
@@ -230,7 +235,6 @@ class TasksController extends Controller
         $selectableOptions = $filter->getSelectableOptions();
         $filters = $filter->getFilters();
         $request->session()->flash('route', 'tasks/supported');
-
         return view('tasks.supported', compact('supported_tasks', 'selectableOptions', 'filters'));
     }
 
