@@ -51,10 +51,10 @@ class TaskPolicy
 
     public function accomplish(User $user, Executable $executable)
     {
-        if ($user->isAdmin())
-        {
-            return true;
-        }
+        // if ($user->isAdmin())
+        // {
+        //     return true;
+        // }
 
         if ($executable->executors->intersect([$user])->count())
         {

@@ -54,7 +54,7 @@
                 <tr class="{{ $colour }}">
                     <th></th>
                     <td>
-                        <a href="{{ action('TasksController@show', ['id' => $task_user->task->id]) }}">
+                        <a href="{{ action('TasksController@show', ['id' => $task_user->task->id, 'user_id' => $task_user->user_id]) }}">
                             {{ $task_user->task->name }}
                         </a>
                     </td>

@@ -40,7 +40,7 @@
                 {{ $task_user->task->deadline }}
             </td>
             <td>
-                <a href="{{ action('TasksController@show', ['id' => $task_user->task_id]) }}">
+                <a href="{{ action('TasksController@show', ['id' => $task_user->task_id, 'user_id' => $task_user->user_id]) }}">
                     {{ $task_user->task->name }}
                 </a>
             </td>

@@ -36,7 +36,7 @@ class CommentController extends Controller
             event(new CommentAdded($notification));
             session()->flash('flash_success', 'Komentár bol pridaný');
 
-            return redirect('tasks/' . $request->input('executable_id'));
+            return back();
         }
 
 //        $issue = Issue::findOrFail($request->input('executable_id'));

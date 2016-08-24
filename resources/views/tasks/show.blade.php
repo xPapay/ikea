@@ -154,8 +154,8 @@
                 Splnená dňa: {{ $task->accomplish_date }}
             @elseif(($task->confirmed == 0) && ($task->accomplish_date != null))
                 @if($task->orderer->id == Auth::user()->id)
-                    <a href="{{ url("tasks/accept/{$task->id}") }}"><span class="glyphicon glyphicon-ok"></span></a>
-                    <a href="{{ url("tasks/reject/{$task->id}") }}"><span class="glyphicon glyphicon-remove"></span></a>
+                    <a href="{{ url("tasks/accept/{$task->id}/{$task->user_id}") }}"><span class="glyphicon glyphicon-ok"></span></a>
+                    <a href="{{ url("tasks/reject/{$task->id}/{$task->user_id}") }}"><span class="glyphicon glyphicon-remove"></span></a>
                 @else
                     <span class="glyphicon glyphicon-time"></span>
                 @endif

@@ -108,8 +108,9 @@ class TasksController extends Controller
      */
     public function show(Request $request)
     {
-        $task = Task::where('id', $request->tasks->id)->firstOrFail();
-
+        $task = Task::join('task_user', 'tasks.id', '=', 'task_user.task_id')
+        ->where('tasks.id', $request->tasks->id)->where('task_user.user_id', $request->user_id)
+        ->firstOrFail();
         if (Gate::denies('show', $task)) {
             return $this->unauthorizedResponse($request);
         }

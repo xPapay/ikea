@@ -27,7 +27,7 @@
         <tr>
             <th></th>
             <td>
-                <a href="{{ action('TasksController@show', ['id' => $task->id]) }}">
+                <a href="{{ action('TasksController@show', ['id' => $task->id, 'user_id' => $task->user_id]) }}">
                     {{ $task->task->name }}
                 </a>
             </td>
