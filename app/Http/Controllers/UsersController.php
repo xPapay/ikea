@@ -154,8 +154,8 @@ class UsersController extends Controller
 
         $user = Auth::user();
         $photo = $request->file('photo');
-        $path = 'profile_photos/' . $photo->getClientOriginalName() . time();
-        $thumbnailPath = 'profile_photos/tn-' . $photo->getClientOriginalName() . time();
+        $path = 'profile_photos/' . time() . $photo->getClientOriginalName();
+        $thumbnailPath = 'profile_photos/tn-' . time() . $photo->getClientOriginalName();
 
         $image = Image::make($photo->getPathName());
         $image->resize(100, null, function ($constraint) {

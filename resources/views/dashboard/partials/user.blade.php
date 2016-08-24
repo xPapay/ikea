@@ -17,7 +17,11 @@
         </div>
     </div>
     <div class="col-xs-1">
-        <img src="{{ asset($user->photo_path)}}">
+        @if ($user->photo_path)
+            <img src="{{ asset($user->photo_path)}}">
+        @else
+            <img src="profile_photos/photo.jpg">
+        @endif
     </div>
 </div>
 <hr>
