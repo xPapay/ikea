@@ -29,6 +29,7 @@ use App\Events\TaskWasAccomplished;
 use App\Events\TaskWasRejected;
 use App\User_Support_Task;
 use DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TasksController extends Controller
 {
@@ -126,15 +127,44 @@ class TasksController extends Controller
             'task',
             'task.orderer',
             'user'
-        ])->join('tasks', 'task_user.task_id', '=', 'tasks.id')->orderBy('tasks.deadline', 'asc');
+        ])
+        ->join('tasks', 'task_user.task_id', '=', 'tasks.id')
+        ->orderBy('tasks.deadline', 'asc');
         $filter = new TaskFilter($request, $initial_query);
         $tasks_query = $filter->addFilterQuery();
-
         $tasks = $tasks_query->paginate(20)->appends(Input::except('page'));
-        //dd($tasks);
         $selectableOptions = $filter->getSelectableOptions();
         $filters = $filter->getFilters();
         $request->session()->flash('route', 'admin/tasks');
+        if ($request->excel) {
+            $resultsForExcel = array();
+            $riadok = 0;
+            foreach ($tasks_query->get() as $row)
+            {
+                $orderer = User::find($row->ordered_by);
+                $executor = User::find($row->user_id);
+                $resultsForExcel[$riadok]['nazov'] = $row->name;
+                $resultsForExcel[$riadok]['popis'] = $row->description;
+                $resultsForExcel[$riadok]['dedlajn'] = \Carbon\Carbon::parse($row->deadline)->format('d. m. Y');
+                $resultsForExcel[$riadok]['zadal'] = $orderer->name;
+                $resultsForExcel[$riadok]['vykona'] = $executor->name;
+                $resultsForExcel[$riadok]['vytvorena'] = \Carbon\Carbon::parse($row->created_at)->format('d. m. Y');
+                $resultsForExcel[$riadok]['dokoncena'] = 
+                (!is_null($row->accomplish_date)) ? \Carbon\Carbon::parse($row->accomplish_date)->format('d. m. Y') : 'nie';
+                $resultsForExcel[$riadok]['schvalena'] = ($row->confirmed == 1) ? 'ano' : 'nie';
+                $riadok++;
+            }
+
+            Excel::create('Zoznam_uloh', function ($excel) use ($resultsForExcel) {
+                $excel->setTitle('Ulohy');
+                $excel->setCreator(Auth::user()->name)
+                    ->setCompany('IKEA');
+                $excel->setDescription('Vypis uloh');
+                $excel->sheet('1.harok', function ($sheet) use ($resultsForExcel) {
+                    $sheet->fromArray($resultsForExcel);
+                });
+            })->download('xls');
+        }
         return view('tasks.show_all', compact('tasks', 'selectableOptions', 'filters'));
     }
 
@@ -153,6 +183,35 @@ class TasksController extends Controller
         $selectableOptions = $filter->getSelectableOptions();
         $filters = $filter->getFilters();
         $request->session()->flash('route', 'tasks/ordered');
+        if ($request->excel) {
+            $resultsForExcel = array();
+            $riadok = 0;
+            foreach ($tasks_query->get() as $row)
+            {
+                $orderer = User::find($row->ordered_by);
+                $executor = User::find($row->user_id);
+                $resultsForExcel[$riadok]['nazov'] = $row->name;
+                $resultsForExcel[$riadok]['popis'] = $row->description;
+                $resultsForExcel[$riadok]['dedlajn'] = \Carbon\Carbon::parse($row->deadline)->format('d. m. Y');
+                $resultsForExcel[$riadok]['zadal'] = $orderer->name;
+                $resultsForExcel[$riadok]['vykona'] = $executor->name;
+                $resultsForExcel[$riadok]['vytvorena'] = \Carbon\Carbon::parse($row->created_at)->format('d. m. Y');
+                $resultsForExcel[$riadok]['dokoncena'] = 
+                (!is_null($row->accomplish_date)) ? \Carbon\Carbon::parse($row->accomplish_date)->format('d. m. Y') : 'nie';
+                $resultsForExcel[$riadok]['schvalena'] = ($row->confirmed == 1) ? 'ano' : 'nie';
+                $riadok++;
+            }
+
+            Excel::create('Zoznam_uloh', function ($excel) use ($resultsForExcel) {
+                $excel->setTitle('Ulohy');
+                $excel->setCreator(Auth::user()->name)
+                    ->setCompany('IKEA');
+                $excel->setDescription('Vypis uloh');
+                $excel->sheet('1.harok', function ($sheet) use ($resultsForExcel) {
+                    $sheet->fromArray($resultsForExcel);
+                });
+            })->download('xls');
+        }
         return view('tasks.ordered', compact('tasks_users', 'selectableOptions', 'filters'));
     }
 

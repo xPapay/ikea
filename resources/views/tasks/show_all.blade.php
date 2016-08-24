@@ -3,6 +3,11 @@
     <h1>Všetky úlohy</h1>
     {!! Form::open(array('route' => 'admin.tasks.filter', 'method' => 'GET')) !!}
         @include('partials.filterbox')
+        <div class="row">
+            <div class="col-lg-2">
+                {!! Form::input('submit', 'excel', 'Exportuj do xls', ['class' => 'btn btn-success form-control']) !!}
+            </div>
+        </div>
     {!! Form::close() !!}
     <a href="{{ route('reset_filter') }}" class="btn btn-default">Resetovať filter</a>
 <table class="table table-hover">
