@@ -40,7 +40,8 @@ class Kernel extends ConsoleKernel
         })->everyMinute();
 
         $schedule->call(function () {
-            $date = new \Carbon\Carbon('+2days');
+            $today = \Carbon\Carbon::now();
+            $date = $today->addWeekDays(5);
             $tasksBeforeDeadline = Task_User::whereHas('task', function ($query) use ($date) {
                 $query->where('deadline', '=', $date->toDateString());
             })->with(['task.orderer', 'user'])->unfinished(200)->get();
