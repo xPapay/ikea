@@ -4,7 +4,7 @@
         <h1>Vami zadané úlohy</h1>
     </div>
     {!! Form::open(array('route' => 'ordered_tasks.filter', 'method' => 'GET')) !!}
-        @include('partials.filterbox')
+        @include('partials.filterbox', ['do_not_show_orderer' => true])
         <div class="row">
             <div class="col-lg-2">
                 {!! Form::input('submit', 'excel', 'Exportuj do xls', ['class' => 'btn btn-success form-control']) !!}

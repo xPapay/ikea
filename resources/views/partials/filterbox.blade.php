@@ -3,10 +3,12 @@
         {!! Form::label('keyword', 'Kľúčové slovo') !!}
         {!! Form::input('text', 'keyword', $filters['keyword'], ['class' => 'form-control', 'placeholder' => 'Hľadaj podľa názvu']) !!}
     </div>
-    <div class="col-lg-4">
-        {!! Form::label('orderer', 'Zadávatelia') !!}
-        {!! Form::select('orderersList[]', $selectableOptions['users'], $filters['orderersList'], ['class' => 'form-control', 'id' => 'orderers', 'multiple']) !!}
-    </div>
+    @if (!isset($do_not_show_orderer))
+        <div class="col-lg-4">
+            {!! Form::label('orderer', 'Zadávatelia') !!}
+            {!! Form::select('orderersList[]', $selectableOptions['users'], $filters['orderersList'], ['class' => 'form-control', 'id' => 'orderers', 'multiple']) !!}
+        </div>
+    @endif
     <div class="col-lg-4">
         {!! Form::label('tags', 'Tagy') !!}
         {!! Form::select('tagsList[]', $selectableOptions['tags'], $filters['tagsList'], ['class' => 'form-control', 'id' => 'tags', 'multiple']) !!}

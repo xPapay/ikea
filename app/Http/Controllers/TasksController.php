@@ -156,7 +156,7 @@ class TasksController extends Controller
                 $resultsForExcel[$riadok]['vykona'] = $executor->name;
                 $resultsForExcel[$riadok]['vytvorena'] = \Carbon\Carbon::parse($row->created_at)->format('d. m. Y');
                 $resultsForExcel[$riadok]['dokoncena'] = 
-                (!is_null($row->accomplish_date)) ? \Carbon\Carbon::parse($row->accomplish_date)->format('d. m. Y') : 'nie';
+                (!is_null($row->accomplish_date)) ? $row->accomplish_date : 'nie';
                 $resultsForExcel[$riadok]['schvalena'] = ($row->confirmed == 1) ? 'ano' : 'nie';
                 $riadok++;
             }
@@ -357,6 +357,9 @@ class TasksController extends Controller
         }
 
         $user->tasks()->detach($task->id);
+        if ($task->executors->count() == 0) {
+            $task->delete();
+        }
 
         $notification = Notification::create(['type' => 'Úloha zmazaná', 'user_id' => Auth::user()->id, 'task_id' => $task->id]);
         $notification->involved_users()->sync([$user->id]);
