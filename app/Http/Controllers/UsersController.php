@@ -85,9 +85,8 @@ class UsersController extends Controller
         return redirect('admin/users');
     }
 
-    public function changeStatus($id)
+    public function changeStatus(User $user)
     {
-        $user = User::where('id', $id)->first();
         if ($user->active == 1)
         {
             $user->active = 0;
