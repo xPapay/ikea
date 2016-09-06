@@ -43,9 +43,9 @@
         <tr class="{{ $colour }}">
             <th></th>
             <td>
-                <a href="{{ action('TasksController@show', ['id' => $task->id, 'user_id' => $task->user_id]) }}">
-                    {{ $task->task->name }}
-                </a>
+                <form action="{{ action('TasksController@show', ['id' => $task->id, 'user_id' => $task->user_id]) }}">
+                    <input type="submit" value="{{ $task->task->name }}" />
+                </form>
             </td>
             <td>
                 {{ $task->task->deadline }}
@@ -69,7 +69,9 @@
             </td>
             <td>
                 @can('edit', $task->task)
-                <a href="{{ route("tasks.edit", ['id' => $task->task->id]) }}" class="btn btn-default btn-sm">Upraviť</a>
+                <form action="{{ route("tasks.edit", ['id' => $task->task->id]) }}">
+                    <input type="submit" value="Upraviť" />
+                </form>
                 {!! Form::open(['url' => "tasks/{$task->task_id}/{$task->user_id}", 'method'=>'delete']) !!}
                 <button type="submit" class="btn btn-danger btn-sm">
                     Zmazať
