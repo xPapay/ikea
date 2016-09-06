@@ -46,6 +46,7 @@ class TasksController extends Controller
         $initial_query = Task_User::with([
             'task'
         ])->join('tasks', 'tasks.id', '=', 'task_user.task_id')
+        ->whereNull('tasks.deleted_at')
         ->where('user_id', Auth::user()->id)->orderBy('tasks.deadline');
 
         $filter = new TaskFilter($request, $initial_query);
@@ -136,6 +137,7 @@ class TasksController extends Controller
         ])
         ->join('tasks', 'task_user.task_id', '=', 'tasks.id')
         ->join('users', 'task_user.user_id', '=', 'users.id')
+        ->whereNull('tasks.deleted_at')
         ->orderBy('tasks.deadline', 'asc');
         $filter = new TaskFilter($request, $initial_query);
         $tasks_query = $filter->addFilterQuery();
@@ -182,7 +184,8 @@ class TasksController extends Controller
             'task.orderer',
             'user'
         ])->join('tasks', 'task_user.task_id', '=', 'tasks.id')
-        ->join('users', 'tasks.ordered_by', '=', 'users.id')->where('users.id', '=', Auth::user()->id)->orderBy('tasks.deadline', 'asc');
+        ->join('users', 'tasks.ordered_by', '=', 'users.id')->where('users.id', '=', Auth::user()->id)->orderBy('tasks.deadline', 'asc')
+        ->whereNull('tasks.deleted_at');
 
         $filter = new TaskFilter($request, $initial_query);
         $tasks_query = $filter->addFilterQuery();
@@ -229,6 +232,7 @@ class TasksController extends Controller
         ])
         ->join('tasks', 'tasks.id', '=', 'user_support_task.task_id')
         ->where('user_support_task.user_id', '=', Auth::user()->id)
+        ->whereNull('tasks.deleted_at')
         ->orderBy('tasks.deadline');
         $filter = new TaskFilter($request, $initial_query);
         $tasks_query = $filter->addFilterQuery();
