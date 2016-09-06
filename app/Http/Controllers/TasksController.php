@@ -135,6 +135,7 @@ class TasksController extends Controller
             'user'
         ])
         ->join('tasks', 'task_user.task_id', '=', 'tasks.id')
+        ->join('users', 'task_user.user_id', '=', 'users.id')
         ->orderBy('tasks.deadline', 'asc');
         $filter = new TaskFilter($request, $initial_query);
         $tasks_query = $filter->addFilterQuery();
