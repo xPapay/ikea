@@ -23,6 +23,7 @@ class DashboardController extends Controller
             'task.orderer',
             'user'
         ])->join('tasks', 'tasks.id', '=', 'task_user.task_id')
+        ->whereNull('tasks.deleted_at')
         ->where('user_id', Auth::user()->id)->where('confirmed', 0)->orderBy('tasks.deadline')->take(5)->get();
 
         $supported_tasks = User_Support_Task::with([
@@ -30,6 +31,7 @@ class DashboardController extends Controller
         ])
         ->join('tasks', 'tasks.id', '=', 'user_support_task.task_id')
         ->where('user_support_task.user_id', '=', Auth::user()->id)
+        ->whereNull('tasks.deleted_at')
         ->orderBy('tasks.deadline')->take(5)->get();
         //dd($supported_tasks);
         $notifications = Auth::user()->notifications()->latestTen()->get();
