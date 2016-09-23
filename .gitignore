@@ -7,3 +7,4 @@ Homestead.json
 /public
 !/public/images
 !/public/profile_photos/photo.jpg
+!/public/upload
