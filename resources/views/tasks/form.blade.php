@@ -22,6 +22,11 @@
 </div>
 
 <div class="form-group">
+    {!! Form::label('singleExecutor', 'Len jeden exekútor') !!}
+    {!! Form::checkbox('singleExecutor', 1, false, ['id' => 'singleExecutor']) !!}
+</div>
+
+<div class="form-group">
     {!! Form::label('executorsList', 'Priradený pracovníci') !!}
     {!! Form::select('executorsList[]', $users, null, ['class' => 'form-control', 'id' => 'executorsList', 'multiple']) !!}
 </div>
@@ -77,6 +82,20 @@
                     vertical: 'bottom'
                 }
             })
+
+            $("#singleExecutor").change(function() {
+                if(this.checked) {
+                    $("#executorsList").select2({
+                      maximumSelectionLength: 1
+                    });
+                }
+
+                if(this.checked == false) {
+                    $("#executorsList").select2({
+                      maximumSelectionLength: 0
+                    });
+                }
+            });
         });
     </script>
 @endsection

@@ -43,7 +43,7 @@ class Kernel extends ConsoleKernel
             $today = \Carbon\Carbon::now();
             $date = $today->addWeekDays(5);
             $tasksBeforeDeadline = Task_User::whereHas('task', function ($query) use ($date) {
-                $query->where('deadline', '=', $date->toDateString());
+                $query->where('deadline', '<=', $date->toDateString())->where('deadline', '>=', $today->toDateString());
             })->with(['task.orderer', 'user'])->unfinished(200)->get();
             foreach($tasksBeforeDeadline as $task_user)
             {
@@ -51,6 +51,6 @@ class Kernel extends ConsoleKernel
                 $notification->involved_users()->sync([$task_user->user_id, $task_user->task->orderer->id]);
                 event(new FoundTaskBeforeDeadline($notification));
             }
-        })->dailyAt('08:45');
+        })->dailyAt('09:00');
     }
 }
