@@ -8,7 +8,7 @@ services:
         SERVER_NAME: ikea
         DOCUMENT_ROOT: /var/www/html/public
     ports:
-      - "80:80"
+      - "4000:80"
     volumes:
       - .:/var/www/html
   db:
@@ -21,6 +21,9 @@ services:
       - DB_NAME=db_ikea
       - DB_USER=ikea_user
       - DB_PASS=passwd
+      - DB_REMOTE_ROOT_NAME=root
+      - DB_REMOTE_ROOT_PASS=9ok32Vuk
+      - DB_REMOTE_ROOT_HOST=172.20.0.3
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:
