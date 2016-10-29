@@ -224,6 +224,7 @@ class User extends Model implements AuthenticatableContract,
 
     public function assignRole($role)
     {
+        $role == null ? $role = array() : $role;
         return $this->roles()->sync($role);
     }
 

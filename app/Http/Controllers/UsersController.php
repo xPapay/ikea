@@ -58,9 +58,8 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        $user = User::findOrFail($id);
         $roles = Role::lists('name', 'id');
         return view('users.edit', compact('user', 'roles'));
     }
@@ -72,13 +71,12 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
         $this->validate($request, [
             'name' => 'required',
             'email' => 'email|required'
         ]);
-        $user = User::where('id', $id)->first();
         $user->update($request->all());
         $user->assignRole($request->rolesList);
         session()->flash('flash_success', 'Užívateľ bol úspešne editovaný');
@@ -100,9 +98,8 @@ class UsersController extends Controller
         return redirect('admin/users');
     }
 
-    public function activate($id)
+    public function activate(User $user)
     {
-        $user = User::where('id', $id)->first();
         $user->active = 0;
         $user->save();
         session()->flash('flash_success', 'Užívateľské konto bolo deaktivované');
